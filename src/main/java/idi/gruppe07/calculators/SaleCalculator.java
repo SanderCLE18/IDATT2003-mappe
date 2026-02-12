@@ -3,12 +3,14 @@ package idi.gruppe07.calculators;
 import idi.gruppe07.entities.Share;
 import java.math.BigDecimal;
 
-public class SaleCalculator implements TransactionCalculator{
+public class SaleCalculator implements TransactionCalculator {
   private BigDecimal purchasePrice;
-  private final BigDecimal COMMISSION_CONST = BigDecimal.valueOf(0.01);
+  private final BigDecimal commission = BigDecimal.valueOf(0.01);
+  private final BigDecimal taxRate = BigDecimal.valueOf(0.3);
   private BigDecimal salesPrice;
   private BigDecimal quantity;
-  public SaleCalculator(Share share){
+
+  public SaleCalculator(Share share) {
     this.purchasePrice = share.getPurchasePrice();
     this.salesPrice = share.getStock().getPrice();
     this.quantity = share.getQuantity();
@@ -18,18 +20,22 @@ public class SaleCalculator implements TransactionCalculator{
   public BigDecimal calculateGross() {
     return salesPrice.multiply(quantity);
   }
+
   @Override
-  public BigDecimal calculateCommission(){
-    return calculateGross().multiply(COMMISSION_CONST);
+  public BigDecimal calculateCommission() {
+    return calculateGross().multiply(commission);
   }
-  //TODO:This
+
+
   @Override
   public BigDecimal calculateTax() {
-    return null;
+    BigDecimal purchaseCost = purchasePrice.multiply(quantity);
+    BigDecimal gain = calculateCommission().subtract(purchaseCost).subtract(calculateCommission());
+    return gain.multiply(taxRate);
   }
-  //TODO:And this
+
   @Override
   public BigDecimal calculateTotal() {
-    return null;
+    return calculateGross().subtract(calculateCommission()).subtract(calculateTax());
   }
 }
