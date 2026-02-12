@@ -12,12 +12,15 @@ public class Share {
     this.quantity = quantity;
     this.purchasePrice = purchasePrice;
   }
+
   public Stock getStock() {
     return stock;
   }
+
   public BigDecimal getQuantity() {
     return quantity;
   }
+
   public BigDecimal getPurchasePrice() {
     return purchasePrice;
   }

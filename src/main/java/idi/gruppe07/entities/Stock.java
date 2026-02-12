@@ -14,16 +14,21 @@ public class Stock {
     this.company = company;
     this.prices = new ArrayList<BigDecimal>(salesPrice);
   }
+
   public String getSymbol() {
     return symbol;
   }
+
   public String getCompany() {
     return company;
   }
+
   public BigDecimal getPrice() {
     return prices.getLast();
   }
+
   public void addNewSalesPrice(BigDecimal price) {
     this.prices.add(price);
   }
+
 }
