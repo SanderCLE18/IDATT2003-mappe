@@ -1,5 +1,6 @@
 package idi.gruppe07.entities;
 
+import idi.gruppe07.transactions.TransactionArchive;
 import java.math.BigDecimal;
 
 public class Player {
@@ -7,14 +8,14 @@ public class Player {
   private BigDecimal startingMoney;
   private BigDecimal money;
   private Portfolio portfolio;
+  private TransactionArchive transactionArchive;
 
-  // private TransactionArchive transactionArchive;
   public Player(String name, BigDecimal startingMoney) {
     this.name = name;
     this.startingMoney = startingMoney;
     this.money = startingMoney;
     this.portfolio = new Portfolio();
-    // this.transactionArchive = new Transaction Archive;
+    this.transactionArchive = new TransactionArchive();
   }
 
   public String getName() {
@@ -37,8 +38,7 @@ public class Player {
     return portfolio;
   }
 
-  /* public TransactionArchive getTransactionArchive () {
+  public TransactionArchive getTransactionArchive () {
     return transactionArchive;
   }
-  */
 }

@@ -7,7 +7,7 @@ import idi.gruppe07.entities.Share;
 public class Purchase extends Transaction {
 
   public Purchase(Share share, int week) {
-    PurchaseCalculator purchaseCalculator = new PurchaseCalculator();
+    PurchaseCalculator purchaseCalculator = new PurchaseCalculator(share);
     super(share, week, purchaseCalculator);
   }
 
