@@ -2,6 +2,7 @@ package idi.gruppe07.calculators;
 
 import idi.gruppe07.entities.Share;
 import java.math.BigDecimal;
+
 /**
  * Calculator for calculating sales. */
 public class SaleCalculator implements TransactionCalculator {
@@ -13,10 +14,12 @@ public class SaleCalculator implements TransactionCalculator {
 
   /**
    * Constructs a SaleCalculator for the given share.
+   *
    * @param share The share to calculate sales for.
    * @throws NullPointerException if share is null.*/
   public SaleCalculator(Share share) {
-    if(share == null){
+
+    if (share == null) {
       throw new NullPointerException("Share cannot be null");
     }
 
@@ -27,6 +30,7 @@ public class SaleCalculator implements TransactionCalculator {
 
   /**
    * Calculates gross sales price for given share.
+   *
    * @return gross sales price.
    */
   @Override
@@ -36,6 +40,7 @@ public class SaleCalculator implements TransactionCalculator {
 
   /**
    * Calculates commission for given share.
+   *
    * @return commission.*/
   @Override
   public BigDecimal calculateCommission() {
@@ -44,6 +49,7 @@ public class SaleCalculator implements TransactionCalculator {
 
   /**
    * Calculates tax for given share.
+   *
    * @return tax.*/
   @Override
   public BigDecimal calculateTax() {
@@ -54,8 +60,8 @@ public class SaleCalculator implements TransactionCalculator {
 
   /**
    * Calculates total sales price for given share.
-   * @return total sales price.
-   * @throws NullPointerException if share is null.*/
+   *
+   * @return total sales price.*/
   @Override
   public BigDecimal calculateTotal() {
     return calculateGross().subtract(calculateCommission()).subtract(calculateTax());

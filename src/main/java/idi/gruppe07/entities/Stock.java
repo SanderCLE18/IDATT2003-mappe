@@ -14,6 +14,7 @@ public class Stock {
 
   /**
    * Constructs a stock with the given symbol, company, and sales price.
+   *
    * @param symbol The symbol of the stock.
    * @param company The company name of the stock.
    * @param salesPrice The list of sales prices of the stock.
@@ -27,6 +28,7 @@ public class Stock {
 
   /**
    * Returns the symbol of the stock.
+   *
    * @return symbol The symbol of the stock.*/
   public String getSymbol() {
     return symbol;
@@ -34,6 +36,7 @@ public class Stock {
 
   /**
    * Returns the company name of the stock.
+   *
    * @return company The company name of the stock.*/
   public String getCompany() {
     return company;
@@ -41,6 +44,7 @@ public class Stock {
 
   /**
    * Returns the last sales price of the stock.
+   *
    * @return price The last sales price of the stock.*/
   public BigDecimal getPrice() {
     return prices.getLast();
@@ -48,6 +52,7 @@ public class Stock {
 
   /**
    * Adds a new sales price to the stock.
+   *
    * @param price The new sales price to add.*/
   public void addNewSalesPrice(BigDecimal price) {
     this.prices.add(price);

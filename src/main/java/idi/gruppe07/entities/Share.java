@@ -13,6 +13,7 @@ public class Share {
 
   /**
    * Constructs a share with the given stock, quantity, and purchase price.
+   *
    * @param stock The stock of the share.
    * @param quantity The quantity of the share.
    * @param purchasePrice The purchase price of the share.
@@ -25,6 +26,7 @@ public class Share {
 
   /**
    * Gets the stock of the share.
+   *
    * @return stock The stock of the share.*/
   public Stock getStock() {
     return stock;
@@ -32,6 +34,7 @@ public class Share {
 
   /**
    * Gets the quantity of the share.
+   *
    * @return quantity The quantity of the share.*/
   public BigDecimal getQuantity() {
     return quantity;
@@ -39,6 +42,7 @@ public class Share {
 
   /**
    * Gets the purchase price of the share.
+   *
    * @return purchasePrice The purchase price of the share.*/
   public BigDecimal getPurchasePrice() {
     return purchasePrice;

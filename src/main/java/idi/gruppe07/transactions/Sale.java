@@ -10,6 +10,7 @@ import idi.gruppe07.entities.Share;
 public class Sale extends Transaction {
   /**
    * Creates a new sale.
+   *
    * @param share The share to be sold.
    * @param week The week of the sale.
    * @throws NullPointerException if share is null.
@@ -22,13 +23,17 @@ public class Sale extends Transaction {
 
   /**
    * Commits the sale.
+   *
    * @param player The player who made the sale.
    * @throws NullPointerException if player is null.*/
   @Override
-  public void commit(Player player){
+  public void commit(Player player) throws NullPointerException {
+    if (player == null) {
+      throw new NullPointerException("Player cannot be null");
+    }
     this.commited = true;
     player.getTransactionArchive().add(this);
     player.getPortfolio().removeShare(this.getShare());
-    player.addMoney(this.getShare().getQuantity().multiply(this.getShare().getStock().getPrice()));
+    player.addMoney(this.getCalculator().calculateTotal());
   }
 }

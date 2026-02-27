@@ -18,11 +18,12 @@ public class Portfolio {
 
   /**
    * Adds a share to the portfolio.
+   *
    * @param share The share to add.
    * @return true if the share was added successfully, false otherwise.
    * @throws NullPointerException if share is null.*/
   public boolean addShare(Share share) {
-    if(share == null){
+    if (share == null) {
       throw new NullPointerException("Share cannot be null");
     }
     return this.shares.add(share);
@@ -30,11 +31,12 @@ public class Portfolio {
 
   /**
    * Removes a share from the portfolio.
+   *
    * @param share The share to remove.
    * @return true if the share was removed successfully, false otherwise.
    * @throws NullPointerException if share is null.*/
   public boolean removeShare(Share share) {
-    if(share == null){
+    if (share == null) {
       throw new NullPointerException("Share cannot be null");
     }
     return this.shares.remove(share);
@@ -42,26 +44,29 @@ public class Portfolio {
 
   /**
    * Returns the list of shares in the portfolio.
+   *
    * @return A list of shares.
    * @throws NullPointerException if List is null.*/
   public List<Share> getShares() {
-    if(this.shares == null){
+    if (this.shares == null) {
       throw new NullPointerException("List cannot be null");
     }
     return this.shares;
   }
 
- /**
-  * Returns a list of shares with the specified symbol.
-  * @param symbol The symbol of the shares to return.
-  * @return A list of shares with the specified symbol.
-  * @throws NullPointerException if List is null.
-  * @throws IllegalArgumentException if symbol is empty.*/
-  public List<Share> getShares(String symbol){
-    if(this.shares == null){
+  /**
+   * Returns a list of shares with the specified symbol.
+   *
+   * @param symbol The symbol of the shares to return.
+   * @return A list of shares with the specified symbol.
+   * @throws NullPointerException if List is null.
+   * @throws IllegalArgumentException if symbol is empty.*/
+  public List<Share> getShares(String symbol)
+      throws NullPointerException, IllegalArgumentException {
+    if (this.shares == null) {
       throw new NullPointerException("List cannot be null");
     }
-    if(symbol.isEmpty()){
+    if (symbol.isEmpty()) {
       throw new IllegalArgumentException("Symbol cannot be empty");
     }
     return shares.stream()
@@ -71,11 +76,12 @@ public class Portfolio {
 
   /**
    * Checks if the portfolio contains a specific share.
+   *
    * @param share The share to check.
    * @return true if the portfolio contains the share, false otherwise.
    * @throws NullPointerException if share is null.*/
-  public boolean contains(Share share){
-    if(share == null){
+  public boolean contains(Share share) throws NullPointerException {
+    if (share == null) {
       throw new NullPointerException("Share cannot be null");
     }
     return this.shares.contains(share);

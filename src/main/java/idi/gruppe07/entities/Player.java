@@ -2,6 +2,7 @@ package idi.gruppe07.entities;
 
 import idi.gruppe07.transactions.TransactionArchive;
 import java.math.BigDecimal;
+
 /**
  * Represents a player.
  * */
@@ -14,6 +15,7 @@ public class Player {
 
   /**
    * Constructs a player with the given name and starting money.
+   *
    * @param name The name of the player.
    * @param startingMoney The starting money of the player.
    * */
@@ -24,15 +26,19 @@ public class Player {
     this.portfolio = new Portfolio();
     this.transactionArchive = new TransactionArchive();
   }
+
   /**
    * Gets the name of the player.
+   *
    * @return name The name of the player.
    * */
   public String getName() {
     return name;
   }
+
   /**
    * Gets the money of the player.
+   *
    * @return money The starting money of the player.
    * */
   public BigDecimal getMoney() {
@@ -41,6 +47,7 @@ public class Player {
 
   /**
    * Adds money to the player's account.
+   *
    * @param money The amount of money to add.
    * */
   public void addMoney(BigDecimal money) {
@@ -49,23 +56,28 @@ public class Player {
 
   /**
    * Withdraws money from the player's account.
+   *
    * @param money The amount of money to withdraw.
    * */
   public void withdrawMoney(BigDecimal money) {
     this.money = this.money.subtract(money);
   }
+
   /**
    * Gets the player's portfolio.
+   *
    * @return portfolio The player's portfolio.
    * */
   public Portfolio getPortfolio() {
     return portfolio;
   }
+
   /**
    * Gets the player's transaction archive.
+   *
    * @return transactionArchive The player's transaction archive.
    * */
-  public TransactionArchive getTransactionArchive () {
+  public TransactionArchive getTransactionArchive() {
     return transactionArchive;
   }
 }
