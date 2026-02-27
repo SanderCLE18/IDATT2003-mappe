@@ -17,9 +17,12 @@ public class NormalDistribution {
    *
    * @param mean The mean of the distribution.
    * @param stdDev The standard deviation of the distribution.
-   * @throws IllegalArgumentException if stdDev is less than or equal to 0.
-   * @throws NullPointerException if mean is null.*/
+   * @throws IllegalArgumentException if stdDev is less than or equal to 0.*/
   public NormalDistribution(double mean, double stdDev) {
+    if (stdDev <= 0) {
+      throw new IllegalArgumentException("Standard deviation must be greater than 0");
+    }
+
     this.mean = mean;
     this.stdDev = stdDev;
   }
