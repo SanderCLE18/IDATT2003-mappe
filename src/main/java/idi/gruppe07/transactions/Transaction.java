@@ -34,6 +34,7 @@ public abstract class Transaction {
 
   public void commit(Player player) {
     this.commited = true;
+    player.getTransactionArchive().add(this);
   }
 
 }
