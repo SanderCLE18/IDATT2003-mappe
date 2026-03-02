@@ -3,6 +3,7 @@ package idi.gruppe07.transactions;
 import idi.gruppe07.entities.*;
 import idi.gruppe07.transactions.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -67,8 +68,10 @@ class  ExchangeTest {
     assertEquals(quantity, share.getQuantity());
 
     // Test buying non-existent stock
-    Transaction invalidBuy = exchange.buy("MSFT", quantity, player);
-    assertNull(invalidBuy, "Buy should return null for non-existent stock");
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+      exchange.buy("MSFT", quantity, player);
+    });
+    assertEquals("Invalid stock", exception.getMessage());
   }
 
   @Test
@@ -90,7 +93,7 @@ class  ExchangeTest {
     assertFalse(player.getPortfolio().contains(shareToSell));
   }
 
-  @Test
+  @RepeatedTest(10)
   void testAdvance() {
     int initialWeek = exchange.getWeek();
     BigDecimal initialPrice = appleStock.getPrice();
