@@ -4,7 +4,6 @@ import idi.gruppe07.entities.Player;
 import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
 import idi.gruppe07.utils.NormalDistribution;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -22,34 +21,41 @@ public class Exchange {
 
   /**
    * Constructs an exchange with the given name and stocks.
+   *
    * @param name The name of the exchange.
    * @param stocks The list of stocks in the exchange.
-   *
    * @throws NullPointerException if stocks is null.
    * @throws IllegalArgumentException if stocks is empty.*/
 
-  public Exchange(String name, List<Stock> stocks) throws NullPointerException, IllegalArgumentException{
+  public Exchange(String name, List<Stock> stocks)
+      throws NullPointerException, IllegalArgumentException {
     this.name = name;
     stockMap = stocks.stream()
         .collect(Collectors.toMap(
             Stock::getSymbol, stock -> stock));
   }
+
   /**
    * Gets the name of the exchange.
+   *
    * @return name The name of the exchange.
    * */
   public String getName() {
     return name;
   }
+
   /**
    * Gets the current week of the exchange.
+   *
    * @return week The current week of the exchange.
    * */
   public int getWeek() {
     return week;
   }
+
   /**
    * Checks if the exchange has a stock with the given symbol.
+   *
    * @param symbol The symbol of the stock to check.
    * @return true if the exchange has the stock, false otherwise.*/
   public boolean hasStock(String symbol) {
@@ -58,19 +64,22 @@ public class Exchange {
 
   /**
    * Gets the stock with the given symbol.
+   *
    * @param symbol The symbol of the stock to get.
    * @return stock The stock with the given symbol.*/
   public Stock getStock(String symbol) {
     return stockMap.get(symbol);
   }
+
   /**
    * Gets a list of stocks that contain the given search string in their company name.
+   *
    * @param search The string to search for in the company name.
    * @return stocks A list of stocks that contain the search string.
    * @throws NullPointerException if search is null.
    * @throws IllegalArgumentException if search is empty.
    * */
-  public List<Stock> findStocks(String search){
+  public List<Stock> findStocks(String search) {
     return stockMap.values().stream()
         .filter(n -> n.getCompany().toUpperCase().contains(search.toUpperCase()))
         .collect(Collectors.toList());
@@ -78,30 +87,44 @@ public class Exchange {
 
   /**
    * Buys a share of a stock with the given symbol and quantity from the exchange.
+   *
    * @param symbol The symbol of the stock to buy.
    * @param quantity The quantity of shares to buy.
    * @param player The player who is buying the stock.
    * @return transaction The transaction object representing the buy transaction.
-   * @throws NullPointerException if symbol or player is null.
-   * @throws IllegalArgumentException if symbol is empty or player is not a valid player.
-   * @throws IllegalStateException if the exchange does not have the stock.*/
-  public Transaction buy(String symbol, BigDecimal quantity, Player player){
-    if(hasStock(symbol)){
+   * @throws IllegalArgumentException if symbol is not a valid stock symbol.
+   * @throws NullPointerException if symbol is not a valid stock symbol. Or if player is null*/
+  public Transaction buy(String symbol, BigDecimal quantity, Player player) {
+    if (!hasStock(symbol) || quantity.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new IllegalArgumentException("Invalid stock");
+    }
+
+    if (player == null) {
+      throw new NullPointerException("Player cannot be null");
+    }
+
+    if (hasStock(symbol)) {
       Share newShare = new Share(getStock(symbol), quantity, getStock(symbol).getPrice());
       player.getPortfolio().addShare(newShare);
       return new Purchase(newShare, getWeek());
+    } else {
+      return null;
     }
-    else return null;
   }
+
   /**
    * Sells a share of a stock from the player's portfolio.
+   *
    * @param share The share to sell.
    * @param player The player who is selling the stock.
    * @return transaction The transaction object representing the sell transaction.
-   * @throws NullPointerException if share or player is null.
    * @throws IllegalArgumentException if share is not a valid share or player is not a valid player.
-   * @throws IllegalStateException if the player does not own the share.*/
-  public Transaction sell(Share share, Player player){
+   * */
+  public Transaction sell(Share share, Player player) throws IllegalArgumentException {
+    if (!player.getPortfolio().contains(share)
+        || share.getQuantity().compareTo(BigDecimal.ZERO) <= 0) {
+      throw new IllegalArgumentException("Invalid share or player");
+    }
     player.getPortfolio().removeShare(share);
     player.addMoney(share.getQuantity().multiply(share.getStock().getPrice()));
     return new Sale(share, getWeek());
@@ -110,10 +133,10 @@ public class Exchange {
   /**
    * Advances the exchange by one week.
    * Sets new prices for each stock based on a normal distribution.*/
-  public void advance(){
+  public void advance() {
     this.week++;
     NormalDistribution distribution = new NormalDistribution(0, 0.05);
-    for(var stock : stockMap.values()){
+    for (var stock : stockMap.values()) {
       double returnRandom = distribution.nextGaussian();
 
       BigDecimal multiplier = BigDecimal.valueOf(Math.exp(returnRandom));

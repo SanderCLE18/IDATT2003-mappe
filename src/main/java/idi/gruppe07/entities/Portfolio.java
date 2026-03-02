@@ -4,32 +4,86 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a player's portfolio.*/
 public class Portfolio {
   private List<Share> shares;
 
+  /**
+   * Constructs a new portfolio.
+   * */
   public Portfolio() {
     this.shares = new ArrayList<>();
   }
 
+  /**
+   * Adds a share to the portfolio.
+   *
+   * @param share The share to add.
+   * @return true if the share was added successfully, false otherwise.
+   * @throws NullPointerException if share is null.*/
   public boolean addShare(Share share) {
+    if (share == null) {
+      throw new NullPointerException("Share cannot be null");
+    }
     return this.shares.add(share);
   }
 
+  /**
+   * Removes a share from the portfolio.
+   *
+   * @param share The share to remove.
+   * @return true if the share was removed successfully, false otherwise.
+   * @throws NullPointerException if share is null.*/
   public boolean removeShare(Share share) {
+    if (share == null) {
+      throw new NullPointerException("Share cannot be null");
+    }
     return this.shares.remove(share);
   }
 
+  /**
+   * Returns the list of shares in the portfolio.
+   *
+   * @return A list of shares.
+   * @throws NullPointerException if List is null.*/
   public List<Share> getShares() {
+    if (this.shares == null) {
+      throw new NullPointerException("List cannot be null");
+    }
     return this.shares;
   }
 
-  public List<Share> getShares(String symbol){
+  /**
+   * Returns a list of shares with the specified symbol.
+   *
+   * @param symbol The symbol of the shares to return.
+   * @return A list of shares with the specified symbol.
+   * @throws NullPointerException if List is null.
+   * @throws IllegalArgumentException if symbol is empty.*/
+  public List<Share> getShares(String symbol)
+      throws NullPointerException, IllegalArgumentException {
+    if (this.shares == null) {
+      throw new NullPointerException("List cannot be null");
+    }
+    if (symbol.isEmpty()) {
+      throw new IllegalArgumentException("Symbol cannot be empty");
+    }
     return shares.stream()
         .filter(n -> n.getStock().getCompany().equals(symbol))
         .collect(Collectors.toList());
   }
 
-  public boolean contains(Share share){
+  /**
+   * Checks if the portfolio contains a specific share.
+   *
+   * @param share The share to check.
+   * @return true if the portfolio contains the share, false otherwise.
+   * @throws NullPointerException if share is null.*/
+  public boolean contains(Share share) throws NullPointerException {
+    if (share == null) {
+      throw new NullPointerException("Share cannot be null");
+    }
     return this.shares.contains(share);
   }
 }
