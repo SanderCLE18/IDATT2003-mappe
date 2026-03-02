@@ -11,7 +11,7 @@ class StockTest {
 
   @Test
   void checkThatNewSalesPriceIsAdded() {
-    Stock stock = new Stock("AAPL", "Apple Inc.", List.of(new BigDecimal("150.00")));
+    Stock stock = new Stock("AAPL", "Apple Inc.", new BigDecimal("150.00"));
     stock.addNewSalesPrice(new BigDecimal("155.00"));
     assertEquals(new BigDecimal("155.00"), stock.getPrice());
   }

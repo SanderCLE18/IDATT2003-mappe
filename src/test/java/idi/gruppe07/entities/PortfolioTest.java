@@ -19,10 +19,9 @@ class PortfolioTest {
   @BeforeEach
   void setUp() {
     portfolio = new Portfolio();
-    List<BigDecimal> salesPrice = new ArrayList<>();
-    salesPrice.add(new BigDecimal("150.00"));
+    BigDecimal salesPrice = new BigDecimal("150.00");
     stock = new Stock("AAPL", "Apple Inc.", salesPrice);
-    share = new Share(stock, BigDecimal.valueOf(10), BigDecimal.valueOf(150.00));
+    share = new Share(stock, BigDecimal.valueOf(10), salesPrice);
   }
 
   @Test
