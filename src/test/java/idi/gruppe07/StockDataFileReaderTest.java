@@ -8,6 +8,6 @@ class StockDataFileReaderTest {
 
   @Test
   void testThatFileIsReadCorrectly() {
-    new StockDataFileReader("borsen").readStockData("C:\\Users\\herma\\Downloads\\sp500.csv");
+    new StockDataFileReader().readStockData("C:\\Users\\herma\\Downloads\\sp500.csv");
   }
 }
