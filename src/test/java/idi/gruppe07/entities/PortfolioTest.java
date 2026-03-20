@@ -36,6 +36,11 @@ class PortfolioTest {
   }
 
   @Test
+  void checkThatShareIsNotRemovedIfNotInPortfolio() {
+    assertFalse(portfolio.removeShare(share));
+  }
+
+  @Test
   void checkThatObjectContainsAddedShare() {
     portfolio.addShare(share);
     assertTrue(portfolio.contains(share));
