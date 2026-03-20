@@ -34,7 +34,7 @@ public class PurchaseCalculator implements TransactionCalculator {
    * @return commission*/
   @Override
   public BigDecimal calculateCommission() {
-    return calculateGross().multiply(commission);
+    return calculateGross().multiply(commission).stripTrailingZeros();
   }
 
   /**
@@ -43,7 +43,7 @@ public class PurchaseCalculator implements TransactionCalculator {
    * @return tax*/
   @Override
   public BigDecimal calculateTax() {
-    return null;
+    return new BigDecimal("0");
   }
 
   /**

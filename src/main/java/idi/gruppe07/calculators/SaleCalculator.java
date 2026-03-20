@@ -44,7 +44,7 @@ public class SaleCalculator implements TransactionCalculator {
    * @return commission.*/
   @Override
   public BigDecimal calculateCommission() {
-    return calculateGross().multiply(commission);
+    return calculateGross().multiply(commission).stripTrailingZeros();
   }
 
   /**
@@ -54,7 +54,7 @@ public class SaleCalculator implements TransactionCalculator {
   @Override
   public BigDecimal calculateTax() {
     BigDecimal purchaseCost = purchasePrice.multiply(quantity);
-    BigDecimal gain = calculateCommission().subtract(purchaseCost).subtract(calculateCommission());
+    BigDecimal gain = calculateGross().subtract(purchaseCost).subtract(calculateCommission());
     return gain.multiply(taxRate);
   }
 
