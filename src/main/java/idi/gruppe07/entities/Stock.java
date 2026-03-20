@@ -2,6 +2,7 @@ package idi.gruppe07.entities;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -57,5 +58,43 @@ public class Stock {
   public void addNewSalesPrice(BigDecimal price) {
     this.prices.add(price);
   }
+
+
+  /**
+   * Returns all historical sales prices of the stock.
+   *
+   * @return the whole list of prices
+   */
+  public List<BigDecimal> getHistoricalPrices() {return prices; }
+
+
+  /**
+   * Returns the highest price the stock has had
+   *
+   * @return the highest price the stock has had
+   */
+  public BigDecimal getHighestPrice() {
+    return Collections.max(prices);
+  }
+
+  /**
+   * Returns the lowest price the stock has had
+   *
+   * @return the lowest price the stock has had
+   */
+  public BigDecimal getLowestPrice() {
+    return Collections.min(prices);
+  }
+
+  /**
+   * Return the diffrence between the newest price, and the price before it.
+   * If there has only been 1 price, it returns 0.
+   * @return 0 or the pricechange from the newest price and the price before it
+   */
+  public BigDecimal getLatestPriceChange() {
+    if(prices.size() == 1) return BigDecimal.ZERO;
+    return getPrice().subtract(prices.get(prices.size() - 2));
+  }
+
 
 }
