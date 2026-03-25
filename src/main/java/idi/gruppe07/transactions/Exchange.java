@@ -5,9 +5,7 @@ import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
 import idi.gruppe07.utils.NormalDistribution;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -143,6 +141,19 @@ public class Exchange {
       BigDecimal deltaPrice = stock.getPrice().multiply(multiplier);
       stock.addNewSalesPrice(deltaPrice);
     }
+  }
+
+  public List<Stock> getGainers(int limit) {
+    ArrayList<Stock> gainers = new ArrayList<>(stockMap.values());
+    gainers.removeIf(stock -> stock.getLatestPriceChange().compareTo(BigDecimal.ZERO) <= 0);
+    gainers.sort((s1, s2) -> s2.getLatestPriceChange().compareTo(s1.getLatestPriceChange()));
+    return gainers.subList(0, Math.min(limit, gainers.size()));
+  }
+
+  public List<Stock> getLoosers(int limit) {
+    ArrayList<Stock> loosers = new ArrayList<>(stockMap.values());
+    loosers.sort(Comparator.comparing(Stock::getLatestPriceChange));
+    return loosers.subList(0, Math.min(limit, loosers.size()));
   }
 
 }
