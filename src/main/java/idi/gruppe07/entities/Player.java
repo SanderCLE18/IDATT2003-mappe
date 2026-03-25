@@ -80,4 +80,12 @@ public class Player {
   public TransactionArchive getTransactionArchive() {
     return transactionArchive;
   }
+
+  /**
+   * Gets the player's net worth.
+   *
+   * @return the player's net worth*/
+  public BigDecimal getNetWorth() {
+    return getPortfolio().getNetWorth().add(this.startingMoney);
+  }
 }
