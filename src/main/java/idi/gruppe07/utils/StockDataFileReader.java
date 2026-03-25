@@ -1,4 +1,4 @@
-package idi.gruppe07;
+package idi.gruppe07.utils;
 
 import idi.gruppe07.entities.Stock;
 
