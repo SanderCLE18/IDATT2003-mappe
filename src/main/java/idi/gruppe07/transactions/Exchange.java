@@ -1,6 +1,6 @@
 package idi.gruppe07.transactions;
 
-import idi.gruppe07.entities.Player;
+import idi.gruppe07.player.Player;
 import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
 import idi.gruppe07.utils.NormalDistribution;

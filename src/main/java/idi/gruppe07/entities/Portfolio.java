@@ -1,5 +1,8 @@
 package idi.gruppe07.entities;
 
+import idi.gruppe07.calculators.SaleCalculator;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +38,7 @@ public class Portfolio {
    * @param share The share to remove.
    * @return true if the share was removed successfully, false otherwise.
    * @throws NullPointerException if share is null.*/
-  public boolean removeShare(Share share) {
+    public boolean removeShare(Share share) {
     if (share == null) {
       throw new NullPointerException("Share cannot be null");
     }
@@ -85,5 +88,16 @@ public class Portfolio {
       throw new NullPointerException("Share cannot be null");
     }
     return this.shares.contains(share);
+  }
+
+  /**
+   * Calculates the net worth of the portfolio.
+   * It converts the map into a stream, calculates the value of each share, and sums them up.
+   *
+   * @return The net worth of the portfolio.*/
+  public BigDecimal getNetWorth() {
+    return this.shares.stream()
+        .map(e->new SaleCalculator(e).calculateTotal())
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 }

@@ -1,6 +1,7 @@
 package idi.gruppe07.transactions;
 
 import idi.gruppe07.entities.*;
+import idi.gruppe07.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;

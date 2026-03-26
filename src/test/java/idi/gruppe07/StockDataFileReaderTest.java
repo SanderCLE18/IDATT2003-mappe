@@ -1,10 +1,11 @@
 package idi.gruppe07;
 
+import idi.gruppe07.utils.StockDataFileReader;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class StockDataFileReaderTest {
+
+  //TODO: UPDATE USING RELATIVE PATH!!
 
   @Test
   void testThatFileIsReadCorrectly() {
