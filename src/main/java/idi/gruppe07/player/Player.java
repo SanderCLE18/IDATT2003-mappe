@@ -4,22 +4,20 @@ import idi.gruppe07.entities.Portfolio;
 import idi.gruppe07.transactions.TransactionArchive;
 import java.math.BigDecimal;
 
-/**
- * Represents a player.
- * */
+/** Represents a player. */
 public class Player {
-  private String name;
-  private BigDecimal startingMoney;
+  private final String name;
+  private final BigDecimal startingMoney;
   private BigDecimal money;
-  private Portfolio portfolio;
-  private TransactionArchive transactionArchive;
+  private final Portfolio portfolio;
+  private final TransactionArchive transactionArchive;
 
   /**
    * Constructs a player with the given name and starting money.
    *
    * @param name The name of the player.
    * @param startingMoney The starting money of the player.
-   * */
+   */
   public Player(String name, BigDecimal startingMoney) {
     this.name = name;
     this.startingMoney = startingMoney;
@@ -32,7 +30,7 @@ public class Player {
    * Gets the name of the player.
    *
    * @return name The name of the player.
-   * */
+   */
   public String getName() {
     return name;
   }
@@ -41,7 +39,7 @@ public class Player {
    * Gets the money of the player.
    *
    * @return money The starting money of the player.
-   * */
+   */
   public BigDecimal getMoney() {
     return money;
   }
@@ -50,7 +48,7 @@ public class Player {
    * Gets the starting money of the player.
    *
    * @return startingMoney The starting money of the player.
-   * */
+   */
   public BigDecimal getStartingMoney() {
     return startingMoney;
   }
@@ -59,7 +57,7 @@ public class Player {
    * Adds money to the player's account.
    *
    * @param money The amount of money to add.
-   * */
+   */
   public void addMoney(BigDecimal money) {
     this.money = this.money.add(money);
   }
@@ -68,7 +66,7 @@ public class Player {
    * Withdraws money from the player's account.
    *
    * @param money The amount of money to withdraw.
-   * */
+   */
   public void withdrawMoney(BigDecimal money) {
     this.money = this.money.subtract(money);
   }
@@ -77,7 +75,7 @@ public class Player {
    * Gets the player's portfolio.
    *
    * @return portfolio The player's portfolio.
-   * */
+   */
   public Portfolio getPortfolio() {
     return portfolio;
   }
@@ -86,7 +84,7 @@ public class Player {
    * Gets the player's transaction archive.
    *
    * @return transactionArchive The player's transaction archive.
-   * */
+   */
   public TransactionArchive getTransactionArchive() {
     return transactionArchive;
   }
@@ -94,12 +92,41 @@ public class Player {
   /**
    * Gets the player's net worth.
    *
-   * @return the player's net worth*/
+   * @return the player's net worth
+   */
   public BigDecimal getNetWorth() {
     return getPortfolio().getNetWorth().add(this.startingMoney);
   }
 
-  public playerStatus getPlayerStatus{
-    if(getNetWorth().compareTo(startingMoney) > 1.2 && )
+  /**
+   * Method to get the player's investor status
+   *
+   * @return the players investor status.
+   */
+  public PlayerStatus getPlayerStatus() {
+
+    // Get the amount of weeks the user has been active.
+    int weeks =
+        portfolio.getShares().stream()
+            .mapToInt(n -> n.getStock().getHistoricalPrices().size())
+            .max()
+            .orElse(0);
+
+    if (comparator(PlayerStatus.SPECULATOR.getConstant()) && weeks >= 20) {
+      return PlayerStatus.SPECULATOR;
+    } else if (comparator(PlayerStatus.INVESTOR.getConstant()) && weeks >= 10) {
+      return PlayerStatus.INVESTOR;
+    }
+    return PlayerStatus.NOVICE;
+  }
+
+  /**
+   * Helper method for getPlayerStatus.
+   *
+   * @param constant BigDecimal constant to check comparison
+   * @return returns true if the net worth has grown more or equal to the given constant
+   */
+  private boolean comparator(BigDecimal constant) {
+    return this.getNetWorth().compareTo(startingMoney.multiply(constant)) >= 0;
   }
 }
