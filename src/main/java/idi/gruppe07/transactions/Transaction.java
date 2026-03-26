@@ -1,7 +1,7 @@
 package idi.gruppe07.transactions;
 
 import idi.gruppe07.calculators.TransactionCalculator;
-import idi.gruppe07.entities.Player;
+import idi.gruppe07.player.Player;
 import idi.gruppe07.entities.Share;
 
 /**

@@ -1,5 +1,6 @@
-package idi.gruppe07.entities;
+package idi.gruppe07.player;
 
+import idi.gruppe07.entities.Portfolio;
 import idi.gruppe07.transactions.TransactionArchive;
 import java.math.BigDecimal;
 
@@ -46,6 +47,15 @@ public class Player {
   }
 
   /**
+   * Gets the starting money of the player.
+   *
+   * @return startingMoney The starting money of the player.
+   * */
+  public BigDecimal getStartingMoney() {
+    return startingMoney;
+  }
+
+  /**
    * Adds money to the player's account.
    *
    * @param money The amount of money to add.
@@ -87,5 +97,9 @@ public class Player {
    * @return the player's net worth*/
   public BigDecimal getNetWorth() {
     return getPortfolio().getNetWorth().add(this.startingMoney);
+  }
+
+  public playerStatus getPlayerStatus{
+    if(getNetWorth().compareTo(startingMoney) > 1.2 && )
   }
 }
