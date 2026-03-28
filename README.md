@@ -1,6 +1,6 @@
 <h1>Millions</h1>
 Mllions is a stock trading simulation game developed as the final assigment for IDATT2003 - Progamming 2. 
-he application allows users to simulate stock market trading, manage a portfolio, and track financial growth over multiple trading weeks.
+The application allows users to simulate stock market trading, manage a portfolio, and track financial growth over multiple trading weeks.
 
 <h2>Features:</h2>
 <ul>
