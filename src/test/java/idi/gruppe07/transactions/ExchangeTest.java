@@ -1,13 +1,12 @@
 package idi.gruppe07.transactions;
 
 import idi.gruppe07.entities.*;
-import idi.gruppe07.transactions.*;
+import idi.gruppe07.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,15 +41,15 @@ class  ExchangeTest {
 
   @Test
   void testFindStocks() {
-    // Search for "Apple" (case insensitive)
+    // Search for "Apple" (case-insensitive)
     List<Stock> results = exchange.findStocks("apple");
     assertEquals(1, results.size());
-    assertEquals("AAPL", results.get(0).getSymbol());
+    assertEquals("AAPL", results.getFirst().getSymbol());
 
     // Search for partial name
     List<Stock> alphaResults = exchange.findStocks("Alpha");
     assertEquals(1, alphaResults.size());
-    assertEquals("GOOGL", alphaResults.get(0).getSymbol());
+    assertEquals("GOOGL", alphaResults.getFirst().getSymbol());
   }
 
   @Test
@@ -59,18 +58,16 @@ class  ExchangeTest {
     Transaction transaction = exchange.buy("AAPL", quantity, player);
 
     assertNotNull(transaction, "Transaction should not be null for valid symbol");
-    assertTrue(transaction instanceof Purchase, "Transaction should be a Purchase type");
+    assertInstanceOf(Purchase.class, transaction, "Transaction should be a Purchase type");
 
     // Verify portfolio update
     assertEquals(1, player.getPortfolio().getShares().size());
-    Share share = player.getPortfolio().getShares().get(0);
+    Share share = player.getPortfolio().getShares().getFirst();
     assertEquals(appleStock, share.getStock());
     assertEquals(quantity, share.getQuantity());
 
     // Test buying non-existent stock
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-      exchange.buy("MSFT", quantity, player);
-    });
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> exchange.buy("MSFT", quantity, player));
     assertEquals("Invalid stock", exception.getMessage());
   }
 
@@ -106,5 +103,33 @@ class  ExchangeTest {
     // Check price updated (statistically unlikely to remain exactly the same)
     assertNotEquals(initialPrice, appleStock.getPrice(),
         "Stock price should have changed after advance()");
+  }
+
+  @Test
+  void testGetGainers() {
+    appleStock.addNewSalesPrice(new BigDecimal("250.00")); // Biggest winner
+    googleStock.addNewSalesPrice(new BigDecimal("2810.00")); // 2nd place
+
+    List<Stock> gainers = exchange.getGainers(2);
+
+    assertSame(gainers.getFirst(), appleStock);
+    assertSame(gainers.get(1), googleStock);
+
+    appleStock.addNewSalesPrice(new BigDecimal("240.00"));
+    gainers = exchange.getGainers(2);
+    assertEquals(1, gainers.size());
+  }
+
+  @Test
+  void testGetLoosers() {
+    appleStock.addNewSalesPrice(new BigDecimal("250.00")); // Biggest winner
+    googleStock.addNewSalesPrice(new BigDecimal("2810.00")); // 2nd place
+
+    List<Stock> loosers = exchange.getLoosers(1);
+
+    assertEquals(1, loosers.size());
+    assertSame(loosers.getFirst(), googleStock);
+
+
   }
 }
