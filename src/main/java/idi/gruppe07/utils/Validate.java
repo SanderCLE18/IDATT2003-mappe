@@ -38,7 +38,7 @@ public class Validate {
    * @return this
    * @throws NullPointerException if the object is null
    */
-  public Validate isNull() throws NullPointerException {
+  public Validate isNotNull() throws NullPointerException {
     if (object == null) {
       throw new NullPointerException("Object cannot be null!");
     }
@@ -52,7 +52,7 @@ public class Validate {
    * @return this
    * @throws IllegalArgumentException if the object is null or empty
    */
-  public Validate isNullOrEmpty() throws IllegalArgumentException {
+  public Validate isNotNullOrEmpty() throws IllegalArgumentException {
     if (object instanceof String str && str.isEmpty()) {
       throw new IllegalArgumentException("String cannot be empty!");
     }
@@ -65,7 +65,7 @@ public class Validate {
    * @return this
    * @throws IllegalArgumentException if the object is negative
    */
-  public Validate isNegative() throws IllegalArgumentException {
+  public Validate isNotNegative() throws IllegalArgumentException {
     if (object instanceof BigDecimal bd) {
       if (bd.compareTo(BigDecimal.ZERO) < 0) {
         throw new IllegalArgumentException("Number cannot be negative!");
@@ -81,6 +81,26 @@ public class Validate {
 
   }
 
+  /**
+   * Validates that a given object is not Zero. Compatible with BigDecimal and primitives.
+   *
+   * @return this
+   * @throws IllegalArgumentException if the object is equal to Zero
+   */
+  public Validate isNotZero() throws IllegalArgumentException {
+    if (object instanceof BigDecimal bd) {
+      if (bd.compareTo(BigDecimal.ZERO) != 0) {
+        throw new IllegalArgumentException("Number cannot be zero!");
+      }
+    } else if (!(object instanceof Number)) {
+      return this;
+    }
+    double num = (double) object;
+    if (num == 0) {
+      throw new IllegalArgumentException("Number cannot be zero!");
+    }
+    return this;
+  }
 
 }
 

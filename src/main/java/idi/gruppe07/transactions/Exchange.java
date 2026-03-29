@@ -4,6 +4,8 @@ import idi.gruppe07.player.Player;
 import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
 import idi.gruppe07.utils.NormalDistribution;
+import idi.gruppe07.utils.Validate;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -93,12 +95,11 @@ public class Exchange {
    * @throws IllegalArgumentException if symbol is not a valid stock symbol.
    * @throws NullPointerException if symbol is not a valid stock symbol. Or if player is null*/
   public Transaction buy(String symbol, BigDecimal quantity, Player player) {
-    if (!hasStock(symbol) || quantity.compareTo(BigDecimal.ZERO) <= 0) {
-      throw new IllegalArgumentException("Invalid stock");
-    }
+    Validate.that(quantity).isNotNegative();
+    Validate.that(player).isNotNull();
 
-    if (player == null) {
-      throw new NullPointerException("Player cannot be null");
+    if (!hasStock(symbol)) {
+      throw new IllegalArgumentException("Invalid stock");
     }
 
     if (hasStock(symbol)) {
@@ -119,9 +120,11 @@ public class Exchange {
    * @throws IllegalArgumentException if share is not a valid share or player is not a valid player.
    * */
   public Transaction sell(Share share, Player player) throws IllegalArgumentException {
-    if (!player.getPortfolio().contains(share)
-        || share.getQuantity().compareTo(BigDecimal.ZERO) <= 0) {
-      throw new IllegalArgumentException("Invalid share or player");
+    Validate.that(share).isNotNull();
+    Validate.that(player).isNotNull();
+    Validate.that(share.getQuantity()).isNotNegative();
+    if (!player.getPortfolio().contains(share)) {
+      throw new IllegalArgumentException("Player does not own this share");
     }
     player.getPortfolio().removeShare(share);
     player.addMoney(share.getQuantity().multiply(share.getStock().getPrice()));
@@ -144,6 +147,8 @@ public class Exchange {
   }
 
   public List<Stock> getGainers(int limit) {
+    Validate.that(limit).isNotNegative();
+
     ArrayList<Stock> gainers = new ArrayList<>(stockMap.values());
     gainers.removeIf(stock -> stock.getLatestPriceChange().compareTo(BigDecimal.ZERO) <= 0);
     gainers.sort((s1, s2) -> s2.getLatestPriceChange().compareTo(s1.getLatestPriceChange()));
@@ -151,6 +156,9 @@ public class Exchange {
   }
 
   public List<Stock> getLoosers(int limit) {
+    Validate.that(limit).isNotNegative();
+    if(stockMap.isEmpty()) return new ArrayList<>();
+
     ArrayList<Stock> loosers = new ArrayList<>(stockMap.values());
     loosers.sort(Comparator.comparing(Stock::getLatestPriceChange));
     return loosers.subList(0, Math.min(limit, loosers.size()));

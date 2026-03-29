@@ -3,6 +3,7 @@ package idi.gruppe07.transactions;
 import idi.gruppe07.calculators.PurchaseCalculator;
 import idi.gruppe07.player.Player;
 import idi.gruppe07.entities.Share;
+import idi.gruppe07.utils.Validate;
 
 /**
  * Represents a purchase.
@@ -26,9 +27,7 @@ public class Purchase extends Transaction {
    * @throws NullPointerException if player is null.*/
   @Override
   public void commit(Player player) throws NullPointerException {
-    if (player == null) {
-      throw new NullPointerException("Player cannot be null");
-    }
+    Validate.that(player).isNotNull();
 
     player.withdrawMoney(this.getCalculator().calculateTotal());
     player.getPortfolio().addShare(this.getShare());

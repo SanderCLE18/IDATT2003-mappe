@@ -1,5 +1,7 @@
 package idi.gruppe07.transactions;
 
+import idi.gruppe07.utils.Validate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +45,8 @@ public class TransactionArchive {
    * @param week The week for which to get the transactions.
    * @return transactions The list of transactions for the specified week.*/
   public List<Transaction> getTransactions(int week) {
+    Validate.that(week).isNotNegative().isNotNull();
+
     return this.transactions.stream()
         .filter(n -> n.getWeek() == week)
         .collect(Collectors.toList());
@@ -54,6 +58,8 @@ public class TransactionArchive {
    * @param week The week for which to get the purchases.
    * @return purchases The list of purchases for the specified week.  */
   public List<Purchase> getPurchases(int week) {
+    Validate.that(week).isNotNegative().isNotNull();
+
     return this.transactions.stream()
         .filter(n -> n instanceof Purchase)
         .map(n -> (Purchase) n)
@@ -66,6 +72,8 @@ public class TransactionArchive {
    * @param week The week for which to get the sales.
    * @return sales The list of sales for the specified week.  */
   public List<Sale> getSales(int week) {
+    Validate.that(week).isNotNegative().isNotNull();
+
     return this.transactions.stream()
         .filter(n -> n instanceof Sale)
         .map(n -> (Sale) n)
