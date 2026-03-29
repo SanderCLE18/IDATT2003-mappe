@@ -1,6 +1,7 @@
 package idi.gruppe07.entities;
 
 import idi.gruppe07.calculators.SaleCalculator;
+import idi.gruppe07.utils.Validate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,10 +26,10 @@ public class Portfolio {
    * @param share The share to add.
    * @return true if the share was added successfully, false otherwise.
    * @throws NullPointerException if share is null.*/
-  public boolean addShare(Share share) {
-    if (share == null) {
-      throw new NullPointerException("Share cannot be null");
-    }
+  public boolean addShare(Share share) throws NullPointerException {
+
+    Validate.that(share).isNotNull();
+
     return this.shares.add(share);
   }
 
@@ -39,9 +40,8 @@ public class Portfolio {
    * @return true if the share was removed successfully, false otherwise.
    * @throws NullPointerException if share is null.*/
     public boolean removeShare(Share share) {
-    if (share == null) {
-      throw new NullPointerException("Share cannot be null");
-    }
+    Validate.that(share).isNotNull();
+
     return this.shares.remove(share);
   }
 
@@ -51,9 +51,8 @@ public class Portfolio {
    * @return A list of shares.
    * @throws NullPointerException if List is null.*/
   public List<Share> getShares() {
-    if (this.shares == null) {
-      throw new NullPointerException("List cannot be null");
-    }
+
+    Validate.that(this.shares).isNotNull();
     return this.shares;
   }
 
@@ -66,12 +65,10 @@ public class Portfolio {
    * @throws IllegalArgumentException if symbol is empty.*/
   public List<Share> getShares(String symbol)
       throws NullPointerException, IllegalArgumentException {
-    if (this.shares == null) {
-      throw new NullPointerException("List cannot be null");
-    }
-    if (symbol.isEmpty()) {
-      throw new IllegalArgumentException("Symbol cannot be empty");
-    }
+
+    Validate.that(this.shares).isNotNull();
+    Validate.that(symbol).isNotNullOrEmpty();
+
     return shares.stream()
         .filter(n -> n.getStock().getCompany().equals(symbol))
         .collect(Collectors.toList());
@@ -84,9 +81,9 @@ public class Portfolio {
    * @return true if the portfolio contains the share, false otherwise.
    * @throws NullPointerException if share is null.*/
   public boolean contains(Share share) throws NullPointerException {
-    if (share == null) {
-      throw new NullPointerException("Share cannot be null");
-    }
+
+    Validate.that(share).isNotNull();
+
     return this.shares.contains(share);
   }
 

@@ -1,5 +1,7 @@
 package idi.gruppe07.entities;
 
+import idi.gruppe07.utils.Validate;
+
 import java.math.BigDecimal;
 
 /**
@@ -19,6 +21,10 @@ public class Share {
    * @param purchasePrice The purchase price of the share.
    * */
   public Share(Stock stock, BigDecimal quantity, BigDecimal purchasePrice) {
+
+    Validate.that(stock).isNotNull();
+    Validate.that(quantity).isNotNegative();
+
     this.stock = stock;
     this.quantity = quantity;
     this.purchasePrice = purchasePrice;

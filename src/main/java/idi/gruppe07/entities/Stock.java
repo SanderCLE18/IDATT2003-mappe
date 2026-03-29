@@ -1,5 +1,7 @@
 package idi.gruppe07.entities;
 
+import idi.gruppe07.utils.Validate;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +23,9 @@ public class Stock {
    * @param salesPrice The list of sales prices of the stock.
    * */
   public Stock(String symbol, String company, BigDecimal salesPrice) {
+    Validate.that(symbol).isNotNullOrEmpty();
+    Validate.that(company).isNotNullOrEmpty();
+
     this.symbol = symbol;
     this.company = company;
     this.prices = new ArrayList<>();

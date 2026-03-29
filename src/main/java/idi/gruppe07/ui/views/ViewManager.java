@@ -4,6 +4,7 @@ import idi.gruppe07.ui.event.EventData;
 import idi.gruppe07.ui.event.EventManager;
 import idi.gruppe07.ui.event.EventSubscriber;
 import idi.gruppe07.ui.event.EventType;
+import idi.gruppe07.utils.Validate;
 import javafx.stage.Stage;
 
 import java.util.ArrayDeque;
@@ -123,14 +124,16 @@ public class ViewManager implements EventSubscriber {
   public <T> void handleEvent(final EventData<T> data)  {
     switch (data.eventType()){
       case SCENE_CHANGE -> {
-        if (currentView != null){
-          sceneHistory.push(currentView.getViewName());
-        }
+
+        Validate.that(currentView).isNotNull();
+        sceneHistory.push(currentView.getViewName());
+
       }
       case SCENE_BACK -> {
         if (!sceneHistory.isEmpty()) {
           setScene(new ViewData(sceneHistory.pop()));
         }
+
       }
     }
   }

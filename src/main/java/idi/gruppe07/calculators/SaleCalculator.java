@@ -1,6 +1,8 @@
 package idi.gruppe07.calculators;
 
 import idi.gruppe07.entities.Share;
+import idi.gruppe07.utils.Validate;
+
 import java.math.BigDecimal;
 
 /**
@@ -17,11 +19,9 @@ public class SaleCalculator implements TransactionCalculator {
    *
    * @param share The share to calculate sales for.
    * @throws NullPointerException if share is null.*/
-  public SaleCalculator(Share share) {
+  public SaleCalculator(Share share) throws NullPointerException {
 
-    if (share == null) {
-      throw new NullPointerException("Share cannot be null");
-    }
+    Validate.that(share).isNotNull();
 
     this.purchasePrice = share.getPurchasePrice();
     this.salesPrice = share.getStock().getPrice();

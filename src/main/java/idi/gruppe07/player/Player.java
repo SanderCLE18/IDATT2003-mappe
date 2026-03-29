@@ -2,6 +2,8 @@ package idi.gruppe07.player;
 
 import idi.gruppe07.entities.Portfolio;
 import idi.gruppe07.transactions.TransactionArchive;
+import idi.gruppe07.utils.Validate;
+
 import java.math.BigDecimal;
 
 /** Represents a player. */
@@ -19,6 +21,10 @@ public class Player {
    * @param startingMoney The starting money of the player.
    */
   public Player(String name, BigDecimal startingMoney) {
+
+    Validate.that(name).isNotNullOrEmpty();
+    Validate.that(startingMoney).isNotNegative();
+
     this.name = name;
     this.startingMoney = startingMoney;
     this.money = startingMoney;
