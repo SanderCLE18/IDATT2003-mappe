@@ -8,8 +8,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>idi.gruppe07</groupId>
-    <artifactId>IDATT2003-mappe</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>Millions</artifactId>
+    <version>0.2.1</version>
     <packaging>jar</packaging>
 
     <name>IDATT2003-mappe</name>
@@ -42,12 +42,26 @@
             <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.1</version>
-                <configuration>
-                    <source>25</source>
-                    <target>25</target>
-                </configuration>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.8.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>edu.ntnu.idatt1005.g18.Launcher</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Surefire (JUnit 5 support is built-in) -->
