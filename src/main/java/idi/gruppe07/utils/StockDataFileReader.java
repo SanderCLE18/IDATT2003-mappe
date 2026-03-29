@@ -21,22 +21,22 @@ public class StockDataFileReader {
    * @throws IOException If an I/O error occurs while reading the file.
    * */
   public ArrayList<Stock> readStockData(String filePath) throws IOException, IllegalArgumentException {
-    if (filePath == null || filePath.trim().isEmpty()) {
-      throw new IllegalArgumentException("File path cannot be null or empty.");
-    }
     ArrayList<Stock> stocks = new ArrayList<>();
-    BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
-    String line;
-    while ((line = bufferedReader.readLine()) != null) {
-      if (line.startsWith("#") || line.trim().isEmpty()) {
-        continue; // Skip comments and empty lines
-      }
-      String[] stock = line.split(",");
-      if (stock.length == 3) {
-        stocks.add(new Stock(stock[0].trim(), stock[1].trim(), new BigDecimal(stock[2].trim())));
+    Validate.that(filePath).isNotNullOrEmpty();
+
+    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.startsWith("#") || line.trim().isEmpty()) {
+          continue; // Skip comments and empty lines
+        }
+        String[] stock = line.split(",");
+        if (stock.length == 3) {
+          stocks.add(new Stock(stock[0].trim(), stock[1].trim(), new BigDecimal(stock[2].trim())));
+        }
       }
     }
-    bufferedReader.close();
+
     return stocks;
   }
 

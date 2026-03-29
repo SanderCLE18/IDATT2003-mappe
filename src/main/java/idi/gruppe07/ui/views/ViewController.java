@@ -3,6 +3,7 @@ package idi.gruppe07.ui.views;
 import idi.gruppe07.ui.event.EventData;
 import idi.gruppe07.ui.event.EventManager;
 import idi.gruppe07.ui.event.EventPublisher;
+import idi.gruppe07.utils.Validate;
 
 /**
  * Handles logic and event publishing for {@link ViewElement} objects.
@@ -39,6 +40,8 @@ public abstract class ViewController <T extends ViewElement<?>> implements Event
    * @param eventManager The {@link EventManager} object this controller is associated with.
    */
   protected ViewController(final T viewElement, final EventManager eventManager) {
+    Validate.that(viewElement).isNotNull();
+
     this.viewElement = viewElement;
     this.eventManager = eventManager;
     initInteractions();
