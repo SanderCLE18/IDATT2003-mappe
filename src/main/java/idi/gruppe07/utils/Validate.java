@@ -70,10 +70,11 @@ public class Validate {
       if (bd.compareTo(BigDecimal.ZERO) < 0) {
         throw new IllegalArgumentException("Number cannot be negative!");
       }
+      return this;
     } else if (!(object instanceof Number)) {
       return this;
     }
-    double num = (double) object;
+    double num = Double.parseDouble(object.toString());
     if (num < 0) {
       throw new IllegalArgumentException("Number cannot be negative!");
     }
@@ -92,10 +93,11 @@ public class Validate {
       if (bd.compareTo(BigDecimal.ZERO) != 0) {
         throw new IllegalArgumentException("Number cannot be zero!");
       }
+      return this;
     } else if (!(object instanceof Number)) {
       return this;
     }
-    double num = (double) object;
+    double num = Double.parseDouble(object.toString());
     if (num == 0) {
       throw new IllegalArgumentException("Number cannot be zero!");
     }
