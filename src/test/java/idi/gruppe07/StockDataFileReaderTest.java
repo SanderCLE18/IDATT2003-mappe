@@ -21,7 +21,7 @@ class StockDataFileReaderTest {
 
   @Test
   void testThatExceptionIsThrown() {
-    assertThrows(IllegalArgumentException.class, () -> new StockDataFileReader().readStockData(null));
+    assertThrows(NullPointerException.class, () -> new StockDataFileReader().readStockData(null));
     assertThrows(IllegalArgumentException.class, () -> new StockDataFileReader().readStockData(""));
     assertThrows(FileNotFoundException.class, () -> new StockDataFileReader().readStockData("src/test/resources/sp0.csv"));
 
