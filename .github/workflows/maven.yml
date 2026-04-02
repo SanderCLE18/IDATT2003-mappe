@@ -5,6 +5,7 @@ on:
     branches: [ "main", "Part-3-Dev-Branch", "Part-2-Dev-Branch" ]
   pull_request:
     branches: [ "main", "Part-3-Dev-Branch", "Part-2-Dev-Branch" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -41,7 +42,9 @@ jobs:
 
       # This block handles the patch bump for dev (v0.0.x)
       - name: Auto-tag Dev (Patch)
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/Part-3-Dev-Branch' || github.ref == 'refs/heads/Part-2-Dev-Branch')
+        if: |
+          github.event_name == 'workflow_dispatch' || 
+          (github.event_name == 'push' && contains(github.ref, 'Dev-Branch'))
         uses: anothrNick/github-tag-action@1.64.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
