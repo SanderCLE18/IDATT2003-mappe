@@ -4,7 +4,8 @@ import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.ui.views.ViewController;
 import idi.gruppe07.ui.views.ViewElement;
 import idi.gruppe07.ui.views.ViewManager;
-import idi.gruppe07.ui.views.startscreen.panes.StartScreenNewGamePane;
+import idi.gruppe07.ui.views.startscreen.panes.LoadGamePane;
+import idi.gruppe07.ui.views.startscreen.panes.NewGamePane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -59,7 +60,8 @@ public class StartScreenView extends ViewElement<StackPane> {
   }
 
 
-  private StartScreenNewGamePane newGamePane;
+  private NewGamePane newGamePane;
+  private LoadGamePane loadGamePane;
   // ── ViewElement contract ─────────────────────────────────────────────────
 
   @Override
@@ -85,11 +87,11 @@ public class StartScreenView extends ViewElement<StackPane> {
     titleLabel.getStyleClass().add("title-label");
 
     // ── Menu buttons ─────────────────────────────────────────────────────
-    newGameButton  = new MenuButton("▶   NEW_GAME",  "menu-button-primary");
-    loadGameButton = new MenuButton("⊡   LOAD_GAME", "menu-button");
+    newGameButton  =    new MenuButton("▶   NEW_GAME",  "menu-button-primary");
+    loadGameButton =    new MenuButton("⊡   LOAD_GAME", "menu-button");
     multiplayerButton = new MenuButton("\uD83D\uDC65   MULTIPLAYER", "menu-button");
-    settingsButton = new MenuButton("≡   SETTINGS",  "menu-button");
-    exitButton = new MenuButton("EXIT", "menu-button");
+    settingsButton =    new MenuButton("≡   SETTINGS",  "menu-button");
+    exitButton =        new MenuButton("∅   EXIT", "menu-button");
 
     newGameButton.prefWidthProperty().bind(getRootPane().widthProperty().multiply(0.4));
     loadGameButton.prefWidthProperty().bind(getRootPane().widthProperty().multiply(0.4));
@@ -133,8 +135,9 @@ public class StartScreenView extends ViewElement<StackPane> {
 
     getRootPane().getChildren().addAll(leftWidget, rightWidget, footer, centerBox);
 
-    newGamePane = new StartScreenNewGamePane();
-    getRootPane().getChildren().add(newGamePane);
+    newGamePane = new NewGamePane();
+    loadGamePane = new LoadGamePane();
+    getRootPane().getChildren().addAll(newGamePane, loadGamePane);
 
   }
 
@@ -226,8 +229,12 @@ public class StartScreenView extends ViewElement<StackPane> {
     return corner;
   }
 
-  public StartScreenNewGamePane getNewGamePane() {
+  public NewGamePane getNewGamePane() {
     return newGamePane;
+  }
+
+  public LoadGamePane getLoadGamePane() {
+    return loadGamePane;
   }
 }
 

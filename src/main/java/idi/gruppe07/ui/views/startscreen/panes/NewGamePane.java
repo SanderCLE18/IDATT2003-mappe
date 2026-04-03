@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class StartScreenNewGamePane extends VBox {
+public class NewGamePane extends VBox {
   private final TextField nameInput;
   private final TextField startingCash;
   private final TextField gameName;
@@ -16,7 +16,7 @@ public class StartScreenNewGamePane extends VBox {
   private final Button cancelButton;
 
 
-  public StartScreenNewGamePane() {
+  public NewGamePane() {
     super(20);
 
     this.setAlignment(Pos.CENTER);

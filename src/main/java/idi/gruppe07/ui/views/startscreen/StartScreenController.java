@@ -95,8 +95,12 @@ public class StartScreenController extends ViewController<StartScreenView> {
       navigateTo("dashboardGameScreen");  // Må erstattes med  faktisk scene
     });
     getViewElement().getLoadGameButton().setOnAction(e -> {
+      getViewElement().getLoadGamePane().show();
       navigateTo("dashboardGameScreen");
       this.getSession().setSavefile("");
+    });
+    getViewElement().getLoadGamePane().getCancelButton().setOnAction(e -> {
+      getViewElement().getLoadGamePane().hide();
     });
 
     getViewElement().getMultiplayerButton().setOnAction(e -> {
