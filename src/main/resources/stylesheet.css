@@ -153,3 +153,17 @@
     -fx-min-width: 30px;
     -fx-opacity:   0.5;
 }
+.start-screen-panel {
+    -fx-background-color: rgba(11, 24, 40, 0.98);
+    -fx-border-color:      #1e3a54;
+    -fx-border-width:      1px;
+    -fx-border-radius:     2px;
+    -fx-background-radius: 2px;
+    -fx-padding:           10 12 10 12;
+
+}
+
+.start-screen-list {
+    -fx-background-color: rgba(22, 43, 77, 0.8);
+    -fx-border-color:      #1e3a54;
+}

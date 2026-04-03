@@ -6,6 +6,7 @@ import idi.gruppe07.ui.views.ViewElement;
 import idi.gruppe07.ui.views.ViewManager;
 import idi.gruppe07.ui.views.startscreen.panes.LoadGamePane;
 import idi.gruppe07.ui.views.startscreen.panes.NewGamePane;
+import idi.gruppe07.ui.views.startscreen.panes.OnlineGamePane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -62,6 +63,7 @@ public class StartScreenView extends ViewElement<StackPane> {
 
   private NewGamePane newGamePane;
   private LoadGamePane loadGamePane;
+  private OnlineGamePane onlineGamePane;
   // ── ViewElement contract ─────────────────────────────────────────────────
 
   @Override
@@ -137,7 +139,9 @@ public class StartScreenView extends ViewElement<StackPane> {
 
     newGamePane = new NewGamePane();
     loadGamePane = new LoadGamePane();
-    getRootPane().getChildren().addAll(newGamePane, loadGamePane);
+    onlineGamePane = new OnlineGamePane();
+
+    getRootPane().getChildren().addAll(newGamePane, loadGamePane, onlineGamePane);
 
   }
 
@@ -235,6 +239,10 @@ public class StartScreenView extends ViewElement<StackPane> {
 
   public LoadGamePane getLoadGamePane() {
     return loadGamePane;
+  }
+
+  public OnlineGamePane getOnlineGamePane() {
+    return onlineGamePane;
   }
 }
 

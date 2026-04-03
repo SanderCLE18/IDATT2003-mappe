@@ -9,24 +9,22 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class LoadGamePane extends VBox {
+public class OnlineGamePane extends VBox {
 
   private static final String SAVE_SUFFIX = ".sav"; // Change to your suffix
   private static final String SAVE_DIRECTORY = "saves"; // Change to your directory
 
   private final VBox listContainer;
   private final Button cancelButton;
-  private final Button loadButton;
+  private final Button connectButton;
 
   private SaveFileButton selectedButton = null;
 
-  public LoadGamePane() {
+  public OnlineGamePane() {
     super(20);
 
     this.setAlignment(Pos.CENTER);
@@ -35,7 +33,7 @@ public class LoadGamePane extends VBox {
     this.setMaxSize(400, 600);
 
     // --- Title ---
-    Label titleLabel = new Label("LOAD_GAME");
+    Label titleLabel = new Label("CONNECT_TO_LOBBY");
     titleLabel.getStyleClass().add("bolt-label");
 
     // --- Scrollable list ---
@@ -56,13 +54,13 @@ public class LoadGamePane extends VBox {
 
 
     cancelButton = new MenuButton("CANCEL");
-    loadButton = new MenuButton("LOAD");
+    connectButton = new MenuButton("C∅NNECT");
     cancelButton.setMaxWidth(Double.MAX_VALUE);
-    loadButton.setMaxWidth(Double.MAX_VALUE);
+    connectButton.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(cancelButton, Priority.ALWAYS);
-    HBox.setHgrow(loadButton, Priority.ALWAYS);
+    HBox.setHgrow(connectButton, Priority.ALWAYS);
 
-    HBox controlWrapper = new HBox(5, cancelButton, loadButton);
+    HBox controlWrapper = new HBox(5, cancelButton, connectButton);
     this.getChildren().addAll(titleLabel, scrollPane, controlWrapper);
 
     this.setVisible(false);
@@ -78,49 +76,23 @@ public class LoadGamePane extends VBox {
   public void refresh() {
     listContainer.getChildren().clear();
 
-    List<File> saves = findSaveFiles();
+    List<Object> lobbies = findLobbies();
 
-    if (saves.isEmpty()) {
-      SaveFileButton entry = new SaveFileButton("No games found...");
+    if (lobbies.isEmpty()) {
+      SaveFileButton entry = new SaveFileButton("No lobbies found...");
       entry.setMaxWidth(Double.MAX_VALUE);
       listContainer.getChildren().add(entry);
     } else {
-      for (File save : saves) {
-        SaveFileButton entry = new SaveFileButton(save.getName());
-        entry.setMaxWidth(Double.MAX_VALUE);
-        entry.setOnAction(e -> {
-          if(selectedButton != null){
-            selectedButton.deselect();
-          }
-          selectedButton = (SaveFileButton) e.getSource();
-          entry.select();
-        });
-        listContainer.getChildren().add(entry);
+      for (Object obj : lobbies) {
+        //TODO: Implement multiplayer lobby selection
       }
     }
   }
 
   /** Returns all files in SAVE_DIRECTORY that end with SAVE_SUFFIX. */
-  private List<File> findSaveFiles() {
-    List<File> result = new ArrayList<>();
+  private List<Object> findLobbies() {
+    List<Object> result = new ArrayList<>();
 
-    File dir = new File(SAVE_DIRECTORY);
-
-    if(!dir.exists()){
-      boolean succ = dir.mkdirs();
-      if(!succ) {
-        System.err.println("Failed to create directory");
-      }
-    }
-
-    if (dir.isDirectory()) {
-      File[] files = dir.listFiles(
-          (d, name) -> name.endsWith(SAVE_SUFFIX)
-      );
-      if (files != null) {
-        for (File f : files) result.add(f);
-      }
-    }
     return result;
   }
 
@@ -132,8 +104,8 @@ public class LoadGamePane extends VBox {
     return selectedButton.getSave();
   }
 
-  public Button getLoadButton() {
-    return loadButton;
+  public Button getConnectButton() {
+    return connectButton;
   }
   public SaveFileButton getSelectedButton() {
     if(selectedButton == null){

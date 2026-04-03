@@ -9,6 +9,7 @@ import idi.gruppe07.ui.views.ViewController;
 import idi.gruppe07.ui.views.ViewManager;
 import idi.gruppe07.ui.views.ViewElement;
 import idi.gruppe07.ui.views.ViewData;
+import idi.gruppe07.ui.views.startscreen.panes.LoadGamePane;
 import idi.gruppe07.utils.Validate;
 
 import java.math.BigDecimal;
@@ -96,17 +97,37 @@ public class StartScreenController extends ViewController<StartScreenView> {
     });
     getViewElement().getLoadGameButton().setOnAction(e -> {
       getViewElement().getLoadGamePane().show();
-      navigateTo("dashboardGameScreen");
-      this.getSession().setSavefile("");
     });
     getViewElement().getLoadGamePane().getCancelButton().setOnAction(e -> {
       getViewElement().getLoadGamePane().hide();
     });
+    getViewElement().getLoadGamePane().getLoadButton().setOnAction(e -> {
 
-    getViewElement().getMultiplayerButton().setOnAction(e -> {
+      LoadGamePane pane = getViewElement().getLoadGamePane();
+      if(pane.getSelectedButton() == null){
+        return;
+      }
+
+      getSession().setSavefile(getViewElement().getLoadGamePane().getSelectedSave());
+      navigateTo("dashboardGameScreen");
+      getViewElement().getLoadGamePane().hide();
 
     });
+    getViewElement().getMultiplayerButton().setOnAction(e -> {
+      getViewElement().getOnlineGamePane().show();
+    });
 
+    getViewElement().getOnlineGamePane().getCancelButton().setOnAction(e -> {
+      getViewElement().getOnlineGamePane().hide();
+    });
+    getViewElement().getOnlineGamePane().getConnectButton().setOnAction(e -> {
+      if (getViewElement().getOnlineGamePane().getSelectedButton() == null) {
+        return;
+      }
+
+      getViewElement().getOnlineGamePane().hide();
+      navigateTo("dashboardGameScreen");
+    });
 
     getViewElement().getSettingsButton().setOnAction(e -> {
 
