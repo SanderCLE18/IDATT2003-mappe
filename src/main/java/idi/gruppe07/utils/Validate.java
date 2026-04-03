@@ -90,7 +90,7 @@ public class Validate {
    */
   public Validate isNotZero() throws IllegalArgumentException {
     if (object instanceof BigDecimal bd) {
-      if (bd.compareTo(BigDecimal.ZERO) != 0) {
+      if (bd.compareTo(BigDecimal.ZERO) == 0) {
         throw new IllegalArgumentException("Number cannot be zero!");
       }
       return this;
@@ -100,6 +100,19 @@ public class Validate {
     double num = Double.parseDouble(object.toString());
     if (num == 0) {
       throw new IllegalArgumentException("Number cannot be zero!");
+    }
+    return this;
+  }
+
+  public Validate isValidNumber() throws IllegalArgumentException {
+    if (object == null) {
+      throw new IllegalArgumentException("Object cannot be null!");
+    }
+
+    try{
+      new BigDecimal(object.toString());
+    }catch(NumberFormatException e){
+      throw new IllegalArgumentException("Object is not a valid number!");
     }
     return this;
   }

@@ -93,6 +93,13 @@ public abstract class ViewController <T extends ViewElement<?>> implements Event
     eventManager.invokeEvent(data);
   }
 
+  /**
+   * Getter method for the session.
+   *
+   * @return the {@link Session} object.*/
+  public Session getSession() {
+    return session;
+  }
 
 
 
