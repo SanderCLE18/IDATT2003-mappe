@@ -1,6 +1,6 @@
 package idi.gruppe07.ui.views.startscreen.panes;
 
-import idi.gruppe07.ui.session.Session;
+import idi.gruppe07.ui.views.startscreen.MenuButton;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

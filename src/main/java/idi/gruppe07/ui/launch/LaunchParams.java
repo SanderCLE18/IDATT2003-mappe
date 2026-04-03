@@ -25,9 +25,7 @@ public final class LaunchParams extends Application {
     viewManager.addView(startScreenView);
 
     stage.setScene(
-        new Scene(
-            new StackPane(),720, 480
-        )
+        new Scene(new StackPane(),720, 480)
     );
 
     stage.setMinWidth(720);

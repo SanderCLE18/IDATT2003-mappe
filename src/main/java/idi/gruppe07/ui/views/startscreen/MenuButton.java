@@ -1,4 +1,4 @@
-package idi.gruppe07.ui.views.startscreen.panes;
+package idi.gruppe07.ui.views.startscreen;
 
 import idi.gruppe07.utils.Validate;
 import javafx.scene.control.Button;

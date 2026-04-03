@@ -40,6 +40,7 @@ public class StartScreenView extends ViewElement<StackPane> {
   private Button loadGameButton;
   private Button multiplayerButton;
   private Button settingsButton;
+  private Button exitButton;
   // ── Constructor ──────────────────────────────────────────────────────────
 
   /**
@@ -84,17 +85,19 @@ public class StartScreenView extends ViewElement<StackPane> {
     titleLabel.getStyleClass().add("title-label");
 
     // ── Menu buttons ─────────────────────────────────────────────────────
-    newGameButton  = buildButton("▶   NEW_GAME",  "menu-button-primary");
-    loadGameButton = buildButton("⊡   LOAD_GAME", "menu-button");
-    multiplayerButton = buildButton("\uD83D\uDC65   MULTIPLAYER", "menu-button");
-    settingsButton = buildButton("≡   SETTINGS",  "menu-button");
+    newGameButton  = new MenuButton("▶   NEW_GAME",  "menu-button-primary");
+    loadGameButton = new MenuButton("⊡   LOAD_GAME", "menu-button");
+    multiplayerButton = new MenuButton("\uD83D\uDC65   MULTIPLAYER", "menu-button");
+    settingsButton = new MenuButton("≡   SETTINGS",  "menu-button");
+    exitButton = new MenuButton("EXIT", "menu-button");
 
     newGameButton.prefWidthProperty().bind(getRootPane().widthProperty().multiply(0.4));
     loadGameButton.prefWidthProperty().bind(getRootPane().widthProperty().multiply(0.4));
     multiplayerButton.prefWidthProperty().bind(getRootPane().widthProperty().multiply(0.4));
     settingsButton.prefWidthProperty().bind(getRootPane().widthProperty().multiply(0.4));
+    exitButton.prefWidthProperty().bind(getRootPane().widthProperty().multiply(0.4));
 
-    VBox buttonBox = new VBox(12, newGameButton, loadGameButton, multiplayerButton, settingsButton);
+    VBox buttonBox = new VBox(12, newGameButton, loadGameButton, multiplayerButton, settingsButton, exitButton);
     buttonBox.setAlignment(Pos.CENTER);
     buttonBox.getStyleClass().add("button-box");
 
@@ -175,6 +178,12 @@ public class StartScreenView extends ViewElement<StackPane> {
     return settingsButton;
   }
 
+  /**
+   * @return the "Exit" button.
+   */
+  public Button getExitButton() {
+    return exitButton;
+  }
   /***
    * @param controller the controller to set.
    */
@@ -189,14 +198,7 @@ public class StartScreenView extends ViewElement<StackPane> {
     return (StartScreenController) controller;
   }
 
-  // ── Private helpers ──────────────────────────────────────────────────────
-
-  private Button buildButton(final String text, final String... styleClasses) {
-    Button btn = new Button(text);
-    btn.getStyleClass().add("menu-button");
-    btn.getStyleClass().addAll(styleClasses);
-    return btn;
-  }
+  // ── Private helpers ────────────────────────────────────────────────────
 
   /** Small decorative panel on the right side mimicking a live feed widget. */
   private VBox buildSideWidget() {

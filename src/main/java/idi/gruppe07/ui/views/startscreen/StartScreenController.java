@@ -25,19 +25,6 @@ import java.math.BigDecimal;
  */
 public class StartScreenController extends ViewController<StartScreenView> {
 
-  // ── Scene-name constants ─────────────────────────────────────────────────
-
-  /** Target scene navigated to when "New Game" is pressed. */
-  public static final String NEW_GAME_SCENE   = "newGameScreen";
-
-  /** Target scene navigated to when "Load Game" is pressed. */
-  public static final String LOAD_GAME_SCENE  = "loadGameScreen";
-
-  /** Target scene navigated to when "Multiplayer" is pressed. */
-  public static final String MULTIPLAYER_SCENE = "multiplayerScreen";
-
-  /** Target scene navigated to when "Settings" is pressed. */
-  public static final String SETTINGS_SCENE   = "settingsScreen";
 
   // ── Constructors ─────────────────────────────────────────────────────────
 
@@ -105,20 +92,23 @@ public class StartScreenController extends ViewController<StartScreenView> {
       Player player = new Player(getViewElement().getNewGamePane().getName(), cash);
       getSession().setPlayer(player);
       getViewElement().getNewGamePane().hide();
-      navigateTo(NEW_GAME_SCENE);  // Må erstattes med  faktisk scene
+      navigateTo("dashboardGameScreen");  // Må erstattes med  faktisk scene
     });
-    getViewElement().getLoadGameButton().setOnAction(e ->
-        navigateTo(LOAD_GAME_SCENE)
-    );
+    getViewElement().getLoadGameButton().setOnAction(e -> {
+      navigateTo("dashboardGameScreen");
+      this.getSession().setSavefile("");
+    });
 
-    getViewElement().getMultiplayerButton().setOnAction(e ->
-        navigateTo(MULTIPLAYER_SCENE)
-    );
+    getViewElement().getMultiplayerButton().setOnAction(e -> {
+
+    });
 
 
-    getViewElement().getSettingsButton().setOnAction(e ->
-        navigateTo(SETTINGS_SCENE)
-    );
+    getViewElement().getSettingsButton().setOnAction(e -> {
+
+    });
+
+    getViewElement().getExitButton().setOnAction(e -> System.exit(0));
   }
 
   // ── Private helpers ──────────────────────────────────────────────────────
