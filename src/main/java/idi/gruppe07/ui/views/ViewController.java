@@ -3,6 +3,7 @@ package idi.gruppe07.ui.views;
 import idi.gruppe07.ui.event.EventData;
 import idi.gruppe07.ui.event.EventManager;
 import idi.gruppe07.ui.event.EventPublisher;
+import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.utils.Validate;
 
 /**
@@ -34,6 +35,11 @@ public abstract class ViewController <T extends ViewElement<?>> implements Event
   private T viewElement;
 
   /**
+   * Stored session object.
+   */
+  private Session session;
+
+  /**
    * ViewController constructor.
    *
    * @param viewElement The {@link ViewElement} object this controller is attached to.
@@ -45,6 +51,18 @@ public abstract class ViewController <T extends ViewElement<?>> implements Event
     this.viewElement = viewElement;
     this.eventManager = eventManager;
     initInteractions();
+  }
+
+  /**
+   * ViewController constructor.
+   *
+   * @param viewElement The {@link ViewElement} object this controller is attached to.
+   * @param eventManager The {@link EventManager} object this controller is associated with.
+   * @param session The {@link Session} object this controller is associated with.
+   * */
+  protected ViewController(final T viewElement, final EventManager eventManager, final Session session) {
+    this(viewElement, eventManager);
+    this.session = session;
   }
 
   /**

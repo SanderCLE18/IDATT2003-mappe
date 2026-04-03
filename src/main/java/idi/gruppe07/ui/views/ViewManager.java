@@ -4,6 +4,7 @@ import idi.gruppe07.ui.event.EventData;
 import idi.gruppe07.ui.event.EventManager;
 import idi.gruppe07.ui.event.EventSubscriber;
 import idi.gruppe07.ui.event.EventType;
+import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.utils.Validate;
 import javafx.stage.Stage;
 
@@ -35,6 +36,11 @@ public class ViewManager implements EventSubscriber {
   private final Stage stage;
 
   /**
+   * The session of the application.
+   * @see Session*/
+  private final Session session = new Session();
+
+  /**
    * Current view.*/
   private ViewElement<?> currentView;
 
@@ -43,11 +49,11 @@ public class ViewManager implements EventSubscriber {
    *
    * @param stage        the {@link Stage} object this application is running on.
    * @param eventManager the {@link EventManager} used by this application.
-   *
    */
   public ViewManager(final Stage stage, final EventManager eventManager) {
     this.viewMap = new HashMap<>();
     sceneHistory = new ArrayDeque<>();
+
     eventManager.addSubscriber(this, EventType.SCENE_CHANGE);
     eventManager.addSubscriber(this, EventType.SCENE_BACK);
 
@@ -136,5 +142,13 @@ public class ViewManager implements EventSubscriber {
 
       }
     }
+  }
+
+  /**
+   * Getter for the session.
+   *
+   * @return the session.*/
+  public Session getSession() {
+    return session;
   }
 }
