@@ -153,6 +153,7 @@
     -fx-min-width: 30px;
     -fx-opacity:   0.5;
 }
+/*StartScreen panels*/
 .start-screen-panel {
     -fx-background-color: rgba(11, 24, 40, 0.98);
     -fx-border-color:      #1e3a54;
@@ -166,4 +167,27 @@
 .start-screen-list {
     -fx-background-color: rgba(22, 43, 77, 0.8);
     -fx-border-color:      #1e3a54;
+}
+/* The scrollbar insine startscreen */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: #0b1828; /* Matches your .menu-button color */
+    -fx-width: 12px;
+}
+
+/* The actual bar */
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #1e3a54; /* Matches your border color */
+    -fx-background-radius: 5px;
+}
+
+/* bar hover state */
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #3a8fd4; /* Matches your button hover text */
+}
+
+/* Hide the arrow buttons */
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-padding: 0;
+    -fx-shape: "";
 }

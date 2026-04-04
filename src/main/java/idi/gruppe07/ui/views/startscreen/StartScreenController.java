@@ -27,8 +27,6 @@ import java.math.BigDecimal;
 public class StartScreenController extends ViewController<StartScreenView> {
 
 
-  // ── Constructors ─────────────────────────────────────────────────────────
-
   /**
    * Constructs a {@code StartScreenController} without a session.
    *
@@ -53,7 +51,6 @@ public class StartScreenController extends ViewController<StartScreenView> {
     super(view, eventManager, session);
   }
 
-  // ── ViewController contract ──────────────────────────────────────────────
 
   /**
    * Registers action handlers on all three menu buttons.
@@ -135,8 +132,6 @@ public class StartScreenController extends ViewController<StartScreenView> {
 
     getViewElement().getExitButton().setOnAction(e -> System.exit(0));
   }
-
-  // ── Private helpers ──────────────────────────────────────────────────────
 
   /**
    * Fires a {@code SCENE_CHANGE} event for the given scene name.

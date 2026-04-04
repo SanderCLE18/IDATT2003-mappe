@@ -8,14 +8,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Pane for creating a new game, purely visual.*/
 public class NewGamePane extends VBox {
-  private final TextField nameInput;
-  private final TextField startingCash;
-  private final TextField gameName;
-  private final Button startButton;
-  private final Button cancelButton;
 
+  /**The textfields used for input*/
+  private final TextField nameInput, startingCash, gameName;
 
+  /**Buttons for starting or hiding the new game pane*/
+  private final Button startButton, cancelButton;
+
+  /**Constructs a new {@code NewGamePane}*/
   public NewGamePane() {
     super(20);
 
@@ -55,43 +58,53 @@ public class NewGamePane extends VBox {
     this.setManaged(false);
   }
 
+  /**@return the name of the game*/
   public String getName(){
     return nameInput.getText();
   }
 
+  /**@return the textfield for the name of the game*/
   public TextField getNameInput(){
     return nameInput;
   }
 
+  /**@return the starting cash of the game*/
   public String getStartingCash(){
     return startingCash.getText();
   }
 
+  /**@return the textfield for the starting cash of the game*/
   public TextField getStartingCashInput(){
     return startingCash;
   }
 
-
+  /**@return the name of the save file*/
   public String getGameName(){
     return gameName.getText();
   }
 
+  /**@return the textfield for the save file name*/
   public TextField getGameNameInput(){
     return gameName;
   }
 
+  /**@return the start button*/
   public Button getStartButton(){
     return startButton;
   }
 
+  /**@return the cancel button*/
   public Button getCancelButton(){
     return cancelButton;
   }
 
+  /**Shows the new game pane*/
   public void show(){
     this.setVisible(true);
     this.setManaged(true);
   }
+
+  /**Hides the new game pane*/
   public void hide(){
     this.setVisible(false);
     this.setManaged(false);

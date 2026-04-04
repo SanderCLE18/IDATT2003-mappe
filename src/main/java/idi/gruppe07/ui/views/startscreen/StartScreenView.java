@@ -34,16 +34,17 @@ public class StartScreenView extends ViewElement<StackPane> {
   /** The scene name identifier used by {@link ViewManager}. */
   public static final String VIEW_NAME = "StartScreen";
 
+  /**
+   * The controller for this view.
+   * */
   private ViewController controller;
 
-  // ── Buttons ──────────────────────────────────────────────────────────────
 
-  private Button newGameButton;
-  private Button loadGameButton;
-  private Button multiplayerButton;
-  private Button settingsButton;
-  private Button exitButton;
-  // ── Constructor ──────────────────────────────────────────────────────────
+  /**
+   * Buttons on the main menu.*/
+  private Button newGameButton, loadGameButton, multiplayerButton, settingsButton, exitButton;
+
+
 
   /**
    * Constructs a new {@code StartScreenView}.
@@ -61,17 +62,22 @@ public class StartScreenView extends ViewElement<StackPane> {
   }
 
 
+  /**The new game pane for the main menu.*/
   private NewGamePane newGamePane;
+  /**The load game pane for the main menu.*/
   private LoadGamePane loadGamePane;
+  /**The online game pane for the main menu.*/
   private OnlineGamePane onlineGamePane;
-  // ── ViewElement contract ─────────────────────────────────────────────────
 
+
+  /**
+   * Initializes the layout of the view.*/
   @Override
   protected void initLayout() {
     getRootPane().getStyleClass().add("root-pane");
 
-    // ── Logo icon ────────────────────────────────────────────────────────
-    // Two stacked server-bar shapes with a lightning bolt, built from Panes
+
+
     Pane serverBar1 = new Pane();
     serverBar1.getStyleClass().add("server-bar");
 
@@ -84,11 +90,13 @@ public class StartScreenView extends ViewElement<StackPane> {
     StackPane logoIcon = new StackPane(serverBar1, serverBar2, boltLabel);
     logoIcon.getStyleClass().add("logo-icon");
 
-    // ── Title ────────────────────────────────────────────────────────────
+
+
     Label titleLabel = new Label("MILLIONS");
     titleLabel.getStyleClass().add("title-label");
 
-    // ── Menu buttons ─────────────────────────────────────────────────────
+
+
     newGameButton  =    new MenuButton("▶   NEW_GAME",  "menu-button-primary");
     loadGameButton =    new MenuButton("⊡   LOAD_GAME", "menu-button");
     multiplayerButton = new MenuButton("\uD83D\uDC65   MULTIPLAYER", "menu-button");
@@ -105,12 +113,14 @@ public class StartScreenView extends ViewElement<StackPane> {
     buttonBox.setAlignment(Pos.CENTER);
     buttonBox.getStyleClass().add("button-box");
 
-    // ── Center column ────────────────────────────────────────────────────
+
+
     VBox centerBox = new VBox(32, logoIcon, titleLabel, buttonBox);
     centerBox.setAlignment(Pos.CENTER);
     centerBox.getStyleClass().add("center-box");
 
-    // ── Footer ───────────────────────────────────────────────────────────
+
+
     Label secureLabel = new Label("◀◀  SECURE CHANNEL");
     secureLabel.getStyleClass().add("footer-label");
 
@@ -124,7 +134,8 @@ public class StartScreenView extends ViewElement<StackPane> {
     footer.getStyleClass().add("footer-bar");
     StackPane.setAlignment(footer, Pos.BOTTOM_CENTER);
 
-    // ── Decorative side widgets ──────────────────────────────────────────
+
+
     VBox rightWidget = buildSideWidget();
     StackPane.setAlignment(rightWidget, Pos.CENTER_RIGHT);
 
@@ -146,6 +157,8 @@ public class StartScreenView extends ViewElement<StackPane> {
   }
 
 
+  /**
+   * Applies styling to the view.*/
   @Override
   protected void initStyling() {
     getRootPane().getStylesheets().add(
@@ -155,8 +168,6 @@ public class StartScreenView extends ViewElement<StackPane> {
         ).toExternalForm()
     );
   }
-
-  // ── Public accessors ─────────────────────────────────────────────────────
 
   /**
    * @return the "New Game" button.
@@ -191,7 +202,8 @@ public class StartScreenView extends ViewElement<StackPane> {
   public Button getExitButton() {
     return exitButton;
   }
-  /***
+
+  /**
    * @param controller the controller to set.
    */
   public void setController(StartScreenController controller) {
@@ -205,9 +217,23 @@ public class StartScreenView extends ViewElement<StackPane> {
     return (StartScreenController) controller;
   }
 
-  // ── Private helpers ────────────────────────────────────────────────────
+  /**@return the new game pane.*/
+  public NewGamePane getNewGamePane() {
+    return newGamePane;
+  }
 
-  /** Small decorative panel on the right side mimicking a live feed widget. */
+  /**@return the load game pane.*/
+  public LoadGamePane getLoadGamePane() {
+    return loadGamePane;
+  }
+
+  /**@return the online game pane.*/
+  public OnlineGamePane getOnlineGamePane() {
+    return onlineGamePane;
+  }
+
+
+  /** Small decorative widget. */
   private VBox buildSideWidget() {
     Label header = new Label("● LIVE FEED ACTIVE");
     header.getStyleClass().add("widget-header");
@@ -233,16 +259,6 @@ public class StartScreenView extends ViewElement<StackPane> {
     return corner;
   }
 
-  public NewGamePane getNewGamePane() {
-    return newGamePane;
-  }
 
-  public LoadGamePane getLoadGamePane() {
-    return loadGamePane;
-  }
-
-  public OnlineGamePane getOnlineGamePane() {
-    return onlineGamePane;
-  }
 }
 

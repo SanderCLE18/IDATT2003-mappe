@@ -13,17 +13,25 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Pane for connecting to an existing game, purely visual. Currently defunct*/
 public class OnlineGamePane extends VBox {
 
-  private static final String SAVE_SUFFIX = ".sav"; // Change to your suffix
-  private static final String SAVE_DIRECTORY = "saves"; // Change to your directory
+  /**The suffix of the save files.*/
+  private static final String SAVE_SUFFIX = ".sav";
+  /**The directory where the save files are stored.*/
+  private static final String SAVE_DIRECTORY = "saves";
 
+  /**List container for the save files.*/
   private final VBox listContainer;
-  private final Button cancelButton;
-  private final Button connectButton;
 
+  /**Buttons for cancel and connect.*/
+  private final Button cancelButton, connectButton;
+
+  /**Selected lobby, to be changed.*/
   private SaveFileButton selectedButton = null;
 
+  /** Constructor for OnlineGamePane. Initializes the layout and populates the list.*/
   public OnlineGamePane() {
     super(20);
 
@@ -67,6 +75,13 @@ public class OnlineGamePane extends VBox {
     this.setManaged(false);
   }
 
+  /** Functions for finding lobbies. Currently unimplemented.*/
+  private List<Object> findLobbies() {
+    List<Object> result = new ArrayList<>();
+
+    return result;
+  }
+
   /**
    * Scans the save directory for files with the configured suffix and
    * populates the list.
@@ -89,40 +104,39 @@ public class OnlineGamePane extends VBox {
     }
   }
 
-  /** Returns all files in SAVE_DIRECTORY that end with SAVE_SUFFIX. */
-  private List<Object> findLobbies() {
-    List<Object> result = new ArrayList<>();
-
-    return result;
+  /**Shows the pane.*/
+  public void show() {
+    refresh();
+    this.setVisible(true);
+    this.setManaged(true);
   }
 
+  /**Hides the pane. Also deselects the currently selected lobby*/
+  public void hide() {
+    this.setVisible(false);
+    this.setManaged(false);
+    this.selectedButton = null;
+  }
+
+  /**@return the cancel button.*/
   public Button getCancelButton() {
     return cancelButton;
   }
-
+  /**@return the selected save file.*/
   public String getSelectedSave(){
     return selectedButton.getSave();
   }
 
+  /**@return the connect button.*/
   public Button getConnectButton() {
     return connectButton;
   }
+
+  /**@return the currently selected save file button.*/
   public SaveFileButton getSelectedButton() {
     if(selectedButton == null){
       return null;
     }
     return selectedButton;
-  }
-
-  public void show() {
-    refresh(); // Always re-scan when opening
-    this.setVisible(true);
-    this.setManaged(true);
-  }
-
-  public void hide() {
-    this.setVisible(false);
-    this.setManaged(false);
-    this.selectedButton = null;
   }
 }

@@ -12,20 +12,30 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+/**
+ * Pane for loading a game, purely visual. Logic is handled in StartScreenController*/
 public class LoadGamePane extends VBox {
 
-  private static final String SAVE_SUFFIX = ".sav"; // Change to your suffix
-  private static final String SAVE_DIRECTORY = "saves"; // Change to your directory
+  /**The suffix of the save files.*/
+  private static final String SAVE_SUFFIX = ".sav";
+  /**The directory where the save files are stored.*/
 
+  private static final String SAVE_DIRECTORY = "saves";
+
+  /**List container for the save files.*/
   private final VBox listContainer;
-  private final Button cancelButton;
-  private final Button loadButton;
 
+  /**Buttons for cancel and load.*/
+  private final Button cancelButton, loadButton;
+
+  /**The currently selected save file button.*/
   private SaveFileButton selectedButton = null;
 
+  /**
+   * Constructor for LoadGamePane.
+   * Initializes the layout and populates the list.*/
   public LoadGamePane() {
     super(20);
 
@@ -34,11 +44,13 @@ public class LoadGamePane extends VBox {
     this.setPrefSize(200, 300);
     this.setMaxSize(400, 600);
 
-    // --- Title ---
+
+
     Label titleLabel = new Label("LOAD_GAME");
     titleLabel.getStyleClass().add("bolt-label");
 
-    // --- Scrollable list ---
+
+
     listContainer = new VBox();
     listContainer.setAlignment(Pos.TOP_CENTER);
     listContainer.getStyleClass().add("start-screen-list");
@@ -70,10 +82,8 @@ public class LoadGamePane extends VBox {
   }
 
   /**
-   * Scans the save directory for files with the configured suffix and
-   * populates the list.
-   * Shows "No games found..." when the directory is
-   * empty or missing.
+   * Scans the save directory for files with the configured suffix and populates the list.
+   * Shows "No games found..." when the directory isempty or missing.
    */
   public void refresh() {
     listContainer.getChildren().clear();
@@ -100,7 +110,7 @@ public class LoadGamePane extends VBox {
     }
   }
 
-  /** Returns all files in SAVE_DIRECTORY that end with SAVE_SUFFIX. */
+  /** @return all files in SAVE_DIRECTORY that end with SAVE_SUFFIX. */
   private List<File> findSaveFiles() {
     List<File> result = new ArrayList<>();
 
@@ -124,17 +134,22 @@ public class LoadGamePane extends VBox {
     return result;
   }
 
+  /**@return the cancel button.*/
   public Button getCancelButton() {
     return cancelButton;
   }
 
+  /**@return the selected save file.*/
   public String getSelectedSave(){
     return selectedButton.getSave();
   }
 
+  /**@return the load button.*/
   public Button getLoadButton() {
     return loadButton;
   }
+
+  /**@return the currently selected save file button.*/
   public SaveFileButton getSelectedButton() {
     if(selectedButton == null){
       return null;
@@ -142,12 +157,14 @@ public class LoadGamePane extends VBox {
     return selectedButton;
   }
 
+  /**Shows the pane. Also calls refresh in-case the list needs to be updated.*/
   public void show() {
     refresh(); // Always re-scan when opening
     this.setVisible(true);
     this.setManaged(true);
   }
 
+  /**Hides the pane. Also deselects the currently selected save file button.*/
   public void hide() {
     this.setVisible(false);
     this.setManaged(false);

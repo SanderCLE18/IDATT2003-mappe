@@ -104,6 +104,12 @@ public class Validate {
     return this;
   }
 
+  /**
+   * Validates that the object is a valid number.
+   *
+   * @return this
+   * @throws IllegalArgumentException if the object is not a valid number
+   * @see BigDecimal*/
   public Validate isValidNumber() throws IllegalArgumentException {
     if (object == null) {
       throw new IllegalArgumentException("Object cannot be null!");
