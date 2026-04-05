@@ -10,8 +10,13 @@ import idi.gruppe07.ui.views.ViewManager;
 import idi.gruppe07.ui.views.ViewElement;
 import idi.gruppe07.ui.views.ViewData;
 import idi.gruppe07.ui.views.startscreen.panes.LoadGamePane;
+import idi.gruppe07.utils.StockDataFileReader;
+import idi.gruppe07.utils.StockFileChooser;
 import idi.gruppe07.utils.Validate;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
@@ -63,26 +68,49 @@ public class StartScreenController extends ViewController<StartScreenView> {
     getViewElement().getNewGameButton().setOnAction(e ->
         getViewElement().getNewGamePane().show()
     );
+    getViewElement().getNewGamePane().getCustomGameButton().setOnAction(e -> {
+      Stage stage = (Stage) getViewElement().getNewGamePane().getCustomGameButton().getScene().getWindow();
+      String path = StockFileChooser.getStringFromFile(stage);
+
+      StockDataFileReader reader = new StockDataFileReader();
+      if(path != null){
+        getSession().setSavefile(path);
+        try {
+          getSession().setStocks(reader.readStockData(path));
+        } catch (IOException ex) {
+          throw new RuntimeException(ex);
+        }
+
+      }
+      navigateTo("dashboardGameScreen");
+
+    });
     getViewElement().getNewGamePane().getCancelButton().setOnAction(e ->
         getViewElement().getNewGamePane().hide()
     );
     getViewElement().getNewGamePane().getStartButton().setOnAction(e -> {
       String startingMoney = getViewElement().getNewGamePane().getStartingCash();
       BigDecimal cash;
+
+      if(startingMoney.isEmpty() || startingMoney.equals("0")){
+        startingMoney = "10000";
+      }
+
       try{
         Validate.that(startingMoney).isValidNumber();
         cash = new BigDecimal(startingMoney);
       }catch (IllegalArgumentException ex){
-        getViewElement().getNewGamePane().getStartingCashInput().setText("Invalid starting amount! ");
+        getViewElement().getNewGamePane().getStartingCashInput().setPromptText("Invalid starting amount! ");
         getViewElement().getNewGamePane().getStartingCashInput().setStyle("-fx-border-color: red;");
         getViewElement().getNewGamePane().getStartingCashInput().requestFocus();
         return;
       }
+
       try{
         Validate.that(getViewElement().getNewGamePane().getName()).isNotNullOrEmpty();
       }
       catch (IllegalArgumentException ex){
-        getViewElement().getNewGamePane().getNameInput().setText("Invalid name! ");
+        getViewElement().getNewGamePane().getNameInput().setPromptText("Invalid name! ");
         getViewElement().getNewGamePane().getNameInput().setStyle("-fx-border-color: red;");
         getViewElement().getNewGamePane().getNameInput().requestFocus();
         return;
