@@ -1,6 +1,9 @@
 package idi.gruppe07.ui.session;
 
+import idi.gruppe07.entities.Stock;
 import idi.gruppe07.player.Player;
+
+import java.util.ArrayList;
 
 /**
  * Session class to store game critical data.
@@ -17,6 +20,8 @@ public class Session {
    * The path to the savefile.
    */
   private String savefile;
+
+  private ArrayList<Stock> Stocks = new ArrayList<>();
 
   /**
    * Constructor. Created as an empty object.
@@ -60,6 +65,16 @@ public class Session {
   public void setSavefile(String savefile) {
     this.savefile = savefile;
   }
+
+  public ArrayList<Stock> getStocks() {
+    return Stocks;
+  }
+
+  public void setStocks(ArrayList<Stock> stocks) {
+    Stocks = stocks;
+  }
+
+  /***/
 
 
 }
