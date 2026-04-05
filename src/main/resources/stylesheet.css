@@ -1,0 +1,193 @@
+/* ── Root pane ──────────────────────────────────────────────────────────────── */
+.root-pane {
+    -fx-background-color: #050d18;
+    -fx-min-width:  680px;
+    -fx-min-height: 460px;
+}
+
+/* ── Center column ──────────────────────────────────────────────────────────── */
+.center-box {
+    -fx-max-width: 340px;
+    -fx-padding: 0 0 20 0;
+}
+
+.button-box {
+    -fx-max-width: 300px;
+}
+
+/* ── Logo icon ──────────────────────────────────────────────────────────────── */
+.logo-icon {
+    -fx-min-width:  80px;
+    -fx-min-height: 56px;
+    -fx-max-width:  80px;
+    -fx-max-height: 56px;
+}
+
+.server-bar {
+    -fx-background-color: transparent;
+    -fx-border-color:     #3a8fd4;
+    -fx-border-width:     2px;
+    -fx-border-radius:    3px;
+    -fx-min-width:  60px;
+    -fx-min-height: 14px;
+    -fx-max-width:  60px;
+    -fx-max-height: 14px;
+}
+
+.bolt-label {
+    -fx-text-fill: #5cb8ff;
+    -fx-font-size: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(90,180,255,0.8), 12, 0.5, 0, 0);
+}
+
+/* ── Title ──────────────────────────────────────────────────────────────────── */
+.title-label {
+    -fx-text-fill:   #cce8ff;
+    -fx-font-size:   58px;
+    -fx-font-weight: 900;
+    -fx-effect: dropshadow(gaussian, rgba(90,180,255,0.35), 24, 0.3, 0, 4);
+}
+
+/* ── Menu buttons (shared base) ─────────────────────────────────────────────── */
+.menu-button {
+    -fx-background-color:  #0b1828;
+    -fx-border-color:      #1e3a54;
+    -fx-border-width:      1.5px;
+    -fx-border-radius:     3px;
+    -fx-min-width:         180px;
+    -fx-background-radius: 2px;
+    -fx-text-fill:         #3a8fd4;
+    -fx-font-family:       "Courier New";
+    -fx-font-size:         13px;
+    -fx-cursor:            hand;
+    -fx-pref-height:       42px;
+    -fx-alignment:         CENTER_LEFT;
+    -fx-padding:           0 0 0 24;
+}
+
+.menu-button:hover {
+    -fx-background-color: #254f82;
+    -fx-border-color:     #3a8fd4;
+    -fx-text-fill:        #5cb8ff;
+    -fx-effect:           dropshadow(gaussian, rgba(58,143,212,0.4), 14, 0.3, 0, 0);
+}
+
+.menu-button:pressed {
+    -fx-background-color: #163558;
+    -fx-border-color:     #5cb8ff;
+    -fx-text-fill:        #ffffff;
+    -fx-scale-x:          0.98;
+    -fx-scale-y:          0.98;
+}
+
+/* ── Primary button (NEW_GAME highlight) ────────────────────────────────────── */
+.menu-button-primary {
+    -fx-background-color: #163558;
+    -fx-border-color:     #3a8fd4;
+    -fx-text-fill:        #5cb8ff;
+    -fx-effect:           dropshadow(gaussian, rgba(58,143,212,0.3), 16, 0.25, 0, 0);
+}
+
+.menu-button-primary:hover {
+    -fx-background-color: #1d4575;
+    -fx-border-color:     #5cb8ff;
+    -fx-text-fill:        #ffffff;
+    -fx-effect:           dropshadow(gaussian, rgba(90,180,255,0.55), 20, 0.4, 0, 0);
+}
+
+/* ── Footer bar ─────────────────────────────────────────────────────────────── */
+.footer-bar {
+    -fx-background-color: rgba(11, 24, 40, 0.8);
+    -fx-border-color:     #1e3a54 transparent transparent transparent;
+    -fx-border-width:     1px;
+    -fx-padding:          8 24 8 24;
+}
+
+.footer-label {
+    -fx-text-fill: #2a5a80;
+    -fx-font-size: 10px;
+    -fx-font-family: "Courier New";
+}
+
+/* ── Right-side live feed widget ─────────────────────────────────────────────── */
+.side-widget {
+    -fx-background-color:  rgba(11, 24, 40, 0.7);
+    -fx-border-color:      #1e3a54;
+    -fx-border-width:      1px;
+    -fx-border-radius:     2px;
+    -fx-background-radius: 2px;
+    -fx-padding:           10 12 10 12;
+    -fx-max-width:         140px;
+    -fx-translate-x:       -20px;
+}
+.widget-invalid{
+    -fx-border-color: red;
+}
+.widget-header {
+    -fx-text-fill:   #2a7a50;
+    -fx-font-size:   9px;
+    -fx-font-family: "Courier New";
+}
+
+.chart-pane {
+    -fx-background-color: #0d1f33;
+    -fx-border-color:     #1e3a54;
+    -fx-border-width:     1px;
+    -fx-min-width:        116px;
+    -fx-min-height:       80px;
+}
+
+/* ── Top-left corner decoration ─────────────────────────────────────────────── */
+.corner-decoration {
+    -fx-padding: 24 0 0 24;
+}
+
+.corner-line {
+    -fx-background-color: #1e3a54;
+    -fx-min-height:       2px;
+    -fx-max-height:       2px;
+    -fx-min-width:        60px;
+}
+
+.corner-line-short {
+    -fx-min-width: 30px;
+    -fx-opacity:   0.5;
+}
+/*StartScreen panels*/
+.start-screen-panel {
+    -fx-background-color: rgba(11, 24, 40, 0.98);
+    -fx-border-color:      #1e3a54;
+    -fx-border-width:      1px;
+    -fx-border-radius:     2px;
+    -fx-background-radius: 2px;
+    -fx-padding:           10 12 10 12;
+
+}
+
+.start-screen-list {
+    -fx-background-color: rgba(22, 43, 77, 0.8);
+    -fx-border-color:      #1e3a54;
+}
+/* The scrollbar insine startscreen */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: #0b1828; /* Matches your .menu-button color */
+    -fx-width: 12px;
+}
+
+/* The actual bar */
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #1e3a54; /* Matches your border color */
+    -fx-background-radius: 5px;
+}
+
+/* bar hover state */
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #3a8fd4; /* Matches your button hover text */
+}
+
+/* Hide the arrow buttons */
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-padding: 0;
+    -fx-shape: "";
+}

@@ -38,7 +38,7 @@ public class ViewManager implements EventSubscriber {
   /**
    * The session of the application.
    * @see Session*/
-  private final Session session = new Session();
+  private final Session session;
 
   /**
    * Current view.*/
@@ -50,13 +50,14 @@ public class ViewManager implements EventSubscriber {
    * @param stage        the {@link Stage} object this application is running on.
    * @param eventManager the {@link EventManager} used by this application.
    */
-  public ViewManager(final Stage stage, final EventManager eventManager) {
+  public ViewManager(final Stage stage, final EventManager eventManager, Session session) {
     this.viewMap = new HashMap<>();
     sceneHistory = new ArrayDeque<>();
 
     eventManager.addSubscriber(this, EventType.SCENE_CHANGE);
     eventManager.addSubscriber(this, EventType.SCENE_BACK);
 
+    this.session = session;
     this.stage = stage;
   }
 
