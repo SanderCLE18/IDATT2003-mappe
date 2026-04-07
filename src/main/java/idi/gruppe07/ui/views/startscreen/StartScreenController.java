@@ -65,29 +65,36 @@ public class StartScreenController extends ViewController<StartScreenView> {
    */
   @Override
   protected void initInteractions() {
+    // New game button
     getViewElement().getNewGameButton().setOnAction(e ->
         getViewElement().getNewGamePane().show()
     );
+    // Custom game button
     getViewElement().getNewGamePane().getCustomGameButton().setOnAction(e -> {
       Stage stage = (Stage) getViewElement().getNewGamePane().getCustomGameButton().getScene().getWindow();
       String path = StockFileChooser.getStringFromFile(stage);
 
+      String name;
       StockDataFileReader reader = new StockDataFileReader();
       if(path != null){
         getSession().setSavefile(path);
         try {
-          getSession().setStocks(reader.readStockData(path));
+          name = path.substring(path.lastIndexOf("\\") + 1, path.lastIndexOf("."));
+          getSession().makeExchange(name, reader.readStockData(path));
+          getViewElement().getNewGamePane().getCustomGameButton().setText("Loaded: " + name);
         } catch (IOException ex) {
-          throw new RuntimeException(ex);
+          getViewElement().getNewGamePane().getCustomGameButton().setText("Error loading stock data!");
+          getViewElement().getNewGamePane().getCustomGameButton().setStyle("-fx-border-color: red;");
         }
-
       }
-      navigateTo("dashboardGameScreen");
+
 
     });
+    // Cancel button in new game pane
     getViewElement().getNewGamePane().getCancelButton().setOnAction(e ->
         getViewElement().getNewGamePane().hide()
     );
+    // Start button in new game pane
     getViewElement().getNewGamePane().getStartButton().setOnAction(e -> {
       String startingMoney = getViewElement().getNewGamePane().getStartingCash();
       BigDecimal cash;
@@ -120,12 +127,15 @@ public class StartScreenController extends ViewController<StartScreenView> {
       getViewElement().getNewGamePane().hide();
       navigateTo("dashboardGameScreen");  // Må erstattes med  faktisk scene
     });
+    // Load game button
     getViewElement().getLoadGameButton().setOnAction(e -> {
       getViewElement().getLoadGamePane().show();
     });
+    // Cancel button in load game pane
     getViewElement().getLoadGamePane().getCancelButton().setOnAction(e -> {
       getViewElement().getLoadGamePane().hide();
     });
+    // Load button in load game pane
     getViewElement().getLoadGamePane().getLoadButton().setOnAction(e -> {
 
       LoadGamePane pane = getViewElement().getLoadGamePane();
@@ -138,13 +148,17 @@ public class StartScreenController extends ViewController<StartScreenView> {
       getViewElement().getLoadGamePane().hide();
 
     });
+    // Multiplayer button
     getViewElement().getMultiplayerButton().setOnAction(e -> {
       getViewElement().getOnlineGamePane().show();
     });
 
+    // Cancel button in online game pane
     getViewElement().getOnlineGamePane().getCancelButton().setOnAction(e -> {
       getViewElement().getOnlineGamePane().hide();
     });
+
+    //Connect button in online game pane
     getViewElement().getOnlineGamePane().getConnectButton().setOnAction(e -> {
       if (getViewElement().getOnlineGamePane().getSelectedButton() == null) {
         return;
@@ -158,6 +172,7 @@ public class StartScreenController extends ViewController<StartScreenView> {
 
     });
 
+    //Exit button
     getViewElement().getExitButton().setOnAction(e -> System.exit(0));
   }
 
