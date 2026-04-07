@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class Exchange {
   private String name;
   private int week;
-  private Map<String, Stock> stockMap;
+  private final Map<String, Stock> stockMap;
   private Random random;
 
   /**
@@ -25,8 +25,8 @@ public class Exchange {
    * @param name The name of the exchange.
    * @param stocks The list of stocks in the exchange.
    * @throws NullPointerException if stocks is null.
-   * @throws IllegalArgumentException if stocks is empty.*/
-
+   * @throws IllegalArgumentException if stocks is empty.
+   */
   public Exchange(String name, List<Stock> stocks)
       throws NullPointerException, IllegalArgumentException {
     this.name = name;
