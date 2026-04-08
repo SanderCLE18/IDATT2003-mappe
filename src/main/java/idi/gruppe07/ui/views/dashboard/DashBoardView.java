@@ -65,6 +65,7 @@ public class DashBoardView extends ViewElement<Pane> {
     super(new StackPane(), viewName, session, false);
     this.views = views;
     initLayout();
+    content.update(session);
   }
 
   /**
@@ -72,7 +73,7 @@ public class DashBoardView extends ViewElement<Pane> {
    */
   @Override
   protected void initLayout() {
-    this.content = new DashBoardPane(getController().getSession());
+    this.content = new DashBoardPane();
     pane = new SideBarPane(this.views);
     sideBar = new SideBarView(pane, content);
   }
@@ -111,11 +112,12 @@ public class DashBoardView extends ViewElement<Pane> {
 
   private class DashBoardPane extends StackPane {
 
-    public DashBoardPane(Session session) {
+    public DashBoardPane() {
 
     }
+    public void update(Session session){
 
-
+    }
 
   }
 

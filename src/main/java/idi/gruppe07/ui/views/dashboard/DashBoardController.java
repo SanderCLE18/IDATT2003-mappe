@@ -34,11 +34,8 @@ public class DashBoardController extends ViewController<DashBoardView> {
   protected void initInteractions() {
     getViewElement().getSideBar().getLeftPanel().getViewButtons().forEach(button -> {
       button.setOnAction(e->{
-        getViewElement().getSideBar().getLeftPanel().setSelected(button);
+
       });
     });
-  }
-  public void navigateTo(NavItem item) {
-    getViewElement().getSideBar().setCenter(item.content().get());
   }
 }

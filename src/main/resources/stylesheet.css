@@ -191,3 +191,15 @@
     -fx-padding: 0;
     -fx-shape: "";
 }
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+
+.side-bar-pane {
+    -fx-background-color:  #1e3a54;
+    -fx-border-color:      #050d18;
+    -fx-border-width:      1px;
+    -fx-border-radius:     2px;
+    -fx-background-radius: 2px;
+    -fx-min-width:         140px;
+    -fx-padding:           10 12 10 12;
+}

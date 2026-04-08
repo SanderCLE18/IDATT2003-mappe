@@ -28,7 +28,7 @@ public final class LaunchParams extends Application {
     startScreenView.setController(startScreenController);
 
     List<NavItem> navItems = List.of(
-        new NavItem("Dashboard", DashBoardContentPane::new) // TODO:FIX THIS. UNDEFINED CLASS, SHOULD NOT BE DEFINED ETIHER. AS IT SHOULD POINT BACK TO THE DASHBOARDVIEW AND NOT A "NEW" CLASS
+        new NavItem("Dashboard", DashBoardView.DASHBOARD_NAME)
     );
 
     DashBoardView dashBoardView = new DashBoardView(session, navItems);
