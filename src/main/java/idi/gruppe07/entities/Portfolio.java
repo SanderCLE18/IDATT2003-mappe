@@ -11,13 +11,15 @@ import java.util.stream.Collectors;
 /**
  * Represents a player's portfolio.*/
 public class Portfolio {
-  private List<Share> shares;
+  private final List<Share> shares;
+  private final List<BigDecimal> historicNetWorth;
 
   /**
    * Constructs a new portfolio.
    * */
   public Portfolio() {
     this.shares = new ArrayList<>();
+    this.historicNetWorth = new ArrayList<>();
   }
 
   /**
@@ -97,4 +99,10 @@ public class Portfolio {
         .map(e->new SaleCalculator(e).calculateTotal())
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
+
+  /**@return A list of portfolio value snapshots*/
+  public List<BigDecimal> getHistoricNetWorth() {
+    return this.historicNetWorth;
+  }
+
 }

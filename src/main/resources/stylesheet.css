@@ -203,3 +203,28 @@
     -fx-min-width:         140px;
     -fx-padding:           10 12 10 12;
 }
+
+/* ── Dashnaoard  ─────────────────────────────────────────────── */
+/*Label*/
+.portfolio-chart-pane-label-green {
+    -fx-background-color: #1a7a3f;
+    -fx-text-fill: #00ff88;
+    -fx-font-family: 'Monospaced';
+    -fx-font-weight: bold;
+    -fx-padding: 6 12 6 12;
+    -fx-background-radius: 6;
+    -fx-border-color: #00ff88;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
+portfolio-chart-pane-label-red {
+    -fx-background-color: #7a1a1a;
+    -fx-text-fill: #ff0000;
+    -fx-font-family: 'Monospaced';
+    -fx-font-weight: bold;
+    -fx-padding: 6 12 6 12;
+    -fx-background-radius: 6;
+    -fx-border-color: #ff0000;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
