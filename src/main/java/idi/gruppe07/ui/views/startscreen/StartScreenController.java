@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import static idi.gruppe07.ui.views.dashboard.DashBoardView.DASHBOARD_NAME;
+
 /**
  * Controller for {@link StartScreenView}.
  *
@@ -125,7 +127,8 @@ public class StartScreenController extends ViewController<StartScreenView> {
       Player player = new Player(getViewElement().getNewGamePane().getName(), cash);
       getSession().setPlayer(player);
       getViewElement().getNewGamePane().hide();
-      navigateTo("dashboardGameScreen");  // Må erstattes med  faktisk scene
+      navigateTo(DASHBOARD_NAME);
+      IO.println("called navigate");
     });
     // Load game button
     getViewElement().getLoadGameButton().setOnAction(e -> {
@@ -144,7 +147,7 @@ public class StartScreenController extends ViewController<StartScreenView> {
       }
 
       getSession().setSavefile(getViewElement().getLoadGamePane().getSelectedSave());
-      navigateTo("dashboardGameScreen");
+      navigateTo(DASHBOARD_NAME);
       getViewElement().getLoadGamePane().hide();
 
     });
@@ -165,7 +168,7 @@ public class StartScreenController extends ViewController<StartScreenView> {
       }
 
       getViewElement().getOnlineGamePane().hide();
-      navigateTo("dashboardGameScreen");
+      navigateTo("OnlineSessionScreen");
     });
 
     getViewElement().getSettingsButton().setOnAction(e -> {
