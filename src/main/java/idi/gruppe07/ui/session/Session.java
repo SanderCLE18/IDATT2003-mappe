@@ -3,7 +3,6 @@ package idi.gruppe07.ui.session;
 import idi.gruppe07.entities.Stock;
 import idi.gruppe07.player.Player;
 import idi.gruppe07.transactions.Exchange;
-
 import java.util.ArrayList;
 
 /**
@@ -22,13 +21,18 @@ public class Session {
    */
   private String savefile;
 
+  /**
+   * Exchange*/
   private Exchange exchange;
+
+  /**Session timer*/
+  private final SessionTimer sessionTimer;
 
   /**
    * Constructor. Created as an empty object.
    */
   public Session() {
-
+    sessionTimer = new SessionTimer();
   }
 
   /**
@@ -76,19 +80,15 @@ public class Session {
   }
 
   /**
-   * Makes an exchange with the given stocks.
-   *
-   * @param stocks The stocks to make the exchange with.*/
-  public void makeExchange(ArrayList<Stock> stocks) {
-    makeExchange("Stock Exchange", stocks);
-  }
-
-  /**
    * Makes an exchange with the given stocks and name.
    *
    * @param name The name of the exchange.
    * @param stocks The stocks to make the exchange with.*/
   public void makeExchange(String name, ArrayList<Stock> stocks) {
     exchange = new Exchange(name, stocks);
+  }
+
+  public SessionTimer getTimer() {
+    return sessionTimer;
   }
 }

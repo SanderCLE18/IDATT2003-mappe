@@ -22,6 +22,11 @@ public class Portfolio {
     this.historicNetWorth = new ArrayList<>();
   }
 
+  public void createNetWorthSnapshot() {
+    BigDecimal netWorth = getNetWorth();
+    historicNetWorth.add(netWorth);
+  }
+
   /**
    * Adds a share to the portfolio.
    *

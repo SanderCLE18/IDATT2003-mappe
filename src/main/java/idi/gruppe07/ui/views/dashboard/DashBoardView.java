@@ -7,7 +7,9 @@ import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.ui.views.ViewElement;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 
 import java.lang.classfile.Label;
@@ -75,6 +77,7 @@ public class DashBoardView extends ViewElement<Pane> {
   protected void initLayout() {
     this.content = new DashBoardPane();
     pane = new SideBarPane(this.views);
+    VBox.setVgrow(this.pane, Priority.ALWAYS);
     sideBar = new SideBarView(pane, content);
   }
 
