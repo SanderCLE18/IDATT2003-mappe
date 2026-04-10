@@ -3,16 +3,14 @@ package idi.gruppe07.ui.views.dashboard;
 import idi.gruppe07.ui.custom.panes.NavItem;
 import idi.gruppe07.ui.custom.panes.SideBarPane;
 import idi.gruppe07.ui.custom.panes.SideBarView;
+import idi.gruppe07.ui.custom.panes.TopBarBox;
 import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.ui.views.ViewElement;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-
-import java.lang.classfile.Label;
 import java.util.List;
 
 /**
@@ -78,7 +76,9 @@ public class DashBoardView extends ViewElement<Pane> {
     this.content = new DashBoardPane();
     pane = new SideBarPane(this.views);
     VBox.setVgrow(this.pane, Priority.ALWAYS);
-    sideBar = new SideBarView(pane, content);
+    sideBar = new SideBarView(getSession(), pane, content);
+
+    getRootPane().getChildren().addAll(sideBar);
   }
 
   /**

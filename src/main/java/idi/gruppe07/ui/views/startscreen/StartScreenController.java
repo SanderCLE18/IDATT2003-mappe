@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Paths;
 
 import static idi.gruppe07.ui.views.dashboard.DashBoardView.DASHBOARD_NAME;
 
@@ -32,6 +33,8 @@ import static idi.gruppe07.ui.views.dashboard.DashBoardView.DASHBOARD_NAME;
  * @see StartScreenView
  */
 public class StartScreenController extends ViewController<StartScreenView> {
+
+  private String stockPath = "default";
 
 
   /**
@@ -79,18 +82,10 @@ public class StartScreenController extends ViewController<StartScreenView> {
       String name;
       StockDataFileReader reader = new StockDataFileReader();
       if(path != null){
-        getSession().setSavefile(path);
-        try {
-          name = path.substring(path.lastIndexOf("\\") + 1, path.lastIndexOf("."));
-          getSession().makeExchange(name, reader.readStockData(path));
-          getViewElement().getNewGamePane().getCustomGameButton().setText("Loaded: " + name);
-        } catch (IOException ex) {
-          getViewElement().getNewGamePane().getCustomGameButton().setText("Error loading stock data!");
-          getViewElement().getNewGamePane().getCustomGameButton().setStyle("-fx-border-color: red;");
-        }
+        this.stockPath = path;
+        name = path.substring(path.lastIndexOf("\\") + 1, path.lastIndexOf("."));
+        getViewElement().getNewGamePane().getCustomGameButton().setText("Loaded: " + name);
       }
-
-
     });
     // Cancel button in new game pane
     getViewElement().getNewGamePane().getCancelButton().setOnAction(e ->
@@ -126,6 +121,21 @@ public class StartScreenController extends ViewController<StartScreenView> {
       }
       Player player = new Player(getViewElement().getNewGamePane().getName(), cash);
       getSession().setPlayer(player);
+      getSession().setSavefile(getViewElement().getNewGamePane().getName());
+      try{
+        StockDataFileReader reader = new StockDataFileReader();
+        if (stockPath.equals("default")) {
+          String path = Paths.get("src/sp500.csv").toAbsolutePath().toString();
+          getSession().makeExchange("S&P 500", reader.readStockData(path));
+        }else{
+          String name = stockPath.substring(stockPath.lastIndexOf("\\") + 1, stockPath.lastIndexOf("."));
+          getSession().makeExchange(name, reader.readStockData(stockPath));
+        }
+      }catch (Exception ex) {
+        getViewElement().getNewGamePane().getCustomGameButton().setText("Error loading stock data!");
+        getViewElement().getNewGamePane().getCustomGameButton().setStyle("-fx-border-color: red;");
+        return;
+      }
       getViewElement().getNewGamePane().hide();
       navigateTo(DASHBOARD_NAME);
       IO.println("called navigate");

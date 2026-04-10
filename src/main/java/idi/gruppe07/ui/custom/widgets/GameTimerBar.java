@@ -69,7 +69,6 @@ public class GameTimerBar extends VBox {
     }
   }
 
-
   public Button getPauseResumeButton() {
     return pauseResumeButton;
   }

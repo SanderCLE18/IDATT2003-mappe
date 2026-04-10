@@ -162,4 +162,10 @@ public abstract class ViewElement<T extends Pane> {
     setViewName(data.getSceneName());
   }
 
+  /**
+   * Getter method for the session.*/
+  public Session getSession() {
+    return session;
+  }
+
 }

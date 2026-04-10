@@ -14,6 +14,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.Objects;
+
+import static java.lang.System.exit;
 
 public final class LaunchParams extends Application {
   @Override
@@ -28,7 +31,11 @@ public final class LaunchParams extends Application {
     startScreenView.setController(startScreenController);
 
     List<NavItem> navItems = List.of(
-        new NavItem("Dashboard", DashBoardView.DASHBOARD_NAME)
+        new NavItem("DASHBOARD", DashBoardView.DASHBOARD_NAME),
+        new NavItem("MARKETS", ""),
+        new NavItem("PORTFOLIO",""),
+        new NavItem("NEWS FEED","")
+
     );
 
     DashBoardView dashBoardView = new DashBoardView(session, navItems);
@@ -37,10 +44,16 @@ public final class LaunchParams extends Application {
 
     viewManager.addView(startScreenView);
     viewManager.addView(dashBoardView);
-    
+    Scene scene;
     stage.setScene(
-        new Scene(new StackPane(),720, 480)
+        scene = new Scene(new StackPane(),720, 480)
     );
+    try{
+      scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
+    }catch (Exception ex){
+      IO.println("Failed to load stylesheet" + ex);
+      exit(0);
+    }
 
     stage.setMinWidth(720);
     stage.setMinHeight(480);

@@ -54,7 +54,6 @@
     -fx-border-color:      #1e3a54;
     -fx-border-width:      1.5px;
     -fx-border-radius:     3px;
-    -fx-min-width:         180px;
     -fx-background-radius: 2px;
     -fx-text-fill:         #3a8fd4;
     -fx-font-family:       "Courier New";
@@ -195,16 +194,42 @@
 /* ── Sidebar ─────────────────────────────────────────────── */
 
 .side-bar-pane {
-    -fx-background-color:  #1e3a54;
+    -fx-background-color:  #091328;
     -fx-border-color:      #050d18;
     -fx-border-width:      1px;
     -fx-border-radius:     2px;
     -fx-background-radius: 2px;
-    -fx-min-width:         20%;
-    -fx-pref-width:        20%;
     -fx-padding:           10 12 10 12;
 }
 
+.side-bar-button {
+    -fx-background-color: #091328;
+    -fx-border-color:     transparent;
+    -fx-border-width:      1px;
+    -fx-border-radius:     2px;
+    -fx-background-radius: 2px;
+    -fx-text-fill:         #3a8fd4;
+    -fx-font-family:       "Courier New";
+    -fx-font-size:         13px;
+    -fx-cursor:            hand;
+    -fx-pref-height:       42px;
+    -fx-alignment:         CENTER_LEFT;
+    -fx-padding:           0 0 0 24;
+}
+.side-pane-button:hover{
+    -fx-background-color: #141F38;
+    -fx-border-color: transparent;
+    -fx-text-fill:        #ffffff;
+}
+.sidebar-new-trade {
+    -fx-background-color: #71A2FF;
+    -fx-border-color: transparent;
+    -fx-text-fill:        #091328;
+}
+.sidebar-new-trade:hover{
+    -fx-background-color: #5182FF;
+    -fx-effect: none;
+}
 /* ── Dashnaoard  ─────────────────────────────────────────────── */
 
 
@@ -220,7 +245,7 @@
     -fx-border-radius: 6;
     -fx-border-width: 1;
 }
-portfolio-chart-pane-label-red {
+.portfolio-chart-pane-label-red {
     -fx-background-color: #7a1a1a;
     -fx-text-fill: #ff0000;
     -fx-font-family: 'Monospaced';
@@ -231,3 +256,4 @@ portfolio-chart-pane-label-red {
     -fx-border-radius: 6;
     -fx-border-width: 1;
 }
+

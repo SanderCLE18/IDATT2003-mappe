@@ -37,5 +37,14 @@ public class DashBoardController extends ViewController<DashBoardView> {
 
       });
     });
+    getViewElement().getSideBar().getTopBarBox().getPauseResumeButton().setOnAction(e->{
+      boolean isRunning = getSession().getTimer().isRunning();
+      if(!isRunning){
+        getSession().getTimer().startTimer(getSession().getExchange(), getSession().getPlayer());
+      }
+      else{
+        getSession().getTimer().pauseTimer(getSession().getExchange());
+      }
+    });
   }
 }
