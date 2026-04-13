@@ -170,6 +170,11 @@ public class StartScreenView extends ViewElement<StackPane> {
     );
   }
 
+  @Override
+  public void onActivate() {
+    
+  }
+
   /**
    * @return the "New Game" button.
    */

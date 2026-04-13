@@ -61,9 +61,14 @@ public abstract class ViewController <T extends ViewElement<?>> implements Event
    * @param session The {@link Session} object this controller is associated with.
    * */
   protected ViewController(final T viewElement, final EventManager eventManager, final Session session) {
-    this(viewElement, eventManager);
+    Validate.that(viewElement).isNotNull();
+    this.viewElement = viewElement;
+    this.eventManager = eventManager;
     this.session = session;
+
+    initInteractions();
   }
+
 
   /**
    * Getter method for the event manager.

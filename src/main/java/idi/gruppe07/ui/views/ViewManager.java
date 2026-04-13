@@ -102,6 +102,7 @@ public class ViewManager implements EventSubscriber {
   public void setScene(final ViewData data) {
     ViewElement<?> viewElement = viewMap.get(data.getSceneName());
     viewElement.setData(data);
+    viewElement.onActivate();
     stage.getScene().setRoot(viewElement.getRootPane());
     currentView = viewElement;
   }

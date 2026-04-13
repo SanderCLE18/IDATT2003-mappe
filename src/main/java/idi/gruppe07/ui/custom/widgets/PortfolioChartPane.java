@@ -7,6 +7,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.math.BigDecimal;
@@ -21,17 +23,29 @@ public class PortfolioChartPane extends VBox {
 
   public PortfolioChartPane(Portfolio portfolio) {
     this.portfolio = portfolio;
-    initLayout();
+    this.getStyleClass().add("portfolio-chart-pane");
+    if (portfolio == null) {
+      initEmpty();
+    }
+    else{
+      initLayout();
+    }
+  }
+  public void initEmpty(){
 
   }
   public void initLayout(){
+
     Label totalValue = new Label("Total portfolio value");
-    getChildren().add(totalValue);
-    Label averageValue = new Label("$"+portfolio.getNetWorth());
+    HBox labels = new HBox(10, totalValue, buildChangeLabel(portfolio.getHistoricNetWorth()));
+
+    Label value = new Label("$"+portfolio.getNetWorth());
 
 
+    getChildren().addAll(labels, value);
 
     buildChart(portfolio.getHistoricNetWorth());
+    this.getChildren().add(chart);
 
   }
 

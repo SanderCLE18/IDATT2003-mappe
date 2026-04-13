@@ -9,6 +9,7 @@ import idi.gruppe07.ui.views.ViewController;
 import idi.gruppe07.ui.views.ViewManager;
 import idi.gruppe07.ui.views.ViewElement;
 import idi.gruppe07.ui.views.ViewData;
+import idi.gruppe07.ui.views.dashboard.DashBoardView;
 import idi.gruppe07.ui.views.startscreen.panes.LoadGamePane;
 import idi.gruppe07.utils.StockDataFileReader;
 import idi.gruppe07.utils.StockFileChooser;
@@ -19,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 
 import static idi.gruppe07.ui.views.dashboard.DashBoardView.DASHBOARD_NAME;
 
@@ -37,17 +37,6 @@ public class StartScreenController extends ViewController<StartScreenView> {
 
   InputStream stockPath;
 
-
-  /**
-   * Constructs a {@code StartScreenController} without a session.
-   *
-   * @param view         the {@link StartScreenView} this controller manages.
-   * @param eventManager the application-wide {@link EventManager}.
-   */
-  public StartScreenController(final StartScreenView view,
-                               final EventManager eventManager) {
-    super(view, eventManager);
-  }
 
   /**
    * Constructs a {@code StartScreenController} with a session.
