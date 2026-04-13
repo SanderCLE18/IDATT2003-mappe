@@ -1,15 +1,20 @@
 package idi.gruppe07.ui.views.dashboard;
 
+import idi.gruppe07.entities.Portfolio;
+import idi.gruppe07.entities.Share;
 import idi.gruppe07.ui.custom.panes.NavItem;
 import idi.gruppe07.ui.custom.panes.SideBarPane;
 import idi.gruppe07.ui.custom.panes.SideBarView;
 import idi.gruppe07.ui.custom.panes.TopBarBox;
+import idi.gruppe07.ui.custom.widgets.PortfolioChartPane;
+import idi.gruppe07.ui.custom.widgets.StockButtonChart;
 import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.ui.views.ViewElement;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import idi.gruppe07.utils.Validate;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 
 import java.util.List;
 
@@ -118,10 +123,43 @@ public class DashBoardView extends ViewElement<Pane> {
     public DashBoardPane() {
 
     }
-    public void update(Session session){
+    public void update(Session session) {
+      try{
+        PortfolioChartPane portfolioPane = new PortfolioChartPane(session.getPlayer().getPortfolio());
+        VBox portfolioVbox = new VBox(5, portfolioPane);
+        portfolioVbox.prefWidthProperty().bind(this.widthProperty());
+
+        Label activeHoldingsLabel = new Label("Active Holdings");
+        activeHoldingsLabel.setAlignment(Pos.CENTER_LEFT);
+        HBox stockButtonsBox = new HBox(10);
+
+        List<Share> portfolioList = session.getPlayer().getPortfolio().getShares();
+        if(portfolioList.isEmpty()){
+          Label noHoldingsLabel = new Label("No Holdings");
+          stockButtonsBox.getChildren().add(noHoldingsLabel);
+        }
+        else{
+          for (var value : session.getPlayer().getPortfolio().getShares()){
+            StockButtonChart stockButtonChart = new StockButtonChart(value);
+            stockButtonsBox.getChildren().add(stockButtonChart);
+          }
+        }
+
+        ScrollPane activeHoldingsScroll = new ScrollPane(stockButtonsBox);
+
+        HBox holdingsHBox = new HBox(5, activeHoldingsLabel, activeHoldingsScroll);
+
+        getChildren().addAll(portfolioPane,  holdingsHBox);
+      }catch(Exception e){
+        return;
+      }
+
 
     }
 
+  }
+  public void updateDashboard(Session session) {
+    this.content.update(session);
   }
 
 }

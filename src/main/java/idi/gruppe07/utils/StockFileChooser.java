@@ -5,6 +5,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 
 /**
  * Simple utility class for opening a file chooser.
@@ -40,9 +43,9 @@ public class StockFileChooser {
    * </ul>
    *
    * @param stage The stage to open the file chooser on.
-   * @return The path to the selected file.
+   * @return The InputStream to the selected file.
    */
-  public static String getStringFromFile(Stage stage) {
+  public static InputStream getPathFromFile(Stage stage) throws IOException {
     File selectedFile;
     try {
       selectedFile = chooser.showOpenDialog(stage);
@@ -62,7 +65,7 @@ public class StockFileChooser {
       return null;
     }
 
-    return selectedFile.getAbsolutePath();
+    return Files.newInputStream(selectedFile.toPath());
 
   }
 

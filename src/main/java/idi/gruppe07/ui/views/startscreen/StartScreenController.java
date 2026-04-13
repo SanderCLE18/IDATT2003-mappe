@@ -13,11 +13,12 @@ import idi.gruppe07.ui.views.startscreen.panes.LoadGamePane;
 import idi.gruppe07.utils.StockDataFileReader;
 import idi.gruppe07.utils.StockFileChooser;
 import idi.gruppe07.utils.Validate;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 
 import static idi.gruppe07.ui.views.dashboard.DashBoardView.DASHBOARD_NAME;
@@ -34,7 +35,7 @@ import static idi.gruppe07.ui.views.dashboard.DashBoardView.DASHBOARD_NAME;
  */
 public class StartScreenController extends ViewController<StartScreenView> {
 
-  private String stockPath = "default";
+  InputStream stockPath;
 
 
   /**
@@ -77,13 +78,23 @@ public class StartScreenController extends ViewController<StartScreenView> {
     // Custom game button
     getViewElement().getNewGamePane().getCustomGameButton().setOnAction(e -> {
       Stage stage = (Stage) getViewElement().getNewGamePane().getCustomGameButton().getScene().getWindow();
-      String path = StockFileChooser.getStringFromFile(stage);
+      InputStream path = null;
+      try {
+        path = StockFileChooser.getPathFromFile(stage);
+      } catch (IOException ex) {
+        throw new RuntimeException(ex);
+      }
 
       String name;
       StockDataFileReader reader = new StockDataFileReader();
       if(path != null){
         this.stockPath = path;
-        name = path.substring(path.lastIndexOf("\\") + 1, path.lastIndexOf("."));
+        try {
+          name = new String(stockPath.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+          throw new RuntimeException(ex);
+        }
+        name = name.substring(name.lastIndexOf("\\") + 1, name.lastIndexOf("."));
         getViewElement().getNewGamePane().getCustomGameButton().setText("Loaded: " + name);
       }
     });
@@ -124,13 +135,16 @@ public class StartScreenController extends ViewController<StartScreenView> {
       getSession().setSavefile(getViewElement().getNewGamePane().getName());
       try{
         StockDataFileReader reader = new StockDataFileReader();
-        if (stockPath.equals("default")) {
-          String path = Paths.get("src/sp500.csv").toAbsolutePath().toString();
-          getSession().makeExchange("S&P 500", reader.readStockData(path));
+        String exchangeName;
+        InputStream finalStream;
+        if (stockPath == null) {
+          exchangeName = "S&P 500";
+          finalStream = getClass().getResourceAsStream("/sp500.csv");
         }else{
-          String name = stockPath.substring(stockPath.lastIndexOf("\\") + 1, stockPath.lastIndexOf("."));
-          getSession().makeExchange(name, reader.readStockData(stockPath));
+          exchangeName = "Et eller annet her";
+          finalStream = this.stockPath;
         }
+        getSession().makeExchange(exchangeName, reader.readStockData(finalStream));
       }catch (Exception ex) {
         getViewElement().getNewGamePane().getCustomGameButton().setText("Error loading stock data!");
         getViewElement().getNewGamePane().getCustomGameButton().setStyle("-fx-border-color: red;");

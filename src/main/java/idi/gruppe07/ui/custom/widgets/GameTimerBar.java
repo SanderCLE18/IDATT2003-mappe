@@ -11,6 +11,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameTimerBar extends VBox {
   private static final String BAR_STYLE_DEFAULT  = "-fx-accent: #4caf50;";
   private static final String BAR_STYLE_NEAR_END = "-fx-accent: #f44336;";
@@ -19,6 +22,7 @@ public class GameTimerBar extends VBox {
   private final ProgressBar progressBar;
   private final Label weekLabel;
 
+  private final List<Button> speedButtons;
   private final Button pauseResumeButton;
 
   private final SessionTimer.TickListener tickListener;
@@ -31,15 +35,20 @@ public class GameTimerBar extends VBox {
 
     weekLabel = new Label("Week: ");
 
-    pauseResumeButton = new Button("▶ Start");
-    pauseResumeButton.setOnAction(e -> {
-      toggleTimer();
-    });
 
-    HBox topBox = new HBox(8, weekLabel, pauseResumeButton);
+    pauseResumeButton = new Button("▶ Start");
+
+    speedButtons = List.of(
+        new Button("1x"),
+        new Button("3x"),
+        new Button("5x")
+    );
+
+
+    HBox topBox = new HBox(8, pauseResumeButton, speedButtons.get(0), speedButtons.get(1), speedButtons.get(2));
     topBox.setAlignment(Pos.CENTER_LEFT);
 
-    HBox bottomBox = new HBox(8, progressBar, pauseResumeButton);
+    HBox bottomBox = new HBox(8, progressBar, weekLabel);
     bottomBox.setAlignment(Pos.CENTER);
     HBox.setHgrow(progressBar, Priority.ALWAYS);
 
@@ -61,15 +70,18 @@ public class GameTimerBar extends VBox {
     }
   }
 
-  private void toggleTimer() {
+  public void toggleTimer() {
     if (session.getTimer().isRunning()) {
-      pauseResumeButton.setText("▶ Resume");
-    } else {
       pauseResumeButton.setText("⏸ Pause");
+    } else {
+      pauseResumeButton.setText("▶ Resume");
     }
   }
 
   public Button getPauseResumeButton() {
     return pauseResumeButton;
+  }
+  public List<Button> getSpeedButtons() {
+    return speedButtons;
   }
 }

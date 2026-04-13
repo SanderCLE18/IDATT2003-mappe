@@ -21,5 +21,9 @@ public class TopBarBox extends HBox {
     return gameTimerBar.getPauseResumeButton();
   }
 
+  /**@return gameTimerBar obhect*/
+  public GameTimerBar getGameTimerBar(){
+    return gameTimerBar;
+  }
 
 }

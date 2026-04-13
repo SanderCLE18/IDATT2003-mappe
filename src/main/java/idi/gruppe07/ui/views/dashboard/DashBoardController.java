@@ -1,10 +1,13 @@
 package idi.gruppe07.ui.views.dashboard;
 
-import idi.gruppe07.ui.custom.panes.NavItem;
 import idi.gruppe07.ui.event.EventManager;
 import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.ui.views.ViewController;
 import idi.gruppe07.ui.views.ViewElement;
+import javafx.scene.control.Button;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DashBoardController extends ViewController<DashBoardView> {
 
@@ -33,18 +36,21 @@ public class DashBoardController extends ViewController<DashBoardView> {
   @Override
   protected void initInteractions() {
     getViewElement().getSideBar().getLeftPanel().getViewButtons().forEach(button -> {
-      button.setOnAction(e->{
+      button.setOnAction(_->{
 
       });
     });
-    getViewElement().getSideBar().getTopBarBox().getPauseResumeButton().setOnAction(e->{
-      boolean isRunning = getSession().getTimer().isRunning();
-      if(!isRunning){
-        getSession().getTimer().startTimer(getSession().getExchange(), getSession().getPlayer());
-      }
-      else{
-        getSession().getTimer().pauseTimer(getSession().getExchange());
-      }
+
+    getViewElement().getSideBar().getTopBarBox().getPauseResumeButton().setOnAction(_->{
+      getSession().getTimer().pauseTimer(getSession().getExchange(),  getSession().getPlayer());
+      getViewElement().getSideBar().getTopBarBox().getGameTimerBar().toggleTimer();
     });
+
+    List<Button> speedButtons = new ArrayList<>(getViewElement().getSideBar().getTopBarBox().getGameTimerBar().getSpeedButtons());
+    for  (Button button : speedButtons) {
+      String text = button.getText();
+      int value = Integer.parseInt(text.replaceAll("[^0-9]", ""));
+      button.setOnAction(_ -> getSession().getTimer().setSpeedMultiplier(value, getSession().getExchange(),  getSession().getPlayer()));
+    }
   }
 }
