@@ -34,15 +34,17 @@ public class GameTimerBar extends VBox {
     HBox.setHgrow(progressBar, Priority.ALWAYS);
 
     weekLabel = new Label("Week: ");
-
+    weekLabel.getStyleClass().add("top-bar-time-label");
 
     pauseResumeButton = new Button("▶ Start");
+    pauseResumeButton.getStyleClass().add("top-bar-time-btn");
 
     speedButtons = List.of(
         new Button("1x"),
         new Button("3x"),
         new Button("5x")
     );
+    speedButtons.forEach(button -> button.getStyleClass().add("top-bar-time-btn"));
 
 
     HBox topBox = new HBox(8, pauseResumeButton, speedButtons.get(0), speedButtons.get(1), speedButtons.get(2));
@@ -50,6 +52,7 @@ public class GameTimerBar extends VBox {
 
     HBox bottomBox = new HBox(8, progressBar, weekLabel);
     bottomBox.setAlignment(Pos.CENTER);
+    bottomBox.prefWidthProperty().bind(this.widthProperty());
     HBox.setHgrow(progressBar, Priority.ALWAYS);
 
 

@@ -1,19 +1,16 @@
 package idi.gruppe07.ui.custom.widgets;
 
 import idi.gruppe07.entities.Portfolio;
-import idi.gruppe07.entities.Share;
 import idi.gruppe07.utils.Validate;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Collections;
 import java.util.List;
 
 public class PortfolioChartPane extends VBox {
@@ -24,27 +21,31 @@ public class PortfolioChartPane extends VBox {
   public PortfolioChartPane(Portfolio portfolio) {
     this.portfolio = portfolio;
     this.getStyleClass().add("portfolio-chart-pane");
-    if (portfolio == null) {
-      initEmpty();
-    }
-    else{
+    if (portfolio != null){
       initLayout();
     }
   }
-  public void initEmpty(){
 
-  }
   public void initLayout(){
 
     Label totalValue = new Label("Total portfolio value");
+    totalValue.getStyleClass().add("portfolio-chart-pane-label");
+    totalValue.styleProperty().bind(this.heightProperty()
+        .multiply(0.05)
+        .asString("-fx-font-size: %.2fpx;"));
     HBox labels = new HBox(10, totalValue, buildChangeLabel(portfolio.getHistoricNetWorth()));
 
-    Label value = new Label("$"+portfolio.getNetWorth());
+    Label value = new Label("$"+portfolio.getNetWorth().setScale(2, RoundingMode.HALF_UP));
+    value.getStyleClass().add("portfolio-chart-pane-label");
+    value.styleProperty().bind(this.heightProperty()
+        .multiply(0.05)
+        .asString("-fx-font-size: %.2fpx;"));
 
 
     getChildren().addAll(labels, value);
 
     buildChart(portfolio.getHistoricNetWorth());
+    chart.getStyleClass().add("portfolio-chart-pane-chart");
     this.getChildren().add(chart);
 
   }
@@ -93,7 +94,7 @@ public class PortfolioChartPane extends VBox {
     }
 
     BigDecimal previous = history.get(history.size() - 2);
-    BigDecimal current  = history.get(history.size() - 1);
+    BigDecimal current  = history.getLast();
 
     BigDecimal change = current.subtract(previous)
         .divide(previous, 4, RoundingMode.HALF_UP)
@@ -101,7 +102,6 @@ public class PortfolioChartPane extends VBox {
 
     boolean positive = change.compareTo(BigDecimal.ZERO) >= 0;
     String arrow  = positive ? "▲" : "▼";
-    String color  = positive ? "#1a7a3f" : "#a02020";  // adjust to match your theme
 
     label.setText(String.format("%s %+.1f%%", arrow, change.doubleValue()));
     if (positive) {

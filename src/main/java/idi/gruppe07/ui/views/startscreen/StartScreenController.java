@@ -9,7 +9,6 @@ import idi.gruppe07.ui.views.ViewController;
 import idi.gruppe07.ui.views.ViewManager;
 import idi.gruppe07.ui.views.ViewElement;
 import idi.gruppe07.ui.views.ViewData;
-import idi.gruppe07.ui.views.dashboard.DashBoardView;
 import idi.gruppe07.ui.views.startscreen.panes.LoadGamePane;
 import idi.gruppe07.utils.StockDataFileReader;
 import idi.gruppe07.utils.StockFileChooser;
@@ -61,13 +60,13 @@ public class StartScreenController extends ViewController<StartScreenView> {
   @Override
   protected void initInteractions() {
     // New game button
-    getViewElement().getNewGameButton().setOnAction(e ->
+    getViewElement().getNewGameButton().setOnAction(_ ->
         getViewElement().getNewGamePane().show()
     );
     // Custom game button
-    getViewElement().getNewGamePane().getCustomGameButton().setOnAction(e -> {
+    getViewElement().getNewGamePane().getCustomGameButton().setOnAction(_ -> {
       Stage stage = (Stage) getViewElement().getNewGamePane().getCustomGameButton().getScene().getWindow();
-      InputStream path = null;
+      InputStream path;
       try {
         path = StockFileChooser.getPathFromFile(stage);
       } catch (IOException ex) {
@@ -75,7 +74,6 @@ public class StartScreenController extends ViewController<StartScreenView> {
       }
 
       String name;
-      StockDataFileReader reader = new StockDataFileReader();
       if(path != null){
         this.stockPath = path;
         try {
@@ -87,12 +85,12 @@ public class StartScreenController extends ViewController<StartScreenView> {
         getViewElement().getNewGamePane().getCustomGameButton().setText("Loaded: " + name);
       }
     });
-    // Cancel button in new game pane
-    getViewElement().getNewGamePane().getCancelButton().setOnAction(e ->
+    // Cancel button in the "new game" pane
+    getViewElement().getNewGamePane().getCancelButton().setOnAction(_ ->
         getViewElement().getNewGamePane().hide()
     );
-    // Start button in new game pane
-    getViewElement().getNewGamePane().getStartButton().setOnAction(e -> {
+    // Start button in the "new game" pane
+    getViewElement().getNewGamePane().getStartButton().setOnAction(_ -> {
       String startingMoney = getViewElement().getNewGamePane().getStartingCash();
       BigDecimal cash;
 
@@ -141,18 +139,19 @@ public class StartScreenController extends ViewController<StartScreenView> {
       }
       getViewElement().getNewGamePane().hide();
       navigateTo(DASHBOARD_NAME);
+      getSession().simulate();
       IO.println("called navigate");
     });
     // Load game button
-    getViewElement().getLoadGameButton().setOnAction(e -> {
+    getViewElement().getLoadGameButton().setOnAction(_ -> {
       getViewElement().getLoadGamePane().show();
     });
     // Cancel button in load game pane
-    getViewElement().getLoadGamePane().getCancelButton().setOnAction(e -> {
+    getViewElement().getLoadGamePane().getCancelButton().setOnAction(_ -> {
       getViewElement().getLoadGamePane().hide();
     });
     // Load button in load game pane
-    getViewElement().getLoadGamePane().getLoadButton().setOnAction(e -> {
+    getViewElement().getLoadGamePane().getLoadButton().setOnAction(_ -> {
 
       LoadGamePane pane = getViewElement().getLoadGamePane();
       if(pane.getSelectedButton() == null){
@@ -165,17 +164,17 @@ public class StartScreenController extends ViewController<StartScreenView> {
 
     });
     // Multiplayer button
-    getViewElement().getMultiplayerButton().setOnAction(e -> {
+    getViewElement().getMultiplayerButton().setOnAction(_ -> {
       getViewElement().getOnlineGamePane().show();
     });
 
-    // Cancel button in online game pane
-    getViewElement().getOnlineGamePane().getCancelButton().setOnAction(e -> {
+    // Cancel button in the "online" game pane
+    getViewElement().getOnlineGamePane().getCancelButton().setOnAction(_ -> {
       getViewElement().getOnlineGamePane().hide();
     });
 
-    //Connect button in online game pane
-    getViewElement().getOnlineGamePane().getConnectButton().setOnAction(e -> {
+    //Connect button in the "online" game pane
+    getViewElement().getOnlineGamePane().getConnectButton().setOnAction(_ -> {
       if (getViewElement().getOnlineGamePane().getSelectedButton() == null) {
         return;
       }
@@ -184,12 +183,12 @@ public class StartScreenController extends ViewController<StartScreenView> {
       navigateTo("OnlineSessionScreen");
     });
 
-    getViewElement().getSettingsButton().setOnAction(e -> {
+    getViewElement().getSettingsButton().setOnAction(_ -> {
 
     });
 
     //Exit button
-    getViewElement().getExitButton().setOnAction(e -> System.exit(0));
+    getViewElement().getExitButton().setOnAction(_ -> System.exit(0));
   }
 
   /**

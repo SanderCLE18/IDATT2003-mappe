@@ -9,8 +9,10 @@ import idi.gruppe07.ui.custom.panes.TopBarBox;
 import idi.gruppe07.ui.custom.widgets.PortfolioChartPane;
 import idi.gruppe07.ui.custom.widgets.StockButtonChart;
 import idi.gruppe07.ui.session.Session;
+import idi.gruppe07.ui.session.SessionTimer;
 import idi.gruppe07.ui.views.ViewElement;
 import idi.gruppe07.utils.Validate;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -42,6 +44,8 @@ public class DashBoardView extends ViewElement<Pane> {
   private DashBoardPane content;
   private final List<NavItem> views;
 
+  /**The session advanceListener*/
+  private SessionTimer.AdvanceListener advanceListener;
 
   public DashBoardView(Session session, List<NavItem> views) {
     this(DASHBOARD_NAME, session, views);
@@ -81,13 +85,22 @@ public class DashBoardView extends ViewElement<Pane> {
     pane = new SideBarPane(this.views);
     VBox.setVgrow(this.pane, Priority.ALWAYS);
     sideBar = new SideBarView(getSession(), pane, content);
-
     getRootPane().getChildren().addAll(sideBar);
   }
 
   @Override
   public void onActivate() {
     this.content.update(getSession());
+
+    if(advanceListener == null){
+      advanceListener = () -> {
+        Platform.runLater(() -> this.content.update(getSession()));
+      };
+    }
+
+    getSession().getTimer().removeAdvanceListener(advanceListener);
+    getSession().getTimer().addAdvanceListener(advanceListener);
+
   }
 
   /**
@@ -122,16 +135,17 @@ public class DashBoardView extends ViewElement<Pane> {
     return content;
   }
 
-  private class DashBoardPane extends VBox {
+  private static class DashBoardPane extends VBox {
 
     public DashBoardPane() {
 
     }
     public void update(Session session) {
+      this.getChildren().clear();
       try{
         PortfolioChartPane portfolioPane = new PortfolioChartPane(session.getPlayer().getPortfolio());
         VBox portfolioVbox = new VBox(5, portfolioPane);
-        portfolioVbox.prefWidthProperty().bind(this.widthProperty());
+        portfolioVbox.prefWidthProperty().bind(this.widthProperty().multiply(0.6));
 
         Label activeHoldingsLabel = new Label("Active Holdings");
         activeHoldingsLabel.setAlignment(Pos.CENTER_LEFT);
@@ -145,6 +159,7 @@ public class DashBoardView extends ViewElement<Pane> {
         else{
           for (var value : session.getPlayer().getPortfolio().getShares()){
             StockButtonChart stockButtonChart = new StockButtonChart(value);
+            stockButtonChart.prefWidthProperty().bind(this.widthProperty().multiply(0.2));
             stockButtonsBox.getChildren().add(stockButtonChart);
           }
         }

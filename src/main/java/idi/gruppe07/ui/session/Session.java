@@ -1,9 +1,14 @@
 package idi.gruppe07.ui.session;
 
+import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
 import idi.gruppe07.player.Player;
 import idi.gruppe07.transactions.Exchange;
+import idi.gruppe07.transactions.Purchase;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Session class to store game critical data.
@@ -86,6 +91,15 @@ public class Session {
    * @param stocks The stocks to make the exchange with.*/
   public void makeExchange(String name, ArrayList<Stock> stocks) {
     exchange = new Exchange(name, stocks);
+  }
+
+  public void simulate(){
+    Stock stock = new Stock("SSC", "SanderC", new BigDecimal("100"));
+    exchange.add(stock);
+    exchange.buy("SSC", new BigDecimal("1"), getPlayer());
+    for(int i = 0; i < 50; i++){
+      this.exchange.advance();
+    }
   }
 
   public SessionTimer getTimer() {

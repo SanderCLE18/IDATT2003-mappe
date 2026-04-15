@@ -24,7 +24,14 @@ public class SessionTimer {
     void onTick(double progress);
   }
 
+  @FunctionalInterface
+  public interface AdvanceListener {
+    void onAdvance();
+  }
+
   private final List<TickListener> tickListeners = new ArrayList<>();
+  private final List<AdvanceListener> advanceListeners = new ArrayList<>();
+
 
   private ScheduledExecutorService scheduler;
   private ScheduledFuture<?> advanceFuture;
@@ -44,7 +51,11 @@ public class SessionTimer {
     }
 
     isRunning = true;
-    scheduler = Executors.newScheduledThreadPool(2);
+    scheduler = Executors.newScheduledThreadPool(2, r -> {
+      Thread t = new Thread(r);
+      t.setDaemon(true);
+      return t;
+    });
 
     long intervalMs = (ADVANCE_INTERVAL_SECONDS * 1000L)/speedMultiplier;
     long initialDelay = Math.max(0, intervalMs - elapsedMs.get());
@@ -53,6 +64,10 @@ public class SessionTimer {
       exchange.advance();
       player.getPortfolio().createNetWorthSnapshot();
       elapsedMs.set(0);
+      for (AdvanceListener listener : advanceListeners) {
+        listener.onAdvance();
+      }
+
     }, initialDelay, intervalMs, TimeUnit.MILLISECONDS);
 
     tickFuture = scheduler.scheduleAtFixedRate(() -> {
@@ -100,6 +115,16 @@ public class SessionTimer {
     tickListeners.remove(listener);
   }
 
+  /** Adds advance listener*/
+  public void addAdvanceListener(AdvanceListener listener) {
+    advanceListeners.add(listener);
+  }
+  /** Removes an advance listener. */
+  public void removeAdvanceListener(AdvanceListener listener) {
+    advanceListeners.remove(listener);
+  }
+
+  /**Sets the speed multiplier.*/
   public void setSpeedMultiplier(int speedMultiplier, Exchange exchange, Player player) {
     long oldInterval = (ADVANCE_INTERVAL_SECONDS * 1000L) / this.speedMultiplier;
     double currentProgressPercent = (double) elapsedMs.get() / oldInterval;
@@ -122,6 +147,9 @@ public class SessionTimer {
   }
 
 
+  /**Returns the boolean value of the gamestate.
+   *
+   * @return isRunning boolean value of whether the game is running.*/
   public boolean isRunning(){
     return isRunning;
   }

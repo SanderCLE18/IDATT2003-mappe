@@ -11,6 +11,7 @@ import idi.gruppe07.ui.views.startscreen.StartScreenView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -52,9 +53,19 @@ public final class LaunchParams extends Application {
     );
     try{
       scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
+
     }catch (Exception ex){
       IO.println("Failed to load stylesheet" + ex);
       exit(0);
+    }
+    String[] fontFiles = {
+        "SpaceGrotesk-Regular.ttf",
+        "SpaceGrotesk-Bold.ttf",
+        "SpaceGrotesk-Medium.ttf",
+    };
+
+    for (String fileName : fontFiles) {
+      Font.loadFont(getClass().getResourceAsStream("/fonts/" + fileName), 16);
     }
 
     stage.setMinWidth(720);
