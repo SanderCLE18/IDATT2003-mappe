@@ -54,6 +54,11 @@ public class ViewControllerTest {
     }
 
     @Override
+    public void onActivate() {
+
+    }
+
+    @Override
     public void setData(ViewData data) {
     }
 

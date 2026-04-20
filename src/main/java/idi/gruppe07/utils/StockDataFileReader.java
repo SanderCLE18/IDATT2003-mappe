@@ -2,10 +2,7 @@ package idi.gruppe07.utils;
 
 import idi.gruppe07.entities.Stock;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -23,6 +20,12 @@ public class StockDataFileReader {
    * */
   public ArrayList<Stock> readStockData(InputStream inputStream) throws IOException, IllegalArgumentException {
     ArrayList<Stock> stocks = new ArrayList<>();
+    try{
+      Validate.that(inputStream).isNotNull();
+    }catch (NullPointerException ex){
+      throw new FileNotFoundException("File not found!");
+    }
+
     Validate.that(inputStream).isNotNullOrEmpty();
 
     try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {

@@ -280,9 +280,10 @@
     -fx-background-color: #0D162B;
 }
 .portfolio-chart-pane-chart .chart-series-line {
-    -fx-stroke: #2ecc71; /* A nice fluid green */
+    -fx-stroke: #2ecc71;
     -fx-stroke-width: 4px;
 }
+
 .portfolio-chart-pane-chart .chart-plot-background {
     -fx-background-color: #0D162B;
 }
