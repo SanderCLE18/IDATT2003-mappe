@@ -9,6 +9,8 @@ import idi.gruppe07.ui.views.startscreen.panes.LoadGamePane;
 import idi.gruppe07.ui.views.startscreen.panes.NewGamePane;
 import idi.gruppe07.ui.views.startscreen.panes.OnlineGamePane;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -18,10 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 
-
-import java.util.Objects;
-
-  /**
+/**
    * View class for the start screen.
    *
    * <p>Displays the main menu with navigation options for starting
@@ -33,7 +32,7 @@ import java.util.Objects;
 public class StartScreenView extends ViewElement<StackPane> {
 
   /** The scene name identifier used by {@link ViewManager}. */
-  public static final String VIEW_NAME = "StartScreen";
+  public static final String START_SCREEN_VIEW = "StartScreen";
 
   /**
    * The controller for this view.
@@ -51,7 +50,7 @@ public class StartScreenView extends ViewElement<StackPane> {
    * Constructs a new {@code StartScreenView}.
    */
   public StartScreenView() {
-    super(new StackPane(), VIEW_NAME);
+    super(new StackPane(), START_SCREEN_VIEW);
   }
 
   /**
@@ -59,7 +58,7 @@ public class StartScreenView extends ViewElement<StackPane> {
    *
    * @param session the active session.*/
   public StartScreenView(Session session) {
-    super(new StackPane(), VIEW_NAME, session);
+    super(new StackPane(), START_SCREEN_VIEW, session);
   }
 
 
@@ -78,24 +77,10 @@ public class StartScreenView extends ViewElement<StackPane> {
     getRootPane().getStyleClass().add("root-pane");
 
 
-
-    Pane serverBar1 = new Pane();
-    serverBar1.getStyleClass().add("server-bar");
-
-    Pane serverBar2 = new Pane();
-    serverBar2.getStyleClass().add("server-bar");
-
-    Label boltLabel = new Label("⚡");
-    boltLabel.getStyleClass().add("bolt-label");
-
-    StackPane logoIcon = new StackPane(serverBar1, serverBar2, boltLabel);
-    logoIcon.getStyleClass().add("logo-icon");
-
-
-
+    ImageView logo = new ImageView(new Image("images/millionsLogo.png"));
+    logo.setPreserveRatio(true);
     Label titleLabel = new Label("MILLIONS");
     titleLabel.getStyleClass().add("title-label");
-
 
 
     newGameButton  =    new MenuButton("▶   NEW_GAME",  "menu-button-primary");
@@ -111,12 +96,13 @@ public class StartScreenView extends ViewElement<StackPane> {
     exitButton.prefWidthProperty().bind(getRootPane().widthProperty().multiply(0.4));
 
     VBox buttonBox = new VBox(12, newGameButton, loadGameButton, multiplayerButton, settingsButton, exitButton);
+    logo.fitWidthProperty().bind(buttonBox.widthProperty());
     buttonBox.setAlignment(Pos.CENTER);
     buttonBox.getStyleClass().add("button-box");
 
 
 
-    VBox centerBox = new VBox(32, logoIcon, titleLabel, buttonBox);
+    VBox centerBox = new VBox(32, logo, titleLabel, buttonBox);
     centerBox.setAlignment(Pos.CENTER);
     centerBox.getStyleClass().add("center-box");
 
@@ -162,12 +148,7 @@ public class StartScreenView extends ViewElement<StackPane> {
    * Applies styling to the view.*/
   @Override
   protected void initStyling() {
-    getRootPane().getStylesheets().add(
-        Objects.requireNonNull(
-            getClass().getResource("/stylesheet.css"),
-            "stylesheet.css not found on classpath"
-        ).toExternalForm()
-    );
+
   }
 
   @Override

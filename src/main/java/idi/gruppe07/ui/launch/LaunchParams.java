@@ -10,6 +10,7 @@ import idi.gruppe07.ui.views.startscreen.StartScreenController;
 import idi.gruppe07.ui.views.startscreen.StartScreenView;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -22,6 +23,15 @@ import static java.lang.System.exit;
 public final class LaunchParams extends Application {
   @Override
   public void start(final Stage stage) throws Exception {
+
+    stage.getIcons().addAll(
+        new Image("/icons/millionsIcon16.png"),
+        new Image("/icons/millionsIcon32.png"),
+        new Image("/icons/millionsIcon48.png"),
+        new Image("/icons/millionsIcon128.png"),
+        new Image("/icons/millionsIcon256.png")
+    );
+
     final EventManager eventManager = new EventManager();
     Session session = new Session();
     final ViewManager viewManager = new ViewManager(stage, eventManager, session);
@@ -48,7 +58,7 @@ public final class LaunchParams extends Application {
     viewManager.addView(dashBoardView);
     Scene scene;
     stage.setScene(
-        scene = new Scene(new StackPane(),720, 480)
+        scene = new Scene(new StackPane(),1200, 750)
     );
     try{
       scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
@@ -67,8 +77,8 @@ public final class LaunchParams extends Application {
       Font.loadFont(getClass().getResourceAsStream("/fonts/" + fileName), 16);
     }
 
-    stage.setMinWidth(720);
-    stage.setMinHeight(480);
+    stage.setMinWidth(1200);
+    stage.setMinHeight(750);
     viewManager.setScene(startScreenView);
     stage.setTitle("Millions");
     stage.show();

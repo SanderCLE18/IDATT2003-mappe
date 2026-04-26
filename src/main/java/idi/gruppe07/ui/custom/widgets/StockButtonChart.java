@@ -37,7 +37,7 @@ public class StockButtonChart extends VBox {
 
     Label fullName = new Label(stock.getCompany());
     double change = (lastTen.get(9).doubleValue() - lastTen.get(0).doubleValue()) / lastTen.get(0).doubleValue() * 100;
-    Label changeLabel = new Label(change + "%");
+    Label changeLabel = new Label(String.format("%.2f", change) + "%");
     if (change > 0) {
       changeLabel.getStyleClass().add("green-text");
     }

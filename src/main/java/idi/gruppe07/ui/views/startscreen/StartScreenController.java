@@ -131,8 +131,8 @@ public class StartScreenController extends ViewController<StartScreenView> {
       loadStockData();
 
       pane.hide();
-      navigateTo(DASHBOARD_VIEW);
       getSession().simulate();
+      navigateTo(DASHBOARD_VIEW);
     } catch (IllegalArgumentException ex) {
       //Handled inside the method
     } catch (Exception ex) {
