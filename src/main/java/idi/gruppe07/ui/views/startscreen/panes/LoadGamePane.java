@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -128,7 +129,7 @@ public class LoadGamePane extends VBox {
           (d, name) -> name.endsWith(SAVE_SUFFIX)
       );
       if (files != null) {
-        for (File f : files) result.add(f);
+        result.addAll(Arrays.asList(files));
       }
     }
     return result;
@@ -159,7 +160,7 @@ public class LoadGamePane extends VBox {
 
   /**Shows the pane. Also calls refresh in-case the list needs to be updated.*/
   public void show() {
-    refresh(); // Always re-scan when opening
+    refresh();
     this.setVisible(true);
     this.setManaged(true);
   }

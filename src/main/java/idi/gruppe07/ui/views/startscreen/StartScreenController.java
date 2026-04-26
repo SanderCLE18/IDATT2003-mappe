@@ -9,18 +9,18 @@ import idi.gruppe07.ui.views.ViewController;
 import idi.gruppe07.ui.views.ViewManager;
 import idi.gruppe07.ui.views.ViewElement;
 import idi.gruppe07.ui.views.ViewData;
-import idi.gruppe07.ui.views.startscreen.panes.LoadGamePane;
+import idi.gruppe07.ui.views.startscreen.panes.NewGamePane;
 import idi.gruppe07.utils.StockDataFileReader;
 import idi.gruppe07.utils.StockFileChooser;
 import idi.gruppe07.utils.Validate;
+import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 
-import static idi.gruppe07.ui.views.dashboard.DashBoardView.DASHBOARD_NAME;
+import static idi.gruppe07.ui.views.dashboard.DashBoardView.DASHBOARD_VIEW;
 
 /**
  * Controller for {@link StartScreenView}.
@@ -59,137 +59,166 @@ public class StartScreenController extends ViewController<StartScreenView> {
    */
   @Override
   protected void initInteractions() {
-    // New game button
-    getViewElement().getNewGameButton().setOnAction(_ ->
-        getViewElement().getNewGamePane().show()
-    );
-    // Custom game button
-    getViewElement().getNewGamePane().getCustomGameButton().setOnAction(_ -> {
-      Stage stage = (Stage) getViewElement().getNewGamePane().getCustomGameButton().getScene().getWindow();
-      InputStream path;
-      try {
-        path = StockFileChooser.getPathFromFile(stage);
-      } catch (IOException ex) {
-        throw new RuntimeException(ex);
-      }
+    var view = getViewElement();
 
-      String name;
-      if(path != null){
-        this.stockPath = path;
-        try {
-          name = new String(stockPath.readAllBytes(), StandardCharsets.UTF_8);
-        } catch (IOException ex) {
-          throw new RuntimeException(ex);
-        }
-        name = name.substring(name.lastIndexOf("\\") + 1, name.lastIndexOf("."));
-        getViewElement().getNewGamePane().getCustomGameButton().setText("Loaded: " + name);
-      }
-    });
-    // Cancel button in the "new game" pane
-    getViewElement().getNewGamePane().getCancelButton().setOnAction(_ ->
-        getViewElement().getNewGamePane().hide()
-    );
-    // Start button in the "new game" pane
-    getViewElement().getNewGamePane().getStartButton().setOnAction(_ -> {
-      String startingMoney = getViewElement().getNewGamePane().getStartingCash();
-      BigDecimal cash;
 
-      if(startingMoney.isEmpty() || startingMoney.equals("0")){
-        startingMoney = "10000";
-      }
-
-      try{
-        Validate.that(startingMoney).isValidNumber();
-        cash = new BigDecimal(startingMoney);
-      }catch (IllegalArgumentException ex){
-        getViewElement().getNewGamePane().getStartingCashInput().setPromptText("Invalid starting amount! ");
-        getViewElement().getNewGamePane().getStartingCashInput().setStyle("-fx-border-color: red;");
-        getViewElement().getNewGamePane().getStartingCashInput().requestFocus();
-        return;
-      }
-
-      try{
-        Validate.that(getViewElement().getNewGamePane().getName()).isNotNullOrEmpty();
-      }
-      catch (IllegalArgumentException ex){
-        getViewElement().getNewGamePane().getNameInput().setPromptText("Invalid name! ");
-        getViewElement().getNewGamePane().getNameInput().setStyle("-fx-border-color: red;");
-        getViewElement().getNewGamePane().getNameInput().requestFocus();
-        return;
-      }
-      Player player = new Player(getViewElement().getNewGamePane().getName(), cash);
-      getSession().setPlayer(player);
-      getSession().setSavefile(getViewElement().getNewGamePane().getName());
-      try{
-        StockDataFileReader reader = new StockDataFileReader();
-        String exchangeName;
-        InputStream finalStream;
-        if (stockPath == null) {
-          exchangeName = "S&P 500";
-          finalStream = getClass().getResourceAsStream("/sp500.csv");
-        }else{
-          exchangeName = "Et eller annet her";
-          finalStream = this.stockPath;
-        }
-        getSession().makeExchange(exchangeName, reader.readStockData(finalStream));
-      }catch (Exception ex) {
-        getViewElement().getNewGamePane().getCustomGameButton().setText("Error loading stock data!");
-        getViewElement().getNewGamePane().getCustomGameButton().setStyle("-fx-border-color: red;");
-        return;
-      }
-      getViewElement().getNewGamePane().hide();
-      navigateTo(DASHBOARD_NAME);
-      getSession().simulate();
-      IO.println("called navigate");
-    });
-    // Load game button
-    getViewElement().getLoadGameButton().setOnAction(_ -> {
-      getViewElement().getLoadGamePane().show();
-    });
-    // Cancel button in load game pane
-    getViewElement().getLoadGamePane().getCancelButton().setOnAction(_ -> {
-      getViewElement().getLoadGamePane().hide();
-    });
-    // Load button in load game pane
-    getViewElement().getLoadGamePane().getLoadButton().setOnAction(_ -> {
-
-      LoadGamePane pane = getViewElement().getLoadGamePane();
-      if(pane.getSelectedButton() == null){
-        return;
-      }
-
-      getSession().setSavefile(getViewElement().getLoadGamePane().getSelectedSave());
-      navigateTo(DASHBOARD_NAME);
-      getViewElement().getLoadGamePane().hide();
-
-    });
-    // Multiplayer button
-    getViewElement().getMultiplayerButton().setOnAction(_ -> {
-      getViewElement().getOnlineGamePane().show();
+    view.getNewGameButton().setOnAction(_ -> {
+      view.getNewGamePane().show();
+      setMenuButtonsDisabled(true);
     });
 
-    // Cancel button in the "online" game pane
-    getViewElement().getOnlineGamePane().getCancelButton().setOnAction(_ -> {
-      getViewElement().getOnlineGamePane().hide();
+    view.getLoadGameButton().setOnAction(_ -> {
+      view.getLoadGamePane().show();
+      setMenuButtonsDisabled(true);
     });
 
-    //Connect button in the "online" game pane
-    getViewElement().getOnlineGamePane().getConnectButton().setOnAction(_ -> {
-      if (getViewElement().getOnlineGamePane().getSelectedButton() == null) {
-        return;
-      }
-
-      getViewElement().getOnlineGamePane().hide();
-      navigateTo("OnlineSessionScreen");
+    view.getMultiplayerButton().setOnAction(_ -> {
+      view.getOnlineGamePane().show();
+      setMenuButtonsDisabled(true);
     });
 
-    getViewElement().getSettingsButton().setOnAction(_ -> {
+    view.getSettingsButton().setOnAction(_ -> { /*Something epic*/ });
 
-    });
+    view.getExitButton().setOnAction(_ -> System.exit(0));
 
-    //Exit button
-    getViewElement().getExitButton().setOnAction(_ -> System.exit(0));
+    // New Game Pane Handlers
+    initNewGameHandlers();
+
+    // Load Game Pane Handlers
+    initLoadGameHandlers();
+
+    // Online Game Pane Handlers
+    initOnlineGameHandlers();
   }
+
+  private void initNewGameHandlers() {
+    var pane = getViewElement().getNewGamePane();
+
+    pane.getCancelButton().setOnAction(_ -> {
+      pane.hide();
+      setMenuButtonsDisabled(false);
+    });
+    pane.getCustomGameButton().setOnAction(_ -> handleCustomFileSelection(pane));
+    pane.getStartButton().setOnAction(_ -> handleStartGame(pane));
+  }
+
+  /**Handles custom file selection in the NewGamePane
+   *
+   * @param pane The NewGamePane object*/
+  private void handleCustomFileSelection(NewGamePane pane) {
+    try {
+      Stage stage = (Stage) pane.getCustomGameButton().getScene().getWindow();
+      InputStream path = StockFileChooser.getPathFromFile(stage);
+
+      if (path != null) {
+        this.stockPath = path;
+        String name = "Custom Data";
+        pane.getCustomGameButton().setText("Loaded: " + name);
+      }
+    } catch (IOException ex) {
+      throw new RuntimeException("Failed to load custom stock file", ex);
+    }
+  }
+
+  private void handleStartGame(NewGamePane pane) {
+    try {
+      BigDecimal cash = validateAndGetStartingCash(pane);
+      String name = validateAndGetName(pane);
+
+      getSession().setPlayer(new Player(name, cash));
+      getSession().setSavefile(name);
+
+      loadStockData();
+
+      pane.hide();
+      navigateTo(DASHBOARD_VIEW);
+      getSession().simulate();
+    } catch (IllegalArgumentException ex) {
+      //Handled inside the method
+    } catch (Exception ex) {
+      pane.getCustomGameButton().setText("Error loading stock data!");
+      pane.getCustomGameButton().setStyle("-fx-border-color: red;");
+    }
+  }
+
+  private void loadStockData() throws Exception {
+    StockDataFileReader reader = new StockDataFileReader();
+    String exchangeName = (stockPath == null) ? "S&P 500" : "Custom Exchange";
+    InputStream finalStream = (stockPath == null)
+        ? getClass().getResourceAsStream("/sp500.csv")
+        : this.stockPath;
+
+    getSession().makeExchange(exchangeName, reader.readStockData(finalStream));
+  }
+
+  private BigDecimal validateAndGetStartingCash(NewGamePane pane) {
+    String raw = pane.getStartingCash();
+    String val = (raw.isEmpty() || raw.equals("0")) ? "10000" : raw;
+
+    try {
+      Validate.that(val).isValidNumber();
+      return new BigDecimal(val);
+    } catch (IllegalArgumentException ex) {
+      markInvalid(pane.getStartingCashInput(), "Invalid starting amount!");
+      throw ex;
+    }
+  }
+
+  private String validateAndGetName(NewGamePane pane) {
+    String name = pane.getName();
+    try {
+      Validate.that(name).isNotNullOrEmpty();
+      return name;
+    } catch (IllegalArgumentException ex) {
+      markInvalid(pane.getNameInput(), "Invalid name!");
+      throw ex;
+    }
+  }
+
+  private void markInvalid(TextInputControl input, String message) {
+    input.setPromptText(message);
+    input.setStyle("-fx-border-color: red;");
+    input.requestFocus();
+  }
+
+  private void initLoadGameHandlers() {
+    var pane = getViewElement().getLoadGamePane();
+    pane.getCancelButton().setOnAction(_ -> {
+      pane.hide();
+      setMenuButtonsDisabled(false);
+    });
+    pane.getLoadButton().setOnAction(_ -> {
+      if (pane.getSelectedButton() != null) {
+        getSession().setSavefile(pane.getSelectedSave());
+        navigateTo(DASHBOARD_VIEW);
+        pane.hide();
+      }
+    });
+  }
+
+  private void initOnlineGameHandlers() {
+    var pane = getViewElement().getOnlineGamePane();
+    pane.getCancelButton().setOnAction(_ -> {
+      pane.hide();
+      setMenuButtonsDisabled(false);
+    });
+    pane.getConnectButton().setOnAction(_ -> {
+      if (pane.getSelectedButton() != null) {
+        pane.hide();
+        navigateTo("OnlineSessionScreen");
+      }
+    });
+  }
+
+  private void setMenuButtonsDisabled(boolean disabled) {
+    var view = getViewElement();
+    view.getNewGameButton().setDisable(disabled);
+    view.getLoadGameButton().setDisable(disabled);
+    view.getMultiplayerButton().setDisable(disabled);
+    view.getSettingsButton().setDisable(disabled);
+    view.getExitButton().setDisable(disabled);
+  }
+
 
   /**
    * Fires a {@code SCENE_CHANGE} event for the given scene name.

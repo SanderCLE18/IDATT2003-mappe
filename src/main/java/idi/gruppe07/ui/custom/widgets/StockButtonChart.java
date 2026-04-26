@@ -12,8 +12,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class StockButtonChart extends VBox {
   Label name;
@@ -29,7 +29,7 @@ public class StockButtonChart extends VBox {
 
     name = new Label(stock.getSymbol());
     name.setAlignment(Pos.TOP_LEFT);
-    Label currentValue = new Label("$" + stock.getPrice());
+    Label currentValue = new Label("$" + stock.getPrice().setScale(2, RoundingMode.HALF_UP));
     currentValue.setAlignment(Pos.TOP_RIGHT);
     HBox.setHgrow(name, Priority.ALWAYS);
     HBox.setHgrow(currentValue, Priority.ALWAYS);
@@ -79,9 +79,10 @@ public class StockButtonChart extends VBox {
 
     Label holdings = new Label("Holdings : " + share.getQuantity().toString());
     holdings.setAlignment(Pos.BOTTOM_LEFT);
-    Label value = new Label("$" + share.getQuantity().multiply(stock.getPrice()));
+    Label value = new Label("$" + share.getQuantity().multiply(stock.getPrice()).setScale(2, RoundingMode.HALF_UP));
     value.setAlignment(Pos.BOTTOM_RIGHT);
     HBox shareInfoBox = new HBox(10, holdings, value);
+    shareInfoBox.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(holdings, Priority.ALWAYS);
     HBox.setHgrow(value, Priority.ALWAYS);
     getChildren().addAll(infoBox,chart,shareInfoBox);

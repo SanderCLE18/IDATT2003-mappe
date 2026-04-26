@@ -101,7 +101,7 @@ public class Portfolio {
    * @return The net worth of the portfolio.*/
   public BigDecimal getNetWorth() {
     return this.shares.stream()
-        .map(e->new SaleCalculator(e).calculateTotal())
+        .map(e->new SaleCalculator(e).calculateGross())
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 

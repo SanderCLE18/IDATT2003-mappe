@@ -95,11 +95,14 @@ public class Session {
 
   public void simulate(){
     Stock stock = new Stock("SSC", "SanderC", new BigDecimal("100"));
+    Stock stock2 = new Stock("SCC", "SanderCC", new BigDecimal("151"));
     exchange.add(stock);
-    exchange.buy("SSC", new BigDecimal("1"), getPlayer());
+    exchange.add(stock2);
     for(int i = 0; i < 50; i++){
       this.exchange.advance();
     }
+    exchange.buy( "SSC", new BigDecimal("1"), getPlayer());
+    exchange.buy("SCC", new BigDecimal("1.12"), getPlayer());
   }
 
   public SessionTimer getTimer() {

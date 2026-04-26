@@ -61,8 +61,8 @@ public class SessionTimer {
     long initialDelay = Math.max(0, intervalMs - elapsedMs.get());
 
     advanceFuture = scheduler.scheduleAtFixedRate(() -> {
-      exchange.advance();
       player.getPortfolio().createNetWorthSnapshot();
+      exchange.advance();
       elapsedMs.set(0);
       for (AdvanceListener listener : advanceListeners) {
         listener.onAdvance();

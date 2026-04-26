@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import java.util.List;
 import java.util.Objects;
 
-import static idi.gruppe07.ui.views.dashboard.DashBoardView.DASHBOARD_NAME;
 import static java.lang.System.exit;
 
 public final class LaunchParams extends Application {
@@ -34,7 +33,7 @@ public final class LaunchParams extends Application {
     // ADD VIEWS HERE
 
     List<NavItem> navItems = List.of(
-        new NavItem("DASHBOARD", DashBoardView.DASHBOARD_NAME),
+        new NavItem("DASHBOARD", DashBoardView.DASHBOARD_VIEW),
         new NavItem("MARKETS", ""),
         new NavItem("PORTFOLIO",""),
         new NavItem("NEWS FEED","")

@@ -8,11 +8,11 @@ import java.math.BigDecimal;
 /**
  * Calculator for calculating sales. */
 public class SaleCalculator implements TransactionCalculator {
-  private BigDecimal purchasePrice;
+  private final BigDecimal purchasePrice;
   private final BigDecimal commission = BigDecimal.valueOf(0.01);
   private final BigDecimal taxRate = BigDecimal.valueOf(0.3);
-  private BigDecimal salesPrice;
-  private BigDecimal quantity;
+  private final BigDecimal salesPrice;
+  private final BigDecimal quantity;
 
   /**
    * Constructs a SaleCalculator for the given share.
@@ -55,6 +55,11 @@ public class SaleCalculator implements TransactionCalculator {
   public BigDecimal calculateTax() {
     BigDecimal purchaseCost = purchasePrice.multiply(quantity);
     BigDecimal gain = calculateGross().subtract(purchaseCost).subtract(calculateCommission());
+
+    if (gain.compareTo(BigDecimal.ZERO) < 0) {
+      return BigDecimal.ZERO;
+    }
+
     return gain.multiply(taxRate);
   }
 

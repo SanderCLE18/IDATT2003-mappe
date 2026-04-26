@@ -266,9 +266,9 @@
 .portfolio-chart-pane{
     -fx-background-color: #0D162B;
     -fx-border-color:     transparent;
-    -fx-border-width:       1px;
-    -fx-border-radius:     2px;
-    -fx-background-radius: 2px;
+    -fx-border-width:       1;
+    -fx-border-radius:     5;
+    -fx-background-radius: 5;
     -fx-padding:           10 12 10 12;
 }
 .portfolio-chart-pane-label {
@@ -310,5 +310,16 @@
     -fx-border-color: #ff0000;
     -fx-border-radius: 6;
     -fx-border-width: 1;
+}
+.dashboard-secondary-pane{
+    -fx-background-color: #141F38;
+    -fx-padding:      10 12 10 12;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.dashboard-secondary-pane .label{
+    -fx-text-fill: #DEE5FF;
+    -fx-font-family: "Inter";
+    -fx-font-weight: 700;
 }
 
