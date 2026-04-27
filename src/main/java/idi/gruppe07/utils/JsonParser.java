@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -15,9 +16,9 @@ public class JsonParser {
   /**Constructor.
    * Takes in a path to a file and creates a new JSON object if possible.
    *
-   * @param path The path to the JSON file. */
-  public JsonParser(Path path) throws IOException {
-    String content = new String(Files.readAllBytes(path.toAbsolutePath()));
+   * @param is The path to the JSON file. */
+  public JsonParser(InputStream is) throws IOException {
+    String content = new String(is.readAllBytes());
     jsonObject = new JSONObject(content);
   }
 

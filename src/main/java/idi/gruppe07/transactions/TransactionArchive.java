@@ -3,6 +3,7 @@ package idi.gruppe07.transactions;
 import idi.gruppe07.utils.Validate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,6 +79,20 @@ public class TransactionArchive {
         .filter(n -> n instanceof Sale)
         .map(n -> (Sale) n)
         .collect(Collectors.toList());
+  }
+
+  /**
+   * Retrieves a list of transaction within a specific range,
+   *
+   * @return a list of the latest transactions
+   * */
+  public List<Transaction> getLatestTransactions(int range) throws IllegalArgumentException {
+    Validate.that(range).isNotNegative();
+
+    List<Transaction> reversed = new ArrayList<>(this.transactions);
+    Collections.reverse(reversed);
+
+    return reversed.stream().limit(range).collect(Collectors.toList());
   }
 
   /**

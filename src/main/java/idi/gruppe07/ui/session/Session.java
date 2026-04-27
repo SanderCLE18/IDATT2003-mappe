@@ -5,6 +5,7 @@ import idi.gruppe07.entities.Stock;
 import idi.gruppe07.player.Player;
 import idi.gruppe07.transactions.Exchange;
 import idi.gruppe07.transactions.Purchase;
+import idi.gruppe07.transactions.Transaction;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -102,8 +103,11 @@ public class Session {
     for(int i = 0; i < 50; i++){
       this.exchange.advance();
       if (i == 35){
-        exchange.buy( "SSC", new BigDecimal("1"), getPlayer());
-        exchange.buy("SCC", new BigDecimal("1.12"), getPlayer());
+        Transaction buy1 = exchange.buy( "SSC", new BigDecimal("1"), getPlayer());
+        Transaction buy2 = exchange.buy("SCC", new BigDecimal("1.12"), getPlayer());
+
+        player.getTransactionArchive().add(buy1);
+        player.getTransactionArchive().add(buy2);
       }
     }
 
