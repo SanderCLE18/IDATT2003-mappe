@@ -18,21 +18,18 @@ public class NewsArticle {
 
     double stockChange = stock.getPredictedGrowth().getExpectedReturn();
 
+    JSONObject obj;
     if (stockChange >= 0.05) {
-      JSONObject obj = parser.getRandomArticle("good_news");
-      headline = obj.getString("headline");
-      article = obj.getString("body");
+      obj = parser.getRandomArticle("good_news");
     }
     else if (stockChange <= -0.05) {
-      JSONObject obj = parser.getRandomArticle("bad_news");
-      headline = obj.getString("headline");
-      article = obj.getString("body");
+      obj = parser.getRandomArticle("bad_news");
     }
     else {
-      JSONObject obj = parser.getRandomArticle("neutral_news");
-      headline = obj.getString("headline");
-      article = obj.getString("body");
+      obj = parser.getRandomArticle("neutral_news");
     }
+    headline = String.format(obj.getString("headline"), stock.getCompany());
+    article = String.format(obj.getString("body"), stock.getCompany());
 
   }
 
