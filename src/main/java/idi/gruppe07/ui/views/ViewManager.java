@@ -38,7 +38,7 @@ public class ViewManager implements EventSubscriber {
   /**
    * The session of the application.
    * @see Session*/
-  private final Session session = new Session();
+  private final Session session;
 
   /**
    * Current view.*/
@@ -50,13 +50,14 @@ public class ViewManager implements EventSubscriber {
    * @param stage        the {@link Stage} object this application is running on.
    * @param eventManager the {@link EventManager} used by this application.
    */
-  public ViewManager(final Stage stage, final EventManager eventManager) {
+  public ViewManager(final Stage stage, final EventManager eventManager, Session session) {
     this.viewMap = new HashMap<>();
     sceneHistory = new ArrayDeque<>();
 
     eventManager.addSubscriber(this, EventType.SCENE_CHANGE);
     eventManager.addSubscriber(this, EventType.SCENE_BACK);
 
+    this.session = session;
     this.stage = stage;
   }
 
@@ -101,6 +102,7 @@ public class ViewManager implements EventSubscriber {
   public void setScene(final ViewData data) {
     ViewElement<?> viewElement = viewMap.get(data.getSceneName());
     viewElement.setData(data);
+    viewElement.onActivate();
     stage.getScene().setRoot(viewElement.getRootPane());
     currentView = viewElement;
   }
@@ -130,9 +132,9 @@ public class ViewManager implements EventSubscriber {
   public <T> void handleEvent(final EventData<T> data)  {
     switch (data.eventType()){
       case SCENE_CHANGE -> {
-
         Validate.that(currentView).isNotNull();
         sceneHistory.push(currentView.getViewName());
+        setScene((ViewData) data.data());
 
       }
       case SCENE_BACK -> {

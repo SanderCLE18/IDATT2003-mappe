@@ -1,5 +1,6 @@
 package idi.gruppe07.utils;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 
 /**
@@ -47,14 +48,29 @@ public class Validate {
 
   /**
    * Validates that the object is not null or empty.
-   * To be used with Strings.
+   * To be used with Strings or InputStreams.
    *
    * @return this
    * @throws IllegalArgumentException if the object is null or empty
    */
   public Validate isNotNullOrEmpty() throws IllegalArgumentException {
+    try {
+      Validate.that(object).isNotNull();
+    }catch (NullPointerException e){
+      throw new IllegalArgumentException("Object cannot be null!");
+    }
+
     if (object instanceof String str && str.isEmpty()) {
       throw new IllegalArgumentException("String cannot be empty!");
+    }
+    if (object instanceof InputStream is){
+      try{
+         if(is.available() == 0){
+           throw new IllegalArgumentException("InputStream cannot be empty!");
+         }
+       }catch (Exception ex){
+         throw new IllegalArgumentException("Could not check InputStream availability", ex);
+       }
     }
     return this;
   }
@@ -90,7 +106,7 @@ public class Validate {
    */
   public Validate isNotZero() throws IllegalArgumentException {
     if (object instanceof BigDecimal bd) {
-      if (bd.compareTo(BigDecimal.ZERO) != 0) {
+      if (bd.compareTo(BigDecimal.ZERO) == 0) {
         throw new IllegalArgumentException("Number cannot be zero!");
       }
       return this;
@@ -100,6 +116,25 @@ public class Validate {
     double num = Double.parseDouble(object.toString());
     if (num == 0) {
       throw new IllegalArgumentException("Number cannot be zero!");
+    }
+    return this;
+  }
+
+  /**
+   * Validates that the object is a valid number.
+   *
+   * @return this
+   * @throws IllegalArgumentException if the object is not a valid number
+   * @see BigDecimal*/
+  public Validate isValidNumber() throws IllegalArgumentException {
+    if (object == null) {
+      throw new IllegalArgumentException("Object cannot be null!");
+    }
+
+    try{
+      new BigDecimal(object.toString());
+    }catch(NumberFormatException e){
+      throw new IllegalArgumentException("Object is not a valid number!");
     }
     return this;
   }

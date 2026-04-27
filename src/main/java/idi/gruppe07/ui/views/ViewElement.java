@@ -1,5 +1,6 @@
 package idi.gruppe07.ui.views;
 
+import idi.gruppe07.ui.session.Session;
 import javafx.scene.layout.Pane;
 
 /**
@@ -25,6 +26,10 @@ public abstract class ViewElement<T extends Pane> {
   private String viewName;
 
   /**
+   *Session object.*/
+  private Session session;
+
+  /**
    * Constructor with a name.
    *
    * @param rootPane an instance of type T (defined in the class).
@@ -47,6 +52,35 @@ public abstract class ViewElement<T extends Pane> {
   protected ViewElement(final T rootPane, final String viewName, boolean initLoading) {
     this(rootPane, initLoading);
     this.viewName = viewName;
+  }
+
+  /**
+   * Constructor with a name and initLoading.
+   *
+   * @param rootPane    an instance of type T (defined in the class).
+   * @param viewName    The name of the view.
+   * @param session     {@link Session} object.
+   * @param initLoading boolean value representing if the view should be initialized. Default is true.
+   *
+   */
+  protected ViewElement(final T rootPane, final String viewName, Session session, boolean initLoading) {
+    this(rootPane, initLoading);
+    this.viewName = viewName;
+    this.session = session;
+  }
+
+  /**
+   * Constructor with a name and initLoading.
+   *
+   * @param rootPane    an instance of type T (defined in the class).
+   * @param viewName    The name of the view.
+   * @param session     {@link Session} object.
+   *
+   */
+  protected ViewElement(final T rootPane, final String viewName, Session session) {
+    this(rootPane, true);
+    this.viewName = viewName;
+    this.session = session;
   }
 
   /**
@@ -127,5 +161,15 @@ public abstract class ViewElement<T extends Pane> {
   public <T2 extends ViewData> void setData(final T2 data) {
     setViewName(data.getSceneName());
   }
+
+  /**
+   * Getter method for the session.*/
+  public Session getSession() {
+    return session;
+  }
+
+  /**
+   * Abstract method that is called when the view element is activated/loaded into view..*/
+  public abstract void onActivate();
 
 }

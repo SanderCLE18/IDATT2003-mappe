@@ -1,5 +1,6 @@
 package idi.gruppe07.ui.event;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public final class EventManager {
    * @param type       the {@link EventType} this subscriber should subscribe to.
    */
   public void addSubscriber(final EventSubscriber subscriber, final EventType type) {
-    subscriberMap.computeIfAbsent(type, k -> List.of()).add(subscriber);
+    subscriberMap.computeIfAbsent(type, k -> new ArrayList<>()).add(subscriber);
   }
 
   /**
