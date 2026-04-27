@@ -102,6 +102,7 @@ public class ViewManager implements EventSubscriber {
   public void setScene(final ViewData data) {
     ViewElement<?> viewElement = viewMap.get(data.getSceneName());
     viewElement.setData(data);
+    viewElement.onActivate();
     stage.getScene().setRoot(viewElement.getRootPane());
     currentView = viewElement;
   }
@@ -131,9 +132,9 @@ public class ViewManager implements EventSubscriber {
   public <T> void handleEvent(final EventData<T> data)  {
     switch (data.eventType()){
       case SCENE_CHANGE -> {
-
         Validate.that(currentView).isNotNull();
         sceneHistory.push(currentView.getViewName());
+        setScene((ViewData) data.data());
 
       }
       case SCENE_BACK -> {

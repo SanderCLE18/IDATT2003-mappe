@@ -1,6 +1,6 @@
 package idi.gruppe07.ui.views.startscreen.panes;
 
-import idi.gruppe07.ui.views.startscreen.MenuButton;
+import idi.gruppe07.ui.custom.widgets.MenuButton;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

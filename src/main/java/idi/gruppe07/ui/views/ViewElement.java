@@ -162,4 +162,14 @@ public abstract class ViewElement<T extends Pane> {
     setViewName(data.getSceneName());
   }
 
+  /**
+   * Getter method for the session.*/
+  public Session getSession() {
+    return session;
+  }
+
+  /**
+   * Abstract method that is called when the view element is activated/loaded into view..*/
+  public abstract void onActivate();
+
 }

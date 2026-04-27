@@ -43,6 +43,11 @@ public class ViewManagerTest {
     @Override
     protected void initStyling() {}
 
+    @Override
+    public void onActivate() {
+
+    }
+
     @Override public void setData(ViewData data) {}
   }
 

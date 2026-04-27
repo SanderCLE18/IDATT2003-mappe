@@ -2,9 +2,7 @@ package idi.gruppe07.utils;
 
 import idi.gruppe07.entities.Stock;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -16,15 +14,21 @@ public class StockDataFileReader {
   /**
    * Reads stock data from a CSV file and returns an ArrayList of Stock objects.
    *
-   * @param filePath The path to the CSV file.
+   * @param inputStream Replacement for string, takes in a resource instead of an expected path
    * @return An ArrayList of Stock objects.
    * @throws IOException If an I/O error occurs while reading the file.
    * */
-  public ArrayList<Stock> readStockData(String filePath) throws IOException, IllegalArgumentException {
+  public ArrayList<Stock> readStockData(InputStream inputStream) throws IOException, IllegalArgumentException {
     ArrayList<Stock> stocks = new ArrayList<>();
-    Validate.that(filePath).isNotNullOrEmpty();
+    try{
+      Validate.that(inputStream).isNotNull();
+    }catch (NullPointerException ex){
+      throw new FileNotFoundException("File not found!");
+    }
 
-    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+    Validate.that(inputStream).isNotNullOrEmpty();
+
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
       String line;
       while ((line = br.readLine()) != null) {
         if (line.startsWith("#") || line.trim().isEmpty()) {

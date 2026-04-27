@@ -35,6 +35,10 @@ public class Exchange {
             Stock::getSymbol, stock -> stock));
   }
 
+  public void add(Stock stock){
+    this.stockMap.put(stock.getSymbol(), stock);
+  }
+
   /**
    * Gets the name of the exchange.
    *
