@@ -4,6 +4,26 @@
     -fx-min-width:  680px;
     -fx-min-height: 460px;
 }
+.scroll-pane:focused{
+    -fx-background-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.scroll-pane{
+    -fx-background-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+/* ── Text ──────────────────────────────────────────────────────────── */
+.text-medium-bold {
+    -fx-text-fill: #DEE5FF;
+    -fx-font-family: Inter;
+    -fx-font-weight: 700;
+    -fx-font-size: 18;
+}
 
 /* ── Center column ──────────────────────────────────────────────────────────── */
 .center-box {
@@ -167,21 +187,21 @@
     -fx-background-color: rgba(22, 43, 77, 0.8);
     -fx-border-color:      #1e3a54;
 }
-/* The scrollbar insine startscreen */
+/* The scrollbar inside the start screen */
 .scroll-pane .scroll-bar:vertical {
-    -fx-background-color: #0b1828; /* Matches your .menu-button color */
+    -fx-background-color: #0b1828;
     -fx-width: 12px;
 }
 
 /* The actual bar */
 .scroll-pane .scroll-bar:vertical .thumb {
-    -fx-background-color: #1e3a54; /* Matches your border color */
+    -fx-background-color: #1e3a54;
     -fx-background-radius: 5px;
 }
 
 /* bar hover state */
 .scroll-pane .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #3a8fd4; /* Matches your button hover text */
+    -fx-background-color: #3a8fd4;
 }
 
 /* Hide the arrow buttons */
@@ -280,7 +300,7 @@
     -fx-background-color: #0D162B;
 }
 .portfolio-chart-pane-chart .chart-series-line {
-    -fx-stroke: #2ecc71;
+    -fx-stroke: #71a2ff;
     -fx-stroke-width: 4px;
 }
 
@@ -321,5 +341,12 @@
     -fx-text-fill: #DEE5FF;
     -fx-font-family: "Inter";
     -fx-font-weight: 700;
+}
+.stock-button-chart {
+    -fx-padding: 8;
+    -fx-background-radius: 6;
+    -fx-background-color: #0D162B;
+    -fx-border-radius: 6;
+
 }
 

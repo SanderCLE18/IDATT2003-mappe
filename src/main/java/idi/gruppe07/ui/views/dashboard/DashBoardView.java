@@ -17,7 +17,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -94,9 +93,7 @@ public class DashBoardView extends ViewElement<Pane> {
     this.content.update(getSession());
 
     if(advanceListener == null){
-      advanceListener = () -> {
-        Platform.runLater(() -> this.content.update(getSession()));
-      };
+      advanceListener = () -> Platform.runLater(() -> this.content.update(getSession()));
     }
 
     getSession().getTimer().removeAdvanceListener(advanceListener);
@@ -132,58 +129,89 @@ public class DashBoardView extends ViewElement<Pane> {
 
   }
 
+  /**
+   * A custom UI component that displays the player's dashboard,
+   * including portfolio charts and active stock holdings.
+   */
   private static class DashBoardPane extends VBox {
 
+    /**
+     * Constructs a new DashBoardPane with default padding and background styling.
+     */
     public DashBoardPane() {
       super(5);
       setPadding(new Insets(6,4,6,4));
       this.setStyle("-fx-background-color: #060E20;");
     }
+
+    /**
+     * Refreshes the dashboard content based on the current session data.
+     * @param session The current game session containing player and portfolio data.
+     */
     public void update(Session session) {
       this.getChildren().clear();
-      try{
-        setSpacing(10);
-        PortfolioChartPane portfolioPane = new PortfolioChartPane(session.getPlayer().getPortfolio());
-        VBox secondaryPane = getSecondaryPane(session);
-        secondaryPane.getStyleClass().add("dashboard-secondary-pane");
 
-        VBox.setVgrow(portfolioPane, Priority.ALWAYS);
-        HBox portfolioHbox = new HBox(5, portfolioPane, secondaryPane);
-        HBox.setHgrow(portfolioHbox, Priority.ALWAYS);
-        portfolioPane.prefWidthProperty().bind(portfolioHbox.widthProperty().multiply(0.76));
-        secondaryPane.prefWidthProperty().bind(portfolioHbox.widthProperty().multiply(0.2));
+      PortfolioChartPane portfolioPane = new PortfolioChartPane(session.getPlayer().getPortfolio());
+      VBox secondaryPane = getSecondaryPane(session);
+      secondaryPane.getStyleClass().add("dashboard-secondary-pane");
 
+      HBox portfolioHbox = new HBox(5, portfolioPane, secondaryPane);
+      HBox.setHgrow(portfolioPane, Priority.ALWAYS);
 
-        Label activeHoldingsLabel = new Label("Active Holdings");
-        activeHoldingsLabel.setAlignment(Pos.CENTER_LEFT);
-        HBox stockButtonsBox = new HBox(10);
+      portfolioPane.prefWidthProperty().bind(portfolioHbox.widthProperty().multiply(0.76));
+      secondaryPane.prefWidthProperty().bind(portfolioHbox.widthProperty().multiply(0.24));
 
-        List<Share> portfolioList = session.getPlayer().getPortfolio().getShares();
-        if(portfolioList.isEmpty()){
-          Label noHoldingsLabel = new Label("No Holdings");
-          stockButtonsBox.getChildren().add(noHoldingsLabel);
-        }
-        else{
-          for (var value : session.getPlayer().getPortfolio().getShares()){
-            StockButtonChart stockButtonChart = new StockButtonChart(value);
-            stockButtonChart.prefWidthProperty().bind(this.widthProperty().multiply(0.2));
-            stockButtonsBox.getChildren().add(stockButtonChart);
-          }
-        }
+      VBox holdingsBox = createHoldingsBox(session);
 
-        ScrollPane activeHoldingsScroll = new ScrollPane(stockButtonsBox);
+      portfolioHbox.maxWidthProperty().bind(this.widthProperty());
+      holdingsBox.maxWidthProperty().bind(this.widthProperty());
 
-        HBox holdingsHBox = new HBox(5, activeHoldingsLabel, activeHoldingsScroll);
-
-        getChildren().addAll(portfolioHbox,  holdingsHBox);
-      }catch(Exception e){
-        IO.println("Error in DashBoardPane");
-      }
-
-
+      getChildren().addAll(portfolioHbox, holdingsBox);
     }
 
+    /**
+     * Creates the holdings section containing the scrollable list of stock buttons.
+     *
+     * @param session The current game session.
+     * @return A VBox containing the "Active Holdings" label and the scrollable stock list.
+     */
+    private VBox createHoldingsBox(Session session) {
+      Label activeHoldingsLabel = new Label("Active Holdings");
+      activeHoldingsLabel.getStyleClass().add("text-medium-bold");
+      activeHoldingsLabel.setAlignment(Pos.CENTER_LEFT);
 
+      HBox stockButtonsBox = new HBox(12);
+      stockButtonsBox.setStyle("-fx-background-color: #141F38;");
+
+      List<Share> portfolioList = session.getPlayer().getPortfolio().getShares();
+      if (portfolioList.isEmpty()) {
+        stockButtonsBox.getChildren().add(new Label("No Holdings"));
+      } else {
+        for (Share share : portfolioList) {
+          StockButtonChart stockButtonChart = new StockButtonChart(share);
+
+          stockButtonChart.prefWidthProperty().bind(this.widthProperty().multiply(0.125));
+          stockButtonChart.prefHeightProperty().bind(stockButtonChart.prefWidthProperty());
+          stockButtonChart.getStyleClass().add("stock-button-chart");
+          stockButtonsBox.getChildren().add(stockButtonChart);
+        }
+      }
+
+      ScrollPane activeHoldingsScroll = new ScrollPane(stockButtonsBox);
+
+      activeHoldingsScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+      activeHoldingsScroll.setFitToHeight(true);
+
+      VBox holdingsBox = new VBox(5, activeHoldingsLabel, activeHoldingsScroll);
+      holdingsBox.getStyleClass().add("dashboard-secondary-pane");
+
+      return holdingsBox;
+    }
+
+    /**Creates the holdings section containing the scrollable list of stock buttons.
+     *
+     * @param session a reference to the session object containing the player's portfolio
+     * @return a pane holding the monetary change of the portfolio */
     private static VBox getSecondaryPane(Session session) {
       Label performance = new Label(" Weekly Performance");
       Label changePl = new Label("Weekly P/L");
@@ -216,7 +244,7 @@ public class DashBoardView extends ViewElement<Pane> {
       plChange.setMaxWidth(Double.MAX_VALUE);
 
       VBox secondaryPane = new VBox(10, performance, plChange);
-      secondaryPane.setPadding(new Insets(10)); // Optional: looks better with padding
+      secondaryPane.setPadding(new Insets(10));
 
       return secondaryPane;
     }
