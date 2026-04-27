@@ -1,0 +1,128 @@
+{
+  "good_news": [
+    {
+      "headline": "%s shares surge on record quarterly earnings",
+      "body": "Investors reacted positively as %s reported a 15%% rise in net profit. Analysts suggest the company’s aggressive expansion into new markets is finally paying dividends."
+    },
+    {
+      "headline": "Efficiency gains bolster %s outlook",
+      "body": "Operational restructuring at %s has resulted in a significant reduction in overheads. The board expressed confidence that the current fiscal year will see record margins."
+    },
+    {
+      "headline": "%s secures landmark government contract",
+      "body": "In a major win for the firm, %s has been awarded a multi-year deal worth an estimated £500mn. The news sent shares climbing in early morning trading."
+    },
+    {
+      "headline": "R&D breakthrough puts %s ahead of rivals",
+      "body": "Technical innovations at %s are expected to disrupt the sector this winter. Market watchers have upgraded the stock to a 'Strong Buy' following the announcement."
+    },
+    {
+      "headline": "%s debt-to-equity ratio improves",
+      "body": "A disciplined approach to capital management has allowed %s to significantly deleverage its balance sheet. Creditors have welcomed the newfound fiscal stability."
+    },
+    {
+      "headline": "Acquisition rumors swirl around %s",
+      "body": "Speculation that %s is a prime takeover target has driven a flurry of trading activity. The company remains a dominant force in its core demographic."
+    },
+    {
+      "headline": "%s expands market share in emerging regions",
+      "body": "The latest industry report shows %s capturing an additional 4%% of the global market. Scaling efforts in Asia have exceeded internal growth targets."
+    },
+    {
+      "headline": "Dividend hike announced for %s shareholders",
+      "body": "Following a period of sustained cash flow, %s has authorized a 10%% increase in quarterly payouts. This move signals robust confidence in long-term liquidity."
+    },
+    {
+      "headline": "CEO of %s lauded for strategic pivot",
+      "body": "Industry experts are praising the leadership at %s for a successful transition to digital-first services. Revenue from the new division now accounts for a third of total turnover."
+    },
+    {
+      "headline": "%s supply chain resilience earns praise",
+      "body": "While competitors struggle with logistics, %s has maintained seamless operations through diversified sourcing. This reliability is attracting high-value corporate clients."
+    }
+  ],
+  "bad_news": [
+    {
+      "headline": "%s shares tumble amid mounting debt concerns",
+      "body": "Questions regarding the long-term solvency of %s have triggered a massive sell-off. Total liabilities have reportedly ballooned by 20%% over the last quarter."
+    },
+    {
+      "headline": "Regulatory probe launched into %s",
+      "body": "Authorities have confirmed an investigation into the accounting practices of %s. The news has wiped nearly £1bn off the company’s market valuation."
+    },
+    {
+      "headline": "%s issues profit warning as demand softens",
+      "body": "In a memo to investors, %s cautioned that annual earnings will fall well below previous guidance. Weakening consumer confidence is cited as the primary headwind."
+    },
+    {
+      "headline": "Senior leadership exodus at %s",
+      "body": "A string of high-profile resignations has left a vacuum at the top of %s. Internal morale is reportedly at an all-time low following the recent restructuring."
+    },
+    {
+      "headline": "Product recall expected to cost %s millions",
+      "body": "Quality control failures at %s have led to a nationwide recall of its flagship line. Beyond the immediate costs, the damage to brand reputation may be permanent."
+    },
+    {
+      "headline": "%s loses major client to rival firm",
+      "body": "In a blow to its B2B division, %s has failed to renew its contract with a key strategic partner. Analysts fear this could trigger a domino effect of client departures."
+    },
+    {
+      "headline": "Cybersecurity breach hits %s infrastructure",
+      "body": "Hackers have reportedly accessed sensitive customer data at %s. The company faces potential fines and a costly overhaul of its legacy IT systems."
+    },
+    {
+      "headline": "%s credit rating downgraded to 'Junk'",
+      "body": "Rating agencies have lowered the status of %s bonds, citing poor cash flow and high interest costs. This move will make future borrowing significantly more expensive."
+    },
+    {
+      "headline": "Labor disputes halt production at %s",
+      "body": "Striking workers at several %s facilities have brought operations to a standstill. Negotiations over wage increases remain deadlocked as losses mount daily."
+    },
+    {
+      "headline": "Disappointing R&D results for %s",
+      "body": "A highly anticipated project at %s has been scrapped following poor testing results. The sunk costs are expected to weigh heavily on the next fiscal report."
+    }
+  ],
+  "neutral_news": [
+    {
+      "headline": "%s maintains steady course in volatile market",
+      "body": "Despite broader economic uncertainty, %s has reported earnings in line with analyst expectations. The board remains committed to its current five-year plan."
+    },
+    {
+      "headline": "%s announces routine board reshuffle",
+      "body": "Several non-executive directors at %s are set to retire this autumn. The company stated the changes are part of a standard succession strategy."
+    },
+    {
+      "headline": "%s to consolidate regional offices",
+      "body": "In an effort to streamline operations, %s is merging its European headquarters. The move is expected to be cost-neutral over the next eighteen months."
+    },
+    {
+      "headline": "New ESG report released by %s",
+      "body": "The annual sustainability audit for %s shows moderate progress in carbon reduction. While not industry-leading, the figures meet current regulatory requirements."
+    },
+    {
+      "headline": "%s enters preliminary talks for joint venture",
+      "body": "Management at %s confirmed they are exploring a partnership in the logistics sector. No formal agreements have been signed at this stage."
+    },
+    {
+      "headline": "Market awaits %s quarterly update",
+      "body": "Trading in %s has remained flat as investors wait for tomorrow’s fiscal results. Volatility is expected to remain low until the figures are public."
+    },
+    {
+      "headline": "%s renews existing lease agreements",
+      "body": "The firm has secured its long-term physical footprint by renewing several warehouse contracts. This move provides operational certainty for %s through 2030."
+    },
+    {
+      "headline": "Tech upgrade at %s enters second phase",
+      "body": "The migration of %s internal databases to the cloud is proceeding as scheduled. Management expects minimal disruption to daily operations during the rollout."
+    },
+    {
+      "headline": "%s hosts annual general meeting",
+      "body": "Shareholders at the %s AGM voted to approve the current executive compensation package. The meeting concluded without any significant policy shifts."
+    },
+    {
+      "headline": "%s adjusts pricing model for inflation",
+      "body": "In response to rising supply costs, %s has implemented a modest price increase across its services. Initial data suggests customer retention remains stable."
+    }
+  ]
+}
