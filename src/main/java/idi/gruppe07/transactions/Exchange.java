@@ -1,5 +1,6 @@
 package idi.gruppe07.transactions;
 
+import idi.gruppe07.entities.PredictedGrowth;
 import idi.gruppe07.player.Player;
 import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
@@ -14,10 +15,10 @@ import java.util.stream.Collectors;
  * Represents a stock exchange where players can trade stocks.
  */
 public class Exchange {
-  private String name;
+  private final String name;
   private int week;
   private final Map<String, Stock> stockMap;
-  private Random random;
+  private final Random random;
 
   /**
    * Constructs an exchange with the given name and stocks.
@@ -33,6 +34,7 @@ public class Exchange {
     stockMap = stocks.stream()
         .collect(Collectors.toMap(
             Stock::getSymbol, stock -> stock));
+    random = new Random();
   }
 
   public void add(Stock stock){
@@ -142,14 +144,33 @@ public class Exchange {
     this.week++;
     NormalDistribution distribution = new NormalDistribution(0, 0.05);
     for (var stock : stockMap.values()) {
-      double returnRandom = distribution.nextGaussian();
+      PredictedGrowth prediction = stock.getPredictedGrowth();
 
-      BigDecimal multiplier = BigDecimal.valueOf(Math.exp(returnRandom));
-      BigDecimal deltaPrice = stock.getPrice().multiply(multiplier);
-      stock.addNewSalesPrice(deltaPrice);
+      if (prediction == null || prediction.tick()) {
+        stock.addPredictedGrowth(distribution);
+        prediction = stock.getPredictedGrowth();
+      }
+
+      double returnValue;
+
+      if (random.nextDouble() < prediction.getReliability()) {
+        NormalDistribution biasedDist =
+            new NormalDistribution(prediction.getExpectedReturn(), 0.02);
+        returnValue = biasedDist.nextGaussian();
+      } else {
+
+        returnValue = distribution.nextGaussian();
+      }
+
+      BigDecimal multiplier = BigDecimal.valueOf(Math.exp(returnValue));
+      stock.addNewSalesPrice(stock.getPrice().multiply(multiplier));
     }
   }
 
+  /**
+   * Returns the winners - stocks with the most amount of growth in the stock exchange
+   *
+   * @return a {@link List} of the biggest winners.*/
   public List<Stock> getGainers(int limit) {
     Validate.that(limit).isNotNegative();
 
@@ -159,13 +180,17 @@ public class Exchange {
     return gainers.subList(0, Math.min(limit, gainers.size()));
   }
 
-  public List<Stock> getLoosers(int limit) {
+  /**
+   * Returns the losers - stocks with the least amount of growth or biggest loss in the stock exchange
+   *
+   * @return a {@link List} of the biggest losers.*/
+  public List<Stock> getLosers(int limit) {
     Validate.that(limit).isNotNegative();
     if(stockMap.isEmpty()) return new ArrayList<>();
 
-    ArrayList<Stock> loosers = new ArrayList<>(stockMap.values());
-    loosers.sort(Comparator.comparing(Stock::getLatestPriceChange));
-    return loosers.subList(0, Math.min(limit, loosers.size()));
+    ArrayList<Stock> losers = new ArrayList<>(stockMap.values());
+    losers.sort(Comparator.comparing(Stock::getLatestPriceChange));
+    return losers.subList(0, Math.min(limit, losers.size()));
   }
 
 }
