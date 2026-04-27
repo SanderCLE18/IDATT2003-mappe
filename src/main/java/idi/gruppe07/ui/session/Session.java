@@ -105,9 +105,18 @@ public class Session {
       if (i == 35){
         Transaction buy1 = exchange.buy( "SSC", new BigDecimal("1"), getPlayer());
         Transaction buy2 = exchange.buy("SCC", new BigDecimal("1.12"), getPlayer());
+        Transaction buy3 = exchange.buy( "TSLA", new BigDecimal("4.20"), getPlayer());
+        Transaction buy4 = exchange.buy("AAPL", new BigDecimal("6.9"), getPlayer());
+        Transaction buy5 = exchange.buy( "MSFT", new BigDecimal("2.1"), getPlayer());
+        Transaction buy6 = exchange.buy("NVDA", new BigDecimal("3.3"), getPlayer());
 
         player.getTransactionArchive().add(buy1);
         player.getTransactionArchive().add(buy2);
+        player.getTransactionArchive().add(buy3);
+        player.getTransactionArchive().add(buy4);
+        player.getTransactionArchive().add(buy5);
+        player.getTransactionArchive().add(buy6);
+
       }
     }
 

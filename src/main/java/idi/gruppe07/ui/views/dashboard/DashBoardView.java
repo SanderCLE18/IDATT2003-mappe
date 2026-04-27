@@ -371,8 +371,8 @@ public class DashBoardView extends ViewElement<Pane> {
           new ImageView(
               new Image(Objects.requireNonNull(getClass().getResourceAsStream(iconPath))));
       imageView.getStyleClass().add(iconStyle);
-      imageView.setFitHeight(20);
-      imageView.setFitWidth(20);
+      imageView.setFitHeight(30);
+      imageView.setFitWidth(30);
 
 
       String action =
@@ -389,19 +389,36 @@ public class DashBoardView extends ViewElement<Pane> {
               .toString();
       Label priceLabel = new Label(priceText);
       priceLabel.getStyleClass().add("text-medium-bold");
+      actionLabel.setAlignment(Pos.CENTER_LEFT);
+      priceLabel.setAlignment(Pos.CENTER_RIGHT);
 
       setupHGrow(actionLabel, priceLabel);
-      VBox executionInfo = new VBox(10, actionLabel, priceLabel);
+      HBox executionInfo = new HBox(10, actionLabel, priceLabel);
+      HBox.setHgrow(executionInfo, Priority.ALWAYS);
 
 
-      Label sharesLabel =
-          new Label(
-              transaction.getShare().getQuantity().setScale(2, RoundingMode.HALF_UP) + " SHARES");
+      Label sharesLabel = new Label(
+              transaction.getShare().getQuantity().setScale(2, RoundingMode.HALF_UP)
+                  + " SHARES");
       Label executedLabel = new Label("EXECUTED");
-      setupHGrow(sharesLabel, executedLabel);
-      // VBox infoBox = new VBox(10, sharesLabel, executedLabel); // Optionally add this to the row
 
-      row.getChildren().addAll(imageView, executionInfo);
+      sharesLabel.getStyleClass().add("text-medium-regular");
+      executedLabel.getStyleClass().add("text-medium-regular");
+      sharesLabel.setAlignment(Pos.CENTER_LEFT);
+      executedLabel.setAlignment(Pos.CENTER_RIGHT);
+
+      sharesLabel.setStyle("-fx-text-fill: #798091");
+      executedLabel.setStyle("-fx-text-fill: #798091");
+
+      setupHGrow(sharesLabel, executedLabel);
+      HBox infoBox = new HBox(10, sharesLabel, executedLabel);
+      HBox.setHgrow(infoBox, Priority.ALWAYS);
+
+      VBox wrapper = new VBox(10, executionInfo, infoBox);
+      wrapper.setFillWidth(true);
+
+      HBox.setHgrow(wrapper, Priority.ALWAYS);
+      row.getChildren().addAll(imageView, wrapper);
       return row;
     }
   }
