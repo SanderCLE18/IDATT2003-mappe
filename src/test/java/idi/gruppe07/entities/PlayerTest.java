@@ -68,7 +68,7 @@ class PlayerTest {
       player.getPortfolio().addShare(appleShare);
       ArrayList<Share> shares = (ArrayList<Share>) player.getPortfolio().getShares();
       BigDecimal total = shares.stream()
-          .map(e -> new SaleCalculator(e).calculateTotal())
+          .map(e -> new SaleCalculator(e).calculateGross())
           .reduce(BigDecimal.ZERO, BigDecimal::add).add(player.getStartingMoney());
       assertEquals(total, player.getNetWorth());
     }
@@ -82,13 +82,13 @@ class PlayerTest {
       player.getPortfolio().addShare(appleShare);
       ArrayList<Share> shares = (ArrayList<Share>) player.getPortfolio().getShares();
       BigDecimal total = shares.stream()
-          .map(e -> new SaleCalculator(e).calculateTotal())
+          .map(e -> new SaleCalculator(e).calculateGross())
           .reduce(BigDecimal.ZERO, BigDecimal::add).add(player.getStartingMoney());
       assertEquals(total, player.getNetWorth());
 
       player.getPortfolio().addShare(googleShare);
       total = shares.stream()
-          .map(e -> new SaleCalculator(e).calculateTotal())
+          .map(e -> new SaleCalculator(e).calculateGross())
           .reduce(BigDecimal.ZERO, BigDecimal::add).add(player.getStartingMoney());
       assertEquals(total, player.getNetWorth());
 
