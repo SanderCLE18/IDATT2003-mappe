@@ -121,14 +121,14 @@ class  ExchangeTest {
   }
 
   @Test
-  void testGetLoosers() {
+  void testGetLosers() {
     appleStock.addNewSalesPrice(new BigDecimal("250.00")); // Biggest winner
     googleStock.addNewSalesPrice(new BigDecimal("2810.00")); // 2nd place
 
-    List<Stock> loosers = exchange.getLoosers(1);
+    List<Stock> losers = exchange.getLosers(1);
 
-    assertEquals(1, loosers.size());
-    assertSame(loosers.getFirst(), googleStock);
+    assertEquals(1, losers.size());
+    assertSame(losers.getFirst(), googleStock);
 
 
   }

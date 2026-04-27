@@ -93,6 +93,7 @@ public class Session {
     exchange = new Exchange(name, stocks);
   }
 
+  /**actual placeholder*/
   public void simulate(){
     Stock stock = new Stock("SSC", "SanderC", new BigDecimal("100"));
     Stock stock2 = new Stock("SCC", "SanderCC", new BigDecimal("151"));
@@ -100,11 +101,17 @@ public class Session {
     exchange.add(stock2);
     for(int i = 0; i < 50; i++){
       this.exchange.advance();
+      if (i == 35){
+        exchange.buy( "SSC", new BigDecimal("1"), getPlayer());
+        exchange.buy("SCC", new BigDecimal("1.12"), getPlayer());
+      }
     }
-    exchange.buy( "SSC", new BigDecimal("1"), getPlayer());
-    exchange.buy("SCC", new BigDecimal("1.12"), getPlayer());
+
   }
 
+  /**returns the session's timer
+   *
+   * @return the sessionTimer. */
   public SessionTimer getTimer() {
     return sessionTimer;
   }
