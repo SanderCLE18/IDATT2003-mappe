@@ -98,7 +98,8 @@ class  ExchangeTest {
   void testAdvance() {
     int initialWeek = exchange.getWeek();
     BigDecimal initialPrice = appleStock.getPrice();
-    
+
+    exchange.advance();
 
     // Check week incremented
     assertEquals(initialWeek + 1, exchange.getWeek());

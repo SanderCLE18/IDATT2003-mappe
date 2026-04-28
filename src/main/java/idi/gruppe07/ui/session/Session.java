@@ -1,16 +1,14 @@
 package idi.gruppe07.ui.session;
 
-import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
+import idi.gruppe07.news.NewsManager;
 import idi.gruppe07.news.NewsService;
 import idi.gruppe07.player.Player;
 import idi.gruppe07.transactions.Exchange;
-import idi.gruppe07.transactions.Purchase;
 import idi.gruppe07.transactions.Transaction;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Session class to store game critical data.
@@ -104,7 +102,7 @@ public class Session {
     exchange.add(stock);
     exchange.add(stock2);
     for(int i = 0; i < 50; i++){
-      this.exchange.advance(newsService);
+      advance();
       if (i == 35){
         Transaction buy1 = exchange.buy( "SSC", new BigDecimal("1"), getPlayer());
         Transaction buy2 = exchange.buy("SCC", new BigDecimal("1.12"), getPlayer());
@@ -123,6 +121,11 @@ public class Session {
       }
     }
 
+  }
+  public void advance(){
+    getExchange().advance();
+    NewsManager manager = new NewsManager(getNewsService());
+    manager.updateStockArticles(getExchange().getStockMap());
   }
 
   /**Returns the news article factory

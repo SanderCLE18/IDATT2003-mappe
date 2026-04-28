@@ -1,7 +1,5 @@
 package idi.gruppe07.ui.session;
 
-import idi.gruppe07.player.Player;
-import idi.gruppe07.transactions.Exchange;
 import idi.gruppe07.utils.Validate;
 
 import java.util.ArrayList;
@@ -62,7 +60,7 @@ public class SessionTimer {
 
     advanceFuture = scheduler.scheduleAtFixedRate(() -> {
       session.getPlayer().getPortfolio().createNetWorthSnapshot();
-      session.getExchange().advance(session.getNewsService());
+      session.advance();
       elapsedMs.set(0);
       for (AdvanceListener listener : advanceListeners) {
         listener.onAdvance();

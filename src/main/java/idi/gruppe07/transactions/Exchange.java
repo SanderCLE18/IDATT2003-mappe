@@ -61,6 +61,12 @@ public class Exchange {
     return week;
   }
 
+  /**Returns a map with all the stocks associated with the current exchange.
+   *
+   * @return a map with all the stocks*/
+  public Map<String, Stock> getStockMap() {
+    return stockMap;
+  }
   /**
    * Checks if the exchange has a stock with the given symbol.
    *
@@ -142,7 +148,7 @@ public class Exchange {
   /**
    * Advances the exchange by one week.
    * Sets new prices for each stock based on a normal distribution.*/
-  public void advance(NewsService newsService){
+  public void advance(){
     this.week++;
     NormalDistribution distribution = new NormalDistribution(0, 0.05);
     for (var stock : stockMap.values()) {
@@ -152,10 +158,6 @@ public class Exchange {
 
         stock.addPredictedGrowth(distribution);
         prediction = stock.getPredictedGrowth();
-
-        NewsArticle article = newsService.generateArticle(stock);
-        stock.setNewsArticle(article);
-
       }
 
       double returnValue;

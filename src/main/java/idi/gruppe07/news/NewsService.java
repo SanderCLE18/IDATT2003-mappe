@@ -4,6 +4,8 @@ import idi.gruppe07.entities.Stock;
 import idi.gruppe07.utils.JsonParser;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 /**Factory class for creating NewsArticles*/
 public class NewsService {
 
