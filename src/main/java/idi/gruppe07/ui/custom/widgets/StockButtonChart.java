@@ -116,7 +116,8 @@ public class StockButtonChart extends VBox {
   }
 
 
-  /**Centers two/spaces out two Nodes inside another Node */
+  /**
+   * Centers two/spaces out two Nodes inside another Node */
   private void setupHGrow(Node left, Node right) {
     HBox.setHgrow(left, Priority.ALWAYS);
     HBox.setHgrow(right, Priority.ALWAYS);

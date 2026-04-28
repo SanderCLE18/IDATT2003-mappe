@@ -1,5 +1,6 @@
 package idi.gruppe07.entities;
 
+import idi.gruppe07.news.NewsArticle;
 import idi.gruppe07.utils.NormalDistribution;
 import idi.gruppe07.utils.Validate;
 
@@ -12,11 +13,13 @@ import java.util.List;
  * Represents a stock.
  * */
 public class Stock {
-  private String symbol;
-  private String company;
-  private List<BigDecimal> prices;
+  private final String symbol;
+  private final String company;
+  private final List<BigDecimal> prices;
+  private NewsArticle article;
 
   private PredictedGrowth predictedGrowth;
+
 
   /**
    * Constructs a stock with the given symbol, company, and sales price.
@@ -117,6 +120,22 @@ public class Stock {
    * Returns the predicted growth object associated with the stock.*/
   public PredictedGrowth getPredictedGrowth() {
     return predictedGrowth;
+  }
+
+  /**
+   * Returns the associated news
+   *
+   * @return a news article object*/
+  public NewsArticle getNewsArticle() {
+    return article;
+  }
+
+  /**
+   * Sets the news article for the stock
+   *
+   * @param article the article*/
+  public void setNewsArticle(NewsArticle article) {
+    this.article = article;
   }
 
 }

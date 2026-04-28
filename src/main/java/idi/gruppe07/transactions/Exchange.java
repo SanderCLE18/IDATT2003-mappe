@@ -1,6 +1,8 @@
 package idi.gruppe07.transactions;
 
 import idi.gruppe07.entities.PredictedGrowth;
+import idi.gruppe07.news.NewsArticle;
+import idi.gruppe07.news.NewsService;
 import idi.gruppe07.player.Player;
 import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
@@ -59,6 +61,12 @@ public class Exchange {
     return week;
   }
 
+  /**Returns a map with all the stocks associated with the current exchange.
+   *
+   * @return a map with all the stocks*/
+  public Map<String, Stock> getStockMap() {
+    return stockMap;
+  }
   /**
    * Checks if the exchange has a stock with the given symbol.
    *
@@ -140,13 +148,14 @@ public class Exchange {
   /**
    * Advances the exchange by one week.
    * Sets new prices for each stock based on a normal distribution.*/
-  public void advance() {
+  public void advance(){
     this.week++;
     NormalDistribution distribution = new NormalDistribution(0, 0.05);
     for (var stock : stockMap.values()) {
       PredictedGrowth prediction = stock.getPredictedGrowth();
 
       if (prediction == null || prediction.tick()) {
+
         stock.addPredictedGrowth(distribution);
         prediction = stock.getPredictedGrowth();
       }
