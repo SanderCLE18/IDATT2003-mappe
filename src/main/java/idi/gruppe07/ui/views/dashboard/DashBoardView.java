@@ -178,6 +178,11 @@ public class DashBoardView extends ViewElement<Pane> {
       portfolioHbox.maxWidthProperty().bind(this.widthProperty());
       holdingsBox.maxWidthProperty().bind(this.widthProperty());
 
+      VBox.setVgrow(portfolioPane, Priority.ALWAYS);
+      VBox.setVgrow(holdingsBox, Priority.ALWAYS);
+      holdingsBox.setMinHeight(150);
+      portfolioHbox.setMinHeight(150);
+
       HBox newsAndHistory;
       try {
         newsAndHistory = getNewsAndHistoryBox(session);
@@ -278,10 +283,17 @@ public class DashBoardView extends ViewElement<Pane> {
     }
 
     private HBox getNewsAndHistoryBox(Session session) throws IOException {
-      VBox newsSection = createNewsSection(session);
-      VBox historySection = createHistorySection(session);
+      VBox newsBox = createNewsSection(session);
+      ScrollPane newsSection = new ScrollPane(newsBox);
+      newsBox.prefWidthProperty().bind(newsSection.prefWidthProperty());
+      newsSection.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-      HBox container = new HBox(5, newsSection, historySection);
+      VBox historySection = createHistorySection(session);
+      ScrollPane historyScroll = new ScrollPane(historySection);
+      historySection.prefWidthProperty().bind(historyScroll.prefWidthProperty());
+      historyScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+      HBox container = new HBox(5, newsSection, historyScroll);
 
       newsSection.prefWidthProperty().bind(container.widthProperty().multiply(0.6));
       historySection.prefWidthProperty().bind(container.widthProperty().multiply(0.4));
