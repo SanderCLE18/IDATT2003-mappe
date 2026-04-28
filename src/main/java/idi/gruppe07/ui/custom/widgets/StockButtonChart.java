@@ -18,8 +18,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 public class StockButtonChart extends VBox {
-  // Promote key components to fields if they need to be accessed later
-  private Label nameLabel;
+
   private final Share share;
   private final Stock stock;
 
@@ -27,17 +26,17 @@ public class StockButtonChart extends VBox {
     this.share = share;
     this.stock = share.getStock();
 
-    // 1. Get the data
+
     List<BigDecimal> lastTen = fetchLastTenPrices();
 
-    // 2. Build the UI sections
+
     VBox headerBox = createHeaderBox(lastTen);
     LineChart<Number, Number> chart = createLineChart(lastTen);
     HBox footerBox = createFooterBox();
 
-    // 3. Assemble and Style
+
     this.getChildren().addAll(headerBox, chart, footerBox);
-    this.setSpacing(5); // Optional: consistent spacing
+    this.setSpacing(5);
   }
 
   private List<BigDecimal> fetchLastTenPrices() {
@@ -79,7 +78,12 @@ public class StockButtonChart extends VBox {
     NumberAxis yAxis = new NumberAxis(min - padding, max + padding, padding);
 
 
+
+
     LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+
+    lineChart.setPadding(new javafx.geometry.Insets(5));
+    lineChart.setMinSize(0,0);
     lineChart.setCreateSymbols(false);
     lineChart.setLegendVisible(false);
     lineChart.setHorizontalGridLinesVisible(false);
@@ -109,8 +113,8 @@ public class StockButtonChart extends VBox {
     setupHGrow(holdings, totalValue);
     holdings.setAlignment(Pos.BOTTOM_LEFT);
     totalValue.setAlignment(Pos.BOTTOM_RIGHT);
-    holdings.getStyleClass().add("text-medium-bold");
-    totalValue.getStyleClass().add("text-medium-bold");
+    holdings.getStyleClass().add("text-smaller-regular");
+    totalValue.getStyleClass().add("text-smaller-regular");
 
     return new HBox(10, holdings, totalValue);
   }

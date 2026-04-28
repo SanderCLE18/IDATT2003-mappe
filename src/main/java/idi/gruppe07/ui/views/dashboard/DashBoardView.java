@@ -180,7 +180,7 @@ public class DashBoardView extends ViewElement<Pane> {
 
       VBox.setVgrow(portfolioPane, Priority.ALWAYS);
       VBox.setVgrow(holdingsBox, Priority.ALWAYS);
-      holdingsBox.setMinHeight(150);
+      holdingsBox.setMinHeight(250);
       portfolioHbox.setMinHeight(150);
 
       HBox newsAndHistory;
@@ -215,8 +215,12 @@ public class DashBoardView extends ViewElement<Pane> {
         for (Share share : portfolioList) {
           StockButtonChart stockButtonChart = new StockButtonChart(share);
 
+          stockButtonChart.setMinWidth(180);
+          stockButtonChart.setMinHeight(180);
+
           stockButtonChart.prefWidthProperty().bind(this.widthProperty().multiply(0.125));
           stockButtonChart.prefHeightProperty().bind(stockButtonChart.prefWidthProperty());
+
           stockButtonChart.getStyleClass().add("stock-button-chart");
           stockButtonsBox.getChildren().add(stockButtonChart);
         }
