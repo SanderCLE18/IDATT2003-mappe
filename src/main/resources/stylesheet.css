@@ -30,6 +30,64 @@
     -fx-font-weight: 400;
     -fx-font-size: 14;
 }
+.text-smaller-regular {
+    -fx-text-fill: #DEE5FF;
+    -fx-font-family: Inter;
+    -fx-font-weight: 400;
+    -fx-font-size: 11;
+}
+
+/* ── Default Scrollbar Settings ──────────────────────────────────────── */
+
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: #0b1828;
+    -fx-width: 12px;
+}
+
+/* The actual bar */
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #1e3a54;
+    -fx-background-radius: 5px;
+}
+
+/* bar hover state */
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #3a8fd4;
+}
+
+/* Hide the arrow buttons */
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+
+.scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: #0b1828;
+    -fx-width: 12px;
+}
+
+/* The actual bar */
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color: #1e3a54;
+    -fx-background-radius: 5px;
+}
+
+/* bar hover state */
+.scroll-pane .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #3a8fd4;
+}
+
+/* Hide the arrow buttons */
+.scroll-pane .scroll-bar:horizontal .increment-button,
+.scroll-pane .scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+
 /* ── Center column ──────────────────────────────────────────────────────────── */
 .center-box {
     -fx-max-width: 340px;
@@ -191,29 +249,6 @@
 .start-screen-list {
     -fx-background-color: rgba(22, 43, 77, 0.8);
     -fx-border-color:      #1e3a54;
-}
-/* The scrollbar inside the start screen */
-.scroll-pane .scroll-bar:vertical {
-    -fx-background-color: #0b1828;
-    -fx-width: 12px;
-}
-
-/* The actual bar */
-.scroll-pane .scroll-bar:vertical .thumb {
-    -fx-background-color: #1e3a54;
-    -fx-background-radius: 5px;
-}
-
-/* bar hover state */
-.scroll-pane .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #3a8fd4;
-}
-
-/* Hide the arrow buttons */
-.scroll-pane .scroll-bar:vertical .increment-button,
-.scroll-pane .scroll-bar:vertical .decrement-button {
-    -fx-padding: 0;
-    -fx-shape: "";
 }
 
 /* ── "main" view layout ─────────────────────────────────────────────── */
