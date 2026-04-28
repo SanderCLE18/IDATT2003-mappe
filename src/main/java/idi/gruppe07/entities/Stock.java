@@ -20,7 +20,6 @@ public class Stock {
 
   private PredictedGrowth predictedGrowth;
 
-  private PredictedGrowth predictedGrowth;
 
   /**
    * Constructs a stock with the given symbol, company, and sales price.
