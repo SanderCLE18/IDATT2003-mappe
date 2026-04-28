@@ -1,5 +1,6 @@
 package idi.gruppe07.ui.launch;
 
+import idi.gruppe07.news.NewsService;
 import idi.gruppe07.ui.custom.panes.NavItem;
 import idi.gruppe07.ui.event.EventManager;
 import idi.gruppe07.ui.session.Session;
@@ -8,6 +9,7 @@ import idi.gruppe07.ui.views.dashboard.DashBoardController;
 import idi.gruppe07.ui.views.dashboard.DashBoardView;
 import idi.gruppe07.ui.views.startscreen.StartScreenController;
 import idi.gruppe07.ui.views.startscreen.StartScreenView;
+import idi.gruppe07.utils.JsonParser;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -33,7 +35,11 @@ public final class LaunchParams extends Application {
     );
 
     final EventManager eventManager = new EventManager();
-    Session session = new Session();
+    NewsService newsService =
+        new NewsService(
+            new JsonParser(Objects.requireNonNull(
+                LaunchParams.class.getResourceAsStream("/misc/news.json"))));
+    Session session = new Session(newsService);
     final ViewManager viewManager = new ViewManager(stage, eventManager, session);
 
     StartScreenView startScreenView = new StartScreenView(viewManager.getSession());

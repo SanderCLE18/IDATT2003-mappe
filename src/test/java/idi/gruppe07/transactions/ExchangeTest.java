@@ -1,7 +1,11 @@
 package idi.gruppe07.transactions;
 
 import idi.gruppe07.entities.*;
+import idi.gruppe07.news.NewsArticle;
+import idi.gruppe07.news.NewsService;
 import idi.gruppe07.player.Player;
+import idi.gruppe07.ui.session.Session;
+import idi.gruppe07.utils.JsonParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -121,14 +125,14 @@ class  ExchangeTest {
   }
 
   @Test
-  void testGetLoosers() {
+  void testGetLosers() {
     appleStock.addNewSalesPrice(new BigDecimal("250.00")); // Biggest winner
     googleStock.addNewSalesPrice(new BigDecimal("2810.00")); // 2nd place
 
-    List<Stock> loosers = exchange.getLoosers(1);
+    List<Stock> losers = exchange.getLosers(1);
 
-    assertEquals(1, loosers.size());
-    assertSame(loosers.getFirst(), googleStock);
+    assertEquals(1, losers.size());
+    assertSame(losers.getFirst(), googleStock);
 
 
   }

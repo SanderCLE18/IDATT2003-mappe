@@ -1,5 +1,6 @@
 package idi.gruppe07.ui;
 
+import idi.gruppe07.news.NewsService;
 import idi.gruppe07.ui.event.EventData;
 import idi.gruppe07.ui.event.EventManager;
 import idi.gruppe07.ui.event.EventType;
@@ -84,7 +85,8 @@ public class ViewControllerTest {
   @BeforeEach
   void setUp() {
 
-    session = new Session();
+    NewsService newsService = mock(NewsService.class);
+    session = new Session(newsService);
     eventManager = new EventManager();
     testView = new TestView("test");
 
