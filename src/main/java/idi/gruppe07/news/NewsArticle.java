@@ -1,9 +1,5 @@
 package idi.gruppe07.news;
 
-import idi.gruppe07.entities.Stock;
-import idi.gruppe07.utils.JsonParser;
-import org.json.JSONObject;
-
 /**News articles are instrumental in allowing players to make a good decision when buying stocks.
  * Articles reflect the expected growth of a stock, but are not 100% reliable as the expected growth reliability can be low*/
 public class NewsArticle {
@@ -13,23 +9,13 @@ public class NewsArticle {
 
  /**Constructor, creates a new news article based on a stock's expected development.
    *
-   * @param stock the stock in question*/
-  public NewsArticle(JsonParser parser, Stock stock) {
+   * @param headline the headline in question
+   * @param article the actual article*/
 
-    double stockChange = stock.getPredictedGrowth().getExpectedReturn();
+  public NewsArticle(String headline, String article) {
 
-    JSONObject obj;
-    if (stockChange >= 0.05) {
-      obj = parser.getRandomArticle("good_news");
-    }
-    else if (stockChange <= -0.05) {
-      obj = parser.getRandomArticle("bad_news");
-    }
-    else {
-      obj = parser.getRandomArticle("neutral_news");
-    }
-    headline = String.format(obj.getString("headline"), stock.getCompany());
-    article = String.format(obj.getString("body"), stock.getCompany());
+    this.headline = headline;
+    this.article  = article;
 
   }
 

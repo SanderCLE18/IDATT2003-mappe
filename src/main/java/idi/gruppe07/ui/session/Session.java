@@ -2,6 +2,7 @@ package idi.gruppe07.ui.session;
 
 import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
+import idi.gruppe07.news.NewsService;
 import idi.gruppe07.player.Player;
 import idi.gruppe07.transactions.Exchange;
 import idi.gruppe07.transactions.Purchase;
@@ -31,14 +32,16 @@ public class Session {
    * Exchange*/
   private Exchange exchange;
 
+  private final NewsService newsService;
   /**Session timer*/
   private final SessionTimer sessionTimer;
 
   /**
-   * Constructor. Created as an empty object.
+   * Constructor.
    */
-  public Session() {
-    sessionTimer = new SessionTimer();
+  public Session(NewsService newsService) {
+    this.sessionTimer = new SessionTimer();
+    this.newsService = newsService;
   }
 
   /**
@@ -101,7 +104,7 @@ public class Session {
     exchange.add(stock);
     exchange.add(stock2);
     for(int i = 0; i < 50; i++){
-      this.exchange.advance();
+      this.exchange.advance(newsService);
       if (i == 35){
         Transaction buy1 = exchange.buy( "SSC", new BigDecimal("1"), getPlayer());
         Transaction buy2 = exchange.buy("SCC", new BigDecimal("1.12"), getPlayer());
@@ -120,6 +123,13 @@ public class Session {
       }
     }
 
+  }
+
+  /**Returns the news article factory
+   *
+   * @return the news article factory*/
+  public NewsService getNewsService() {
+    return newsService;
   }
 
   /**returns the session's timer

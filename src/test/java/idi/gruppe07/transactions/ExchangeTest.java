@@ -1,7 +1,11 @@
 package idi.gruppe07.transactions;
 
 import idi.gruppe07.entities.*;
+import idi.gruppe07.news.NewsArticle;
+import idi.gruppe07.news.NewsService;
 import idi.gruppe07.player.Player;
+import idi.gruppe07.ui.session.Session;
+import idi.gruppe07.utils.JsonParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -94,8 +98,7 @@ class  ExchangeTest {
   void testAdvance() {
     int initialWeek = exchange.getWeek();
     BigDecimal initialPrice = appleStock.getPrice();
-
-    exchange.advance();
+    
 
     // Check week incremented
     assertEquals(initialWeek + 1, exchange.getWeek());

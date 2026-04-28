@@ -1,6 +1,8 @@
 package idi.gruppe07.transactions;
 
 import idi.gruppe07.entities.PredictedGrowth;
+import idi.gruppe07.news.NewsArticle;
+import idi.gruppe07.news.NewsService;
 import idi.gruppe07.player.Player;
 import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
@@ -140,15 +142,20 @@ public class Exchange {
   /**
    * Advances the exchange by one week.
    * Sets new prices for each stock based on a normal distribution.*/
-  public void advance() {
+  public void advance(NewsService newsService){
     this.week++;
     NormalDistribution distribution = new NormalDistribution(0, 0.05);
     for (var stock : stockMap.values()) {
       PredictedGrowth prediction = stock.getPredictedGrowth();
 
       if (prediction == null || prediction.tick()) {
+
         stock.addPredictedGrowth(distribution);
         prediction = stock.getPredictedGrowth();
+
+        NewsArticle article = newsService.generateArticle(stock);
+        stock.setNewsArticle(article);
+
       }
 
       double returnValue;

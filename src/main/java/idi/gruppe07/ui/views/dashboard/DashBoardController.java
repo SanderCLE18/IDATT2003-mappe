@@ -42,7 +42,7 @@ public class DashBoardController extends ViewController<DashBoardView> {
     });
 
     getViewElement().getSideBar().getTopBarBox().getPauseResumeButton().setOnAction(_->{
-      getSession().getTimer().pauseTimer(getSession().getExchange(),  getSession().getPlayer());
+      getSession().getTimer().pauseTimer(getSession());
       getViewElement().getSideBar().getTopBarBox().getGameTimerBar().toggleTimer();
     });
 
@@ -50,7 +50,7 @@ public class DashBoardController extends ViewController<DashBoardView> {
     for  (Button button : speedButtons) {
       String text = button.getText();
       int value = Integer.parseInt(text.replaceAll("[^0-9]", ""));
-      button.setOnAction(_ -> getSession().getTimer().setSpeedMultiplier(value, getSession().getExchange(),  getSession().getPlayer()));
+      button.setOnAction(_ -> getSession().getTimer().setSpeedMultiplier(value, getSession()));
     }
   }
 }

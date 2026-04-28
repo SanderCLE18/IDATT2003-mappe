@@ -43,8 +43,8 @@ public class SessionTimer {
   /**Boolean for determining if the game is actively running */
   private boolean isRunning =  false;
 
-  public void startTimer(Exchange exchange, Player player) {
-    Validate.that(exchange).isNotNull();
+  public void startTimer(Session session) {
+    Validate.that(session.getExchange()).isNotNull();
 
     if (isRunning) {
       return;
@@ -61,8 +61,8 @@ public class SessionTimer {
     long initialDelay = Math.max(0, intervalMs - elapsedMs.get());
 
     advanceFuture = scheduler.scheduleAtFixedRate(() -> {
-      player.getPortfolio().createNetWorthSnapshot();
-      exchange.advance();
+      session.getPlayer().getPortfolio().createNetWorthSnapshot();
+      session.getExchange().advance(session.getNewsService());
       elapsedMs.set(0);
       for (AdvanceListener listener : advanceListeners) {
         listener.onAdvance();
@@ -79,10 +79,10 @@ public class SessionTimer {
     }, 0, TICK_MS, TimeUnit.MILLISECONDS);
   }
 
-  public void pauseTimer(Exchange exchange, Player player) {
-    Validate.that(exchange).isNotNull();
+  public void pauseTimer(Session session) {
+    Validate.that(session.getExchange()).isNotNull();
     if (!isRunning){
-      startTimer(exchange, player);
+      startTimer(session);
     } else {
       isRunning = false;
 
@@ -125,7 +125,7 @@ public class SessionTimer {
   }
 
   /**Sets the speed multiplier.*/
-  public void setSpeedMultiplier(int speedMultiplier, Exchange exchange, Player player) {
+  public void setSpeedMultiplier(int speedMultiplier, Session session) {
     long oldInterval = (ADVANCE_INTERVAL_SECONDS * 1000L) / this.speedMultiplier;
     double currentProgressPercent = (double) elapsedMs.get() / oldInterval;
 
@@ -139,7 +139,7 @@ public class SessionTimer {
       long newInterval = (ADVANCE_INTERVAL_SECONDS * 1000L) / speedMultiplier;
       this.elapsedMs.set((long) (currentProgressPercent * newInterval));
 
-      startTimer(exchange, player);
+      startTimer(session);
     }
     else{
       this.speedMultiplier = speedMultiplier;
@@ -147,7 +147,7 @@ public class SessionTimer {
   }
 
 
-  /**Returns the boolean value of the gamestate.
+  /**Returns the boolean value of the game state.
    *
    * @return isRunning boolean value of whether the game is running.*/
   public boolean isRunning(){

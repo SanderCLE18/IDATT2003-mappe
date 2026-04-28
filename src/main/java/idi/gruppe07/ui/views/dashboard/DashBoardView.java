@@ -4,7 +4,6 @@ import idi.gruppe07.entities.Share;
 import idi.gruppe07.entities.Stock;
 import idi.gruppe07.news.NewsArticle;
 import idi.gruppe07.transactions.Purchase;
-import idi.gruppe07.transactions.Sale;
 import idi.gruppe07.transactions.Transaction;
 import idi.gruppe07.ui.custom.panes.NavItem;
 import idi.gruppe07.ui.custom.panes.SideBarPane;
@@ -14,7 +13,6 @@ import idi.gruppe07.ui.custom.widgets.StockButtonChart;
 import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.ui.session.SessionTimer;
 import idi.gruppe07.ui.views.ViewElement;
-import idi.gruppe07.utils.JsonParser;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -300,9 +298,6 @@ public class DashBoardView extends ViewElement<Pane> {
       title.getStyleClass().add("text-medium-bold");
       newsBox.getChildren().add(title);
 
-      JsonParser parser =
-          new JsonParser(Objects.requireNonNull(getClass().getResourceAsStream("/misc/news.json")));
-
       List<Stock> stocks =
           session.getPlayer().getPortfolio().getShares().stream()
               .map(Share::getStock)
@@ -314,15 +309,15 @@ public class DashBoardView extends ViewElement<Pane> {
           .limit(5)
           .forEach(
               stock -> {
-                newsBox.getChildren().add(createNewsArticleCard(stock, parser, newsBox));
+                newsBox.getChildren().add(createNewsArticleCard(stock, newsBox));
               });
 
       return newsBox;
     }
 
     /** Creates an individual News Article card */
-    private VBox createNewsArticleCard(Stock stock, JsonParser parser, VBox parent) {
-      NewsArticle article = new NewsArticle(parser, stock);
+    private VBox createNewsArticleCard(Stock stock, VBox parent) {
+      NewsArticle article = stock.getNewsArticle();
 
       Label headline = new Label(article.getHeadline());
       headline.getStyleClass().add("text-medium-bold");
