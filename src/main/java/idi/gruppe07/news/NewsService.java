@@ -4,8 +4,6 @@ import idi.gruppe07.entities.Stock;
 import idi.gruppe07.utils.JsonParser;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
 /**Factory class for creating NewsArticles*/
 public class NewsService {
 
@@ -23,8 +21,8 @@ public class NewsService {
     else if (stockChange <= -0.05) obj = parser.getRandomArticle("bad_news");
     else obj = parser.getRandomArticle("neutral_news");
 
-    String headline = String.format(obj.getString("headline"), stock.getCompany());
-    String body = String.format(obj.getString("body"), stock.getCompany());
+    String headline = obj.getString("headline").replace("%s", stock.getCompany());
+    String body = obj.getString("body").replace("%s", stock.getCompany());
 
     return new NewsArticle(headline, body);
   }
