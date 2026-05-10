@@ -51,7 +51,6 @@ public class DashBoardView extends ViewElement<Pane> {
    */
   private SideBarView sideBar;
 
-  private SideBarPane pane;
   private DashBoardPane content;
   private final List<NavItem> views;
 
@@ -94,8 +93,8 @@ public class DashBoardView extends ViewElement<Pane> {
   @Override
   protected void initLayout() {
     this.content = new DashBoardPane();
-    pane = new SideBarPane(this.views);
-    VBox.setVgrow(this.pane, Priority.ALWAYS);
+    SideBarPane pane = new SideBarPane(this.views);
+    VBox.setVgrow(pane, Priority.ALWAYS);
     sideBar = new SideBarView(getSession(), pane, content);
     getRootPane().getChildren().addAll(sideBar);
   }
@@ -121,14 +120,14 @@ public class DashBoardView extends ViewElement<Pane> {
 
   }
 
-  /**
+  /** Returns the view's sidebar
    * @return the SideBar of the view.
    */
   public SideBarView getSideBar() {
     return sideBar;
   }
 
-  /**
+  /** Returns the view's controller
    * @return the controller of the view.
    */
   public DashBoardController getController() {
