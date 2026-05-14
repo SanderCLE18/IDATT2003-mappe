@@ -5,8 +5,6 @@ import idi.gruppe07.entities.Stock;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -31,7 +29,8 @@ public class StockButtonChart extends VBox {
 
 
     VBox headerBox = createHeaderBox(lastTen);
-    LineChart<Number, Number> chart = createLineChart(lastTen);
+    LineChart<Number, Number> chart = ChartUtils.buildChart(lastTen);
+    chart.getStyleClass().add("portfolio-chart-pane-chart");
     HBox footerBox = createFooterBox();
 
 
@@ -67,39 +66,6 @@ public class StockButtonChart extends VBox {
     HBox bottomRow = new HBox(10, company, changeLabel);
 
     return new VBox(5, topRow, bottomRow);
-  }
-
-  private LineChart<Number, Number> createLineChart(List<BigDecimal> lastTen) {
-    double min = lastTen.stream().mapToDouble(BigDecimal::doubleValue).min().orElse(0);
-    double max = lastTen.stream().mapToDouble(BigDecimal::doubleValue).max().orElse(0);
-    double padding = (max - min) * 0.05;
-
-    NumberAxis xAxis = new NumberAxis(0, 9, 1);
-    NumberAxis yAxis = new NumberAxis(min - padding, max + padding, padding);
-
-
-
-
-    LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-
-    lineChart.setPadding(new javafx.geometry.Insets(5));
-    lineChart.setMinSize(0,0);
-    lineChart.setCreateSymbols(false);
-    lineChart.setLegendVisible(false);
-    lineChart.setHorizontalGridLinesVisible(false);
-    lineChart.setVerticalGridLinesVisible(false);
-    lineChart.setAlternativeRowFillVisible(false);
-    hideAxis(xAxis);
-    hideAxis(yAxis);
-    lineChart.getStyleClass().add("portfolio-chart-pane-chart");
-
-    XYChart.Series<Number, Number> series = new XYChart.Series<>();
-    for (int i = 0; i < lastTen.size(); i++) {
-      series.getData().add(new XYChart.Data<>(i, lastTen.get(i).doubleValue()));
-    }
-    lineChart.getData().add(series);
-
-    return lineChart;
   }
 
   /**Creates the horizontally aligned footer box
@@ -149,10 +115,5 @@ public class StockButtonChart extends VBox {
     else if (change < 0) label.setStyle("-fx-text-fill: #ff0000");
     label.setAlignment(Pos.TOP_RIGHT);
     return label;
-  }
-
-  private void hideAxis(NumberAxis axis) {
-    axis.setTickLabelsVisible(false);
-    axis.setOpacity(0);
   }
 }

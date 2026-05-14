@@ -202,4 +202,21 @@ public class Exchange {
     return losers.subList(0, Math.min(limit, losers.size()));
   }
 
+  /**
+   * Checks whether the market is bullish or bearish.
+   * Only stocks with less than -5 or greater than 5 percent
+   * <b>expected</b> price change will contribute to this metric.
+   *
+   * @return whether the market is bullish or not. */
+  public boolean isBullish(){
+    Map<Boolean, Long> counts = stockMap.values().stream()
+        .filter(s -> Math.abs(s.getPredictedGrowth().getExpectedReturn()) > 0.05)
+        .collect(Collectors.partitioningBy(
+            s -> s.getPredictedGrowth().getExpectedReturn() > 0.05,
+            Collectors.counting()
+        ));
+
+    return counts.get(true) > counts.get(false);
+  }
+
 }

@@ -8,7 +8,7 @@ import java.util.Random;
  * Class influences the news, and the growth of the market.*/
 public class PredictedGrowth {
 
-  private int initialPeriod;
+  private final int initialPeriod;
   private int weekCountdown;
   private final double expectedReturn;
   private final double reliability;
@@ -34,7 +34,7 @@ public class PredictedGrowth {
   /**Returns the expected return of a given stock.
    *
    * @return the expected return*/
-  public  double getExpectedReturn() {
+  public double getExpectedReturn() {
     return expectedReturn;
   }
 

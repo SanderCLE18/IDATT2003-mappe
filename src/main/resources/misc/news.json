@@ -2,7 +2,7 @@
   "good_news": [
     {
       "headline": "%s shares surge on record quarterly earnings",
-      "body": "Investors reacted positively as %s reported a 15%% rise in net profit. Analysts suggest the company's aggressive expansion into new markets is finally paying dividends."
+      "body": "Investors reacted positively as %s reported a 15% rise in net profit. Analysts suggest the company's aggressive expansion into new markets is finally paying dividends."
     },
     {
       "headline": "Efficiency gains bolster %s outlook",
@@ -26,11 +26,11 @@
     },
     {
       "headline": "%s expands market share in emerging regions",
-      "body": "The latest industry report shows %s capturing an additional 4%% of the global market. Scaling efforts in Asia have exceeded internal growth targets."
+      "body": "The latest industry report shows %s capturing an additional 4% of the global market. Scaling efforts in Asia have exceeded internal growth targets."
     },
     {
       "headline": "Dividend hike announced for %s shareholders",
-      "body": "Following a period of sustained cash flow, %s has authorized a 10%% increase in quarterly payouts. This move signals robust confidence in long-term liquidity."
+      "body": "Following a period of sustained cash flow, %s has authorized a 10% increase in quarterly payouts. This move signals robust confidence in long-term liquidity."
     },
     {
       "headline": "CEO of %s lauded for strategic pivot",
@@ -78,7 +78,7 @@
     },
     {
       "headline": "Analyst consensus turns overwhelmingly bullish on %s",
-      "body": "Following a wave of revised price targets, the median analyst view on %s has shifted to a strong buy. Average upside implied by current targets stands at over 30%%."
+      "body": "Following a wave of revised price targets, the median analyst view on %s has shifted to a strong buy. Average upside implied by current targets stands at over 30%."
     },
     {
       "headline": "%s customer satisfaction scores reach record levels",
@@ -90,11 +90,11 @@
     },
     {
       "headline": "%s secures funding for ambitious green energy transition",
-      "body": "A consortium of impact investors has committed substantial capital to support %s in overhauling its energy infrastructure. The initiative is expected to cut operating costs by 18%% within three years."
+      "body": "A consortium of impact investors has committed substantial capital to support %s in overhauling its energy infrastructure. The initiative is expected to cut operating costs by 18% within three years."
     },
     {
       "headline": "Share buyback programme announced by %s",
-      "body": "The board of %s has authorised the repurchase of up to 5%% of outstanding shares over the next twelve months. The announcement has been met with immediate buying pressure in the market."
+      "body": "The board of %s has authorised the repurchase of up to 5% of outstanding shares over the next twelve months. The announcement has been met with immediate buying pressure in the market."
     },
     {
       "headline": "%s flagship product earns top safety certification",
@@ -102,7 +102,7 @@
     },
     {
       "headline": "Strong holiday season lifts %s above guidance",
-      "body": "Seasonal trading results from %s have come in roughly 12%% above the upper end of guidance. Inventory management was highlighted as a key driver of the outperformance."
+      "body": "Seasonal trading results from %s have come in roughly 12% above the upper end of guidance. Inventory management was highlighted as a key driver of the outperformance."
     },
     {
       "headline": "%s partnership with leading university yields commercialisable IP",
@@ -124,7 +124,7 @@
   "bad_news": [
     {
       "headline": "%s shares tumble amid mounting debt concerns",
-      "body": "Questions regarding the long-term solvency of %s have triggered a massive sell-off. Total liabilities have reportedly ballooned by 20%% over the last quarter."
+      "body": "Questions regarding the long-term solvency of %s have triggered a massive sell-off. Total liabilities have reportedly ballooned by 20% over the last quarter."
     },
     {
       "headline": "Regulatory probe launched into %s",
@@ -240,7 +240,7 @@
     },
     {
       "headline": "Analyst downgrades push %s to worst-performing stock of the week",
-      "body": "A wave of sell recommendations has hammered the share price of %s, making it the most heavily sold name across the index. The consensus price target has fallen by nearly 40%% in five trading sessions."
+      "body": "A wave of sell recommendations has hammered the share price of %s, making it the most heavily sold name across the index. The consensus price target has fallen by nearly 40% in five trading sessions."
     }
   ],
   "neutral_news": [

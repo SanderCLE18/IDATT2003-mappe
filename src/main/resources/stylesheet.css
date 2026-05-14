@@ -17,7 +17,19 @@
 .scroll-pane .viewport{
     -fx-background-color: transparent;
 }
+.pagination-control {
+    visibility: hidden;
+    -fx-max-height: 0;
+    -fx-padding: 0;
+}
 /* ── Text ──────────────────────────────────────────────────────────── */
+.text-large-bold {
+    -fx-text-fill: #DEE5FF;
+    -fx-font-family: Space Grotesk;
+    -fx-font-weight: 700;
+    -fx-font-size: 32;
+}
+
 .text-medium-bold {
     -fx-text-fill: #DEE5FF;
     -fx-font-family: Inter;
@@ -36,7 +48,42 @@
     -fx-font-weight: 400;
     -fx-font-size: 11;
 }
+.text-sub-medium {
+    -fx-font-family: Inter;
+    -fx-text-fill: #565E74;
+    -fx-font-weight: 400;
+    -fx-font-size: 13;
+}
+.text-red{
 
+}
+.text-green{
+
+}
+.text-blue{
+    -fx-text-fill: #84ADFF;
+}
+
+/* ── Generics ────────────────────────────────────────────────────────── */
+
+.button-generic {
+    -fx-background-color: #141F38;
+    -fx-border-color:     transparent;
+    -fx-border-width:      1px;
+    -fx-border-radius:     2px;
+    -fx-background-radius: 2px;
+    -fx-cursor:            hand;
+    -fx-alignment:         CENTER_LEFT;
+    -fx-padding:           4 8 4 8;
+}
+
+.button-generic:hover{
+    -fx-background-color: #23355E;
+}
+
+.button-generic-selected {
+    -fx-background-color: #23355E;
+}
 /* ── Default Scrollbar Settings ──────────────────────────────────────── */
 
 
@@ -319,11 +366,14 @@
     -fx-font-family: "Inter";
     -fx-font-size: 13px;
 }
+.top-bar-time-btn-selected {
+    -fx-background-color: #23355E;
+}
 
 
 
 /* ── Dashnaoard  ───────────────────────────── ────────────────── */
-.portfolio-chart-pane{
+.portfolio-chart-pane {
     -fx-background-color: #0D162B;
     -fx-border-color:     transparent;
     -fx-border-width:       1;
@@ -338,7 +388,12 @@
 }
 .portfolio-chart-pane-chart {
     -fx-background-color: #0D162B;
+    -fx-padding: 4;
 }
+.portfolio-chart-pane-chart .chart-content {
+    -fx-padding: 0px;
+}
+
 .portfolio-chart-pane-chart .chart-series-line {
     -fx-stroke: #71a2ff;
     -fx-stroke-width: 4px;
@@ -346,6 +401,15 @@
 
 .portfolio-chart-pane-chart .chart-plot-background {
     -fx-background-color: #0D162B;
+}
+.portfolio-chart-pane-chart .axis {
+    -fx-border-width: 0px;
+    -fx-tick-length: 0px;
+    -fx-minor-tick-length: 0px;
+}
+.portfolio-chart-pane-chart .axis-line {
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0px;
 }
 
 /*Label*/
@@ -377,11 +441,7 @@
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
-.dashboard-secondary-pane .label{
-    -fx-text-fill: #DEE5FF;
-    -fx-font-family: "Inter";
-    -fx-font-weight: 700;
-}
+
 .stock-button-chart {
     -fx-padding: 8;
     -fx-background-radius: 6;
