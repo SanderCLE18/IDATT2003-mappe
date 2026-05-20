@@ -5,6 +5,7 @@ import idi.gruppe07.utils.NormalDistribution;
 import idi.gruppe07.utils.Validate;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -104,8 +105,22 @@ public class Stock {
    * @return 0 or the price change from the newest price and the price before it
    */
   public BigDecimal getLatestPriceChange() {
-    if(prices.size() == 1) return BigDecimal.ZERO;
+    if(prices.size() == 1) {
+      return BigDecimal.ZERO;
+    }
     return getPrice().subtract(prices.get(prices.size() - 2));
+  }
+
+  public BigDecimal getPercentageChange() {
+    if (prices.size() < 2) {
+      return BigDecimal.ZERO;
+    }
+
+    BigDecimal current = getPrice();
+    BigDecimal previous = prices.get(prices.size() - 2);
+    return current.subtract(previous)
+        .multiply(new BigDecimal("100"))
+        .divide(previous, 2, RoundingMode.HALF_UP);
   }
 
   /**

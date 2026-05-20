@@ -12,12 +12,17 @@ import idi.gruppe07.ui.views.ViewElement;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayDeque;
+import java.util.Comparator;
+import java.util.Deque;
 import java.util.List;
 
 public class MarketView extends ViewElement<Pane> implements SideBar {
@@ -34,11 +39,23 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
   /**The session advanceListener*/
   private SessionTimer.AdvanceListener advanceListener;
 
-  private MarketPane content;
+  private MarketPane pane;
+
+  private final Deque<MarketNode> navStack = new ArrayDeque<>();
+
+  private VBox contentContainer;
+
+  private MarketNode content;
 
   private final List<NavItem> views;
   public MarketView(Session session , List<NavItem> views) {
     super(new StackPane(), MARKET_VIEW, session,  false);
+    pane = new MarketPane();
+
+    this.contentContainer = new VBox();
+    VBox.setVgrow(contentContainer, Priority.ALWAYS);
+
+
     this.views = views;
     initLayout();
 
@@ -46,10 +63,12 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
 
   @Override
   protected void initLayout() {
-    this.content = new MarketPane();
-    SideBarPane pane = new SideBarPane(this.views);
+    this.contentContainer.getChildren().setAll(pane);
     VBox.setVgrow(pane, Priority.ALWAYS);
-    sideBar = new SideBarView(getSession(), pane, content);
+
+    SideBarPane sideBarPane = new SideBarPane(this.views);
+    VBox.setVgrow(sideBarPane, Priority.ALWAYS);
+    sideBar = new SideBarView(getSession(), sideBarPane, contentContainer);
     getRootPane().getChildren().addAll(sideBar);
   }
 
@@ -63,10 +82,11 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
    * */
   @Override
   public void onActivate() {
-    this.content.update(getSession());
+    navStack.clear();
+    swapView(pane);
 
-    if(advanceListener == null){
-      advanceListener = () -> Platform.runLater(() -> this.content.update(getSession()));
+    if(advanceListener == null) {
+      advanceListener = () -> Platform.runLater(() -> this.content.updateNode(getSession()));
     }
 
     getSession().getTimer().removeAdvanceListener(advanceListener);
@@ -74,14 +94,42 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
 
   }
 
+  public void swapView(MarketNode node){
+    content = node;
+
+    if (node instanceof Node newNode) {
+      contentContainer.getChildren().setAll(newNode);
+      VBox.setVgrow(newNode, Priority.ALWAYS);
+      HBox.setHgrow(newNode, Priority.ALWAYS);
+    }
+    content.updateNode(getSession());
+  }
+
   public SideBarView getSideBar() {
     return sideBar;
   }
 
-  private static class MarketPane extends VBox {
-    //Scary
-    Pagination pagination;
+  public MarketNode getContent() {
+    return content;
+  }
+
+  public void pushView(MarketNode node) {
+    navStack.push(content);   // save current before swapping
+    swapView(node);
+  }
+
+  public void popView() {
+    if (!navStack.isEmpty()) {
+      swapView(navStack.pop());
+    }
+  }
+
+  private static class MarketPane extends VBox implements MarketNode {
+
+    private Pagination pagination;
     private HBox customNavBar;
+
+    static final int ITEMS_PER_PAGE = 10;
 
     private MarketPane() {
       super(5);
@@ -89,19 +137,18 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
       this.setStyle("-fx-background-color: #060E20;");
     }
 
-    private void update(Session session) {
+    public void updateNode(Session session) {
       getChildren().clear();
       HBox header = createHeader(session);
       List<Stock> allStocks = session.getExchange().getStockMap().values().stream().toList();
-      int itemsPerPage = 10;
-      int pageCount = (int) Math.ceil((double) allStocks.size() / itemsPerPage);
 
+      int pageCount = (int) Math.ceil((double) allStocks.size() / ITEMS_PER_PAGE);
 
       pagination = new Pagination(pageCount, 0);
-      pagination.getStyleClass().add("custom-pagination");
+
       VBox.setVgrow(pagination, Priority.ALWAYS);
 
-      pagination.setPageFactory(pageIndex -> createPaginationBox(itemsPerPage, pageIndex, allStocks));
+      pagination.setPageFactory(pageIndex -> createPaginationBox(pageIndex, allStocks));
 
       customNavBar = new HBox(8);
       customNavBar.setAlignment(Pos.CENTER);
@@ -116,15 +163,23 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
       getChildren().addAll(header, scrollPane, customNavBar);
     }
 
-    private VBox createPaginationBox(int itemsPerPage, int pageIndex, List<Stock> allStocks) {
+    private void sortPagination(List<Stock> allStocks) {
+      int pageCount = (int) Math.ceil((double) allStocks.size() / ITEMS_PER_PAGE);
+      pagination.setPageCount(pageCount);
+
+      pagination.setPageFactory(null);
+      pagination.setPageFactory(index -> createPaginationBox(index, allStocks));
+    }
+
+    private VBox createPaginationBox(int pageIndex, List<Stock> allStocks) {
       VBox pageBox = new VBox(10);
-      int from = pageIndex * itemsPerPage;
-      int to = Math.min(from + itemsPerPage, allStocks.size());
+      int from = pageIndex * MarketPane.ITEMS_PER_PAGE;
+      int to = Math.min(from + MarketPane.ITEMS_PER_PAGE, allStocks.size());
       for (int i = from; i < to; i++) {
         StockInfoBox box = new StockInfoBox(allStocks.get(i));
 
         box.prefHeightProperty().bind(
-            pagination.heightProperty().divide(itemsPerPage).subtract(10)
+            pagination.heightProperty().divide(MarketPane.ITEMS_PER_PAGE).subtract(10)
         );
 
         box.prefWidthProperty().bind(pageBox.widthProperty());
@@ -181,7 +236,32 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
       subtitle.getStyleClass().add("text-sub-medium");
 
       HBox sub = new HBox(5, subtitle, status);
-      VBox headerText = new VBox(5,  title, sub);
+      Label sort = new Label("SORT: ");
+      sort.getStyleClass().add("text-medium-bold");
+      Button noSort = new Button ("X");
+      Button sortDesc = new Button("↑");
+      Button sortAsc = new Button("↓");
+
+      noSort.getStyleClass().addAll("button-generic", "text-medium-bold");
+      sortDesc.getStyleClass().addAll("button-generic", "text-medium-bold");
+      sortAsc.getStyleClass().addAll("button-generic", "text-medium-bold");
+      HBox sortButtons = new HBox(5, sort, noSort, sortDesc, sortAsc);
+
+      sortDesc.setOnAction(_ -> {
+        List<Stock> sortedStocks = session.getExchange().getStockMap().values().stream()
+            .sorted(Comparator.comparingDouble((Stock stock) -> stock.getPercentageChange().doubleValue()).reversed())
+            .toList();
+        sortPagination(sortedStocks);
+      });
+      sortAsc.setOnAction(_ -> {
+        List<Stock> sortedStocks = session.getExchange().getStockMap().values().stream()
+            .sorted(Comparator.comparingDouble(stock -> stock.getPercentageChange().doubleValue()))
+            .toList();
+        sortPagination(sortedStocks);
+      });
+      noSort.setOnAction(_ -> sortPagination(session.getExchange().getStockMap().values().stream().toList()));
+
+      VBox headerText = new VBox(5,  title, sub, sortButtons);
       return new HBox(5, headerText);
     }
 

@@ -39,7 +39,7 @@ public class PortfolioChartPane extends VBox {
 
     getChildren().addAll(labels, value);
 
-    chart = ChartUtils.buildChart(portfolio.getHistoricNetWorth());
+    chart = ChartUtils.buildLineChart(portfolio.getHistoricNetWorth(),20);
     chart.getStyleClass().add("portfolio-chart-pane-chart");
     this.getChildren().add(chart);
 

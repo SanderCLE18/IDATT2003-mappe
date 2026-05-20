@@ -29,7 +29,7 @@ public class StockButtonChart extends VBox {
 
 
     VBox headerBox = createHeaderBox(lastTen);
-    LineChart<Number, Number> chart = ChartUtils.buildChart(lastTen);
+    LineChart<Number, Number> chart = ChartUtils.buildLineChart(lastTen, 10);
     chart.getStyleClass().add("portfolio-chart-pane-chart");
     HBox footerBox = createFooterBox();
 
@@ -49,15 +49,16 @@ public class StockButtonChart extends VBox {
    *
    * @return the header box - a VBox*/
   private VBox createHeaderBox(List<BigDecimal> lastTen) {
-    // Row 1: Symbol and Current Price
+
     Label symbol = new Label(stock.getSymbol());
     Label price = new Label("$" + stock.getPrice().setScale(2, RoundingMode.HALF_UP));
     styleHeaderLabels(symbol, price);
+    symbol.getStyleClass().add("text-medium-bold");
+    price.getStyleClass().add("text-medium-bold");
 
     HBox topRow = new HBox(10, symbol, price);
     setupHGrow(symbol, price);
 
-    // Row 2: Company Name and % Change
     Label company = new Label(stock.getCompany());
     Label changeLabel = calculateChangeLabel(lastTen);
     setupHGrow(company, changeLabel);

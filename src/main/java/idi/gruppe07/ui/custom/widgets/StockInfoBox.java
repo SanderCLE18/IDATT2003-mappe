@@ -1,6 +1,7 @@
 package idi.gruppe07.ui.custom.widgets;
 
 import idi.gruppe07.entities.Stock;
+import idi.gruppe07.ui.event.StockActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,8 +25,6 @@ import java.util.stream.Stream;
 public class StockInfoBox extends GridPane {
 
   private final Stock stock;
-
-  private Button purchaseButton;
 
   public StockInfoBox(Stock stock) {
     this.stock = stock;
@@ -109,10 +108,14 @@ public class StockInfoBox extends GridPane {
     imageView.setFitHeight(40);
     imageView.setPreserveRatio(true);
 
-    purchaseButton = new Button();
+    Button purchaseButton = new Button();
     purchaseButton.setGraphic(imageView);
     purchaseButton.prefWidthProperty().bind(purchaseButton.prefHeightProperty());
     purchaseButton.getStyleClass().add("button-generic");
+
+    purchaseButton.setOnAction(_ ->
+        fireEvent(new StockActionEvent(StockActionEvent.PURCHASE_REQUESTED, this.stock, null))
+    );
 
     VBox vBox = new VBox(purchaseButton);
     vBox.setAlignment(Pos.CENTER_RIGHT);
@@ -133,7 +136,7 @@ public class StockInfoBox extends GridPane {
 
     String price = stock.getPrice().setScale(2, RoundingMode.HALF_UP).toString();
 
-    LineChart<Number, Number> lineChart = ChartUtils.buildChart(stock.getHistoricalPrices());
+    LineChart<Number, Number> lineChart = ChartUtils.buildLineChart(stock.getHistoricalPrices(),10);
     lineChart.getStyleClass().add("portfolio-chart-pane-chart");
     lineChart.setMinSize(0, 0);
     lineChart.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -153,21 +156,5 @@ public class StockInfoBox extends GridPane {
               GridPane.setValignment(node, VPos.CENTER);
             });
     GridPane.setHalignment(getChildren().getLast(), HPos.RIGHT);
-  }
-
-  /**
-   * Returns the purchase button for use with a controller
-   *
-   * @return the purchase stock button
-   */
-  public Button getPurchaseButton() {
-    return purchaseButton;
-  }
-
-  /**Returns the button's stock
-   *
-   * @return the buttons stock.*/
-  public Stock getStock() {
-    return stock;
   }
 }

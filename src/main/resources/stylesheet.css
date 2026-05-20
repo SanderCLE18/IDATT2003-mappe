@@ -311,18 +311,14 @@
     -fx-border-width:      1px;
     -fx-border-radius:     2px;
     -fx-background-radius: 2px;
-    -fx-text-fill:         #354258;
-    -fx-font-family:       "Inter";
-    -fx-font-size:         13px;
     -fx-cursor:            hand;
     -fx-pref-height:       42px;
     -fx-alignment:         CENTER_LEFT;
     -fx-padding:           0 0 0 24;
 }
-.side-pane-button:hover{
+.side-bar-button:hover{
     -fx-background-color: #141F38;
     -fx-border-color: transparent;
-    -fx-text-fill:        #779DE9;
 }
 .sidebar-new-trade {
     -fx-background-color: #71A2FF;
@@ -447,7 +443,6 @@
     -fx-background-radius: 6;
     -fx-background-color: #0D162B;
     -fx-border-radius: 6;
-
 }
 
 .icon-box-green {
@@ -463,6 +458,31 @@
     -fx-padding: 6 12 6 12;
     -fx-background-radius: 6;
     -fx-border-color: #ff0000;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
+
+/*Candle Chart */
+
+.rectangle-green {
+    -fx-background-color: #00ff88;
+    -fx-stroke: #00ff88;
+    -fx-border-color: #1a7a3f;
+}
+
+.rectangle-red {
+    -fx-background-color: #ff0000;
+    -fx-stroke: #ff0000;
+    -fx-border-color: #7a1a1a;
+}
+
+/*Info label*/
+
+.info-label {
+    -fx-background-color: #71a2ff;
+    -fx-padding: 6 12 6 12;
+    -fx-background-radius: 6;
+    -fx-border-color: #201b50;
     -fx-border-radius: 6;
     -fx-border-width: 1;
 }

@@ -22,7 +22,7 @@ public class SideBarPane extends VBox {
     //TODO: ProfileView
     getStyleClass().add("side-bar-pane");
     for(NavItem view : navItems){
-      Button button = new MenuButton(view.label(), "side-bar-button");
+      Button button = new MenuButton(view.label(), "side-bar-button", "text-medium-bold");
       button.prefWidthProperty().bind(this.widthProperty().multiply(0.9));
 
       viewButtons.add(button);
@@ -48,9 +48,7 @@ public class SideBarPane extends VBox {
     for (int i = 0; i < viewButtons.size() - 1; i++) {
       Button button = viewButtons.get(i);
       NavItem item = navItems.get(i);
-      button.setOnAction(_ -> {
-        handler.accept(item);
-      });
+      button.setOnAction(_ -> handler.accept(item));
     }
   }
 
