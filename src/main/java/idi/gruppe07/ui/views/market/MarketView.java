@@ -19,16 +19,20 @@ import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayDeque;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.List;
 
+/**
+ * Main view class representing the stock market dashboard.
+ * Manages view navigation, layout initialization, and updates via listeners.
+ */
 public class MarketView extends ViewElement<Pane> implements SideBar {
 
   /**
-   * The view's name.*/
+   * The view's name.
+   */
   public static String MARKET_VIEW = "MarketView";
 
   /**
@@ -36,18 +40,27 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
    */
   private SideBarView sideBar;
 
-  /**The session advanceListener*/
+  /**
+   * The session advanceListener.
+   */
   private SessionTimer.AdvanceListener advanceListener;
 
-  private MarketPane pane;
+  private final MarketPane pane;
 
   private final Deque<MarketNode> navStack = new ArrayDeque<>();
 
-  private VBox contentContainer;
+  private final VBox contentContainer;
 
   private MarketNode content;
 
   private final List<NavItem> views;
+
+  /**
+   * Constructs a new MarketView instance.
+   *
+   * @param session The active user session.
+   * @param views   The collection of navigation items to display in the sidebar.
+   */
   public MarketView(Session session , List<NavItem> views) {
     super(new StackPane(), MARKET_VIEW, session,  false);
     pane = new MarketPane();
@@ -61,6 +74,10 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
 
   }
 
+  /**
+   * Initializes the layout components, sets up the sidebar container,
+   * and populates the primary root pane.
+   */
   @Override
   protected void initLayout() {
     this.contentContainer.getChildren().setAll(pane);
@@ -72,6 +89,9 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
     getRootPane().getChildren().addAll(sideBar);
   }
 
+  /**
+   * Initializes the styles applied to the view components.
+   */
   @Override
   protected void initStyling() {
 
@@ -79,7 +99,7 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
 
   /**
    * @inheritDoc
-   * */
+   */
   @Override
   public void onActivate() {
     navStack.clear();
@@ -94,6 +114,11 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
 
   }
 
+  /**
+   * Swaps the current content view container with a new market node component.
+   *
+   * @param node The new market node component to display.
+   */
   public void swapView(MarketNode node){
     content = node;
 
@@ -105,25 +130,47 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
     content.updateNode(getSession());
   }
 
+  /**
+   * Retrieves the current sidebar view component.
+   *
+   * @return The associated SideBarView instance.
+   */
   public SideBarView getSideBar() {
     return sideBar;
   }
 
+  /**
+   * Retrieves the currently active content node component.
+   *
+   * @return The active MarketNode instance.
+   */
   public MarketNode getContent() {
     return content;
   }
 
+  /**
+   * Saves the current view to the history stack and displays the new node.
+   *
+   * @param node The new market node to display.
+   */
   public void pushView(MarketNode node) {
     navStack.push(content);   // save current before swapping
     swapView(node);
   }
 
+  /**
+   * Restores the previous view from the history stack if available.
+   */
   public void popView() {
     if (!navStack.isEmpty()) {
       swapView(navStack.pop());
     }
   }
 
+  /**
+   * Internal pane implementation managing stock listings, sorting filters,
+   * pagination controls, and layouts.
+   */
   private static class MarketPane extends VBox implements MarketNode {
 
     private Pagination pagination;
@@ -131,12 +178,20 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
 
     static final int ITEMS_PER_PAGE = 10;
 
+    /**
+     * Constructs a new MarketPane and sets up default spacing, padding, and background color.
+     */
     private MarketPane() {
       super(5);
       setPadding(new Insets(24, 16, 24, 16));
       this.setStyle("-fx-background-color: #060E20;");
     }
 
+    /**
+     * Updates and redraws layout elements including headers, list elements, and navigation buttons.
+     *
+     * @param session The active user session to pull data from.
+     */
     public void updateNode(Session session) {
       getChildren().clear();
       HBox header = createHeader(session);
@@ -163,6 +218,11 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
       getChildren().addAll(header, scrollPane, customNavBar);
     }
 
+    /**
+     * Re-initializes pagination attributes following stock list sorting modifications.
+     *
+     * @param allStocks The reordered list of stocks to display across pages.
+     */
     private void sortPagination(List<Stock> allStocks) {
       int pageCount = (int) Math.ceil((double) allStocks.size() / ITEMS_PER_PAGE);
       pagination.setPageCount(pageCount);
@@ -171,6 +231,13 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
       pagination.setPageFactory(index -> createPaginationBox(index, allStocks));
     }
 
+    /**
+     * Generates a structural box layout populated with information containers for a slice of stocks.
+     *
+     * @param pageIndex The zero-based target page index.
+     * @param allStocks The complete source collection of stocks.
+     * @return A visual vertical container containing page-specific items.
+     */
     private VBox createPaginationBox(int pageIndex, List<Stock> allStocks) {
       VBox pageBox = new VBox(10);
       int from = pageIndex * MarketPane.ITEMS_PER_PAGE;
@@ -188,6 +255,12 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
       return pageBox;
     }
 
+    /**
+     * Refreshes the custom numerical navigation selection buttons layout based on limits.
+     *
+     * @param totalPages Total available page counts.
+     * @param current    The currently targeted page index.
+     */
     private void updateNavBar(int totalPages, int current) {
       customNavBar.getChildren().clear();
       if (totalPages <= 1) return;
@@ -216,6 +289,12 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
       addPageButton(totalPages - 1, current);
     }
 
+    /**
+     * Instantiates and registers event behaviors for navigation control page selectors.
+     *
+     * @param index   The conceptual page index target this button binds to.
+     * @param current The active visual context index.
+     */
     private void addPageButton(int index, int current) {
       Button btn = new Button(String.valueOf(index + 1));
       btn.getStyleClass().addAll("button-generic", "text-medium-regular");
@@ -224,6 +303,12 @@ public class MarketView extends ViewElement<Pane> implements SideBar {
       customNavBar.getChildren().add(btn);
     }
 
+    /**
+     * Builds header structures containing descriptors, status symbols, and sorting control groups.
+     *
+     * @param session The user data session context.
+     * @return A styled horizontal pane holding global control elements.
+     */
     private HBox createHeader(Session session) {
       Label title = new  Label("MARKET_OVERVIEW");
       title.getStyleClass().add("text-large-bold");
