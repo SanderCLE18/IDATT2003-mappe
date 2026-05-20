@@ -1,15 +1,19 @@
 package idi.gruppe07.ui.launch;
 
 import idi.gruppe07.news.NewsService;
+import idi.gruppe07.player.Player;
 import idi.gruppe07.ui.custom.panes.NavItem;
 import idi.gruppe07.ui.event.EventManager;
 import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.ui.views.ViewManager;
 import idi.gruppe07.ui.views.dashboard.DashBoardController;
 import idi.gruppe07.ui.views.dashboard.DashBoardView;
+import idi.gruppe07.ui.views.market.MarketController;
+import idi.gruppe07.ui.views.market.MarketView;
 import idi.gruppe07.ui.views.startscreen.StartScreenController;
 import idi.gruppe07.ui.views.startscreen.StartScreenView;
 import idi.gruppe07.utils.JsonParser;
+import idi.gruppe07.utils.StockDataFileReader;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -17,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,7 +47,7 @@ public final class LaunchParams extends Application {
     Session session = new Session(newsService);
     final ViewManager viewManager = new ViewManager(stage, eventManager, session);
 
-    StartScreenView startScreenView = new StartScreenView(viewManager.getSession());
+    StartScreenView startScreenView = new StartScreenView(session);
     StartScreenController startScreenController = new StartScreenController(startScreenView, eventManager, session);
     startScreenView.setController(startScreenController);
 
@@ -50,7 +55,7 @@ public final class LaunchParams extends Application {
 
     List<NavItem> navItems = List.of(
         new NavItem("DASHBOARD", DashBoardView.DASHBOARD_VIEW),
-        new NavItem("MARKETS", ""),
+        new NavItem("MARKETS", MarketView.MARKET_VIEW),
         new NavItem("PORTFOLIO",""),
         new NavItem("NEWS FEED","")
 
@@ -58,10 +63,20 @@ public final class LaunchParams extends Application {
 
     DashBoardView dashBoardView = new DashBoardView(session, navItems);
     DashBoardController dashBoardController = new DashBoardController(dashBoardView, eventManager, session);
-    dashBoardView.setController(dashBoardController);
+
+    //DEBUG
+    StockDataFileReader  stockDataFileReader = new StockDataFileReader();
+    session.makeExchange("SP500", stockDataFileReader.readStockData(getClass().getResourceAsStream("/sp500.csv")));
+    session.setPlayer(new Player("A", new BigDecimal("12000")));
+    session.simulate();
+    //END DEBUG
+
+    MarketView marketView = new MarketView(session, navItems);
+    MarketController marketController = new MarketController(marketView, eventManager, session);
 
     viewManager.addView(startScreenView);
     viewManager.addView(dashBoardView);
+    viewManager.addView(marketView);
     Scene scene;
     stage.setScene(
         scene = new Scene(new StackPane(),1200, 750)
@@ -85,7 +100,11 @@ public final class LaunchParams extends Application {
 
     stage.setMinWidth(1200);
     stage.setMinHeight(750);
-    viewManager.setScene(startScreenView);
+    //Debug: Actual - setScene(startScreenView)
+    viewManager.setScene(marketView);
+    //Debug
+    marketView.onActivate();
+
     stage.setTitle("Millions");
     stage.show();
   }

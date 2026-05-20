@@ -41,6 +41,7 @@ public class SessionTimer {
   /**Boolean for determining if the game is actively running */
   private boolean isRunning =  false;
 
+  /**Starts the game session's timer. */
   public void startTimer(Session session) {
     Validate.that(session.getExchange()).isNotNull();
 
@@ -58,48 +59,69 @@ public class SessionTimer {
     long intervalMs = (ADVANCE_INTERVAL_SECONDS * 1000L)/speedMultiplier;
     long initialDelay = Math.max(0, intervalMs - elapsedMs.get());
 
-    advanceFuture = scheduler.scheduleAtFixedRate(() -> {
-      session.getPlayer().getPortfolio().createNetWorthSnapshot();
-      session.advance();
-      elapsedMs.set(0);
-      for (AdvanceListener listener : advanceListeners) {
-        listener.onAdvance();
-      }
+    advanceFuture = scheduler.scheduleAtFixedRate(() -> onAdvance(session), initialDelay, intervalMs, TimeUnit.MILLISECONDS);
 
-    }, initialDelay, intervalMs, TimeUnit.MILLISECONDS);
-
-    tickFuture = scheduler.scheduleAtFixedRate(() -> {
-      elapsedMs.set(Math.min(elapsedMs.get() + TICK_MS, intervalMs));
-      double progress = (double) elapsedMs.get() / intervalMs;
-      for (SessionTimer.TickListener listener : tickListeners) {
-        listener.onTick(progress);
-      }
-    }, 0, TICK_MS, TimeUnit.MILLISECONDS);
+    tickFuture = scheduler.scheduleAtFixedRate(() -> onTick(intervalMs), 0, TICK_MS, TimeUnit.MILLISECONDS);
   }
 
+  /**
+   * Asynchronous tasks performed on advance
+   * */
+  public void onAdvance(Session session) {
+    session.getPlayer().getPortfolio().createNetWorthSnapshot();
+    session.advance();
+    elapsedMs.set(0);
+    for (AdvanceListener listener : advanceListeners) {
+      listener.onAdvance();
+    }
+  }
+
+  /**
+   * Asynchronous tasks performed on tick*/
+  public void onTick(long intervalMs){
+    elapsedMs.set(Math.min(elapsedMs.get() + TICK_MS, intervalMs));
+    double progress = (double) elapsedMs.get() / intervalMs;
+    for (SessionTimer.TickListener listener : tickListeners) {
+      listener.onTick(progress);
+    }
+  }
+
+  /**
+   * Pauses the session's timer.*/
   public void pauseTimer(Session session) {
     Validate.that(session.getExchange()).isNotNull();
     if (!isRunning){
       startTimer(session);
     } else {
-      isRunning = false;
-
-      if (advanceFuture != null) {
-        advanceFuture.cancel(false);
-      }
-      if (tickFuture != null) {
-        tickFuture.cancel(false);
-      }
-      if (scheduler != null) {
-        scheduler.shutdownNow();
-      }
+      shutdownTimer();
     }
 
   }
 
 
-  public void stopTimer(){
+  /**Safely shuts down the timer*/
+  public void shutdownTimer() {
     isRunning = false;
+
+    if (advanceFuture != null) {
+      advanceFuture.cancel(false);
+    }
+    if (tickFuture != null) {
+      tickFuture.cancel(false);
+    }
+    if (scheduler != null) {
+      scheduler.shutdownNow();
+    }
+  }
+
+  /**Resets the timer progression while skipping/advancing to the next week.*/
+  public void skipTimer(Session session){
+    Validate.that(session.getExchange()).isNotNull();
+    long intervalMs = (ADVANCE_INTERVAL_SECONDS * 1000L)/speedMultiplier;
+
+    onAdvance(session);
+    onTick(intervalMs);
+    shutdownTimer();
 
   }
 

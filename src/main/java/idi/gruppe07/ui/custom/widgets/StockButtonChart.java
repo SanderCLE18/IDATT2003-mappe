@@ -5,8 +5,6 @@ import idi.gruppe07.entities.Stock;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -18,8 +16,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 public class StockButtonChart extends VBox {
-  // Promote key components to fields if they need to be accessed later
-  private Label nameLabel;
+
   private final Share share;
   private final Stock stock;
 
@@ -27,17 +24,18 @@ public class StockButtonChart extends VBox {
     this.share = share;
     this.stock = share.getStock();
 
-    // 1. Get the data
+
     List<BigDecimal> lastTen = fetchLastTenPrices();
 
-    // 2. Build the UI sections
+
     VBox headerBox = createHeaderBox(lastTen);
-    LineChart<Number, Number> chart = createLineChart(lastTen);
+    LineChart<Number, Number> chart = ChartUtils.buildLineChart(lastTen, 10);
+    chart.getStyleClass().add("portfolio-chart-pane-chart");
     HBox footerBox = createFooterBox();
 
-    // 3. Assemble and Style
+
     this.getChildren().addAll(headerBox, chart, footerBox);
-    this.setSpacing(5); // Optional: consistent spacing
+    this.setSpacing(5);
   }
 
   private List<BigDecimal> fetchLastTenPrices() {
@@ -51,15 +49,16 @@ public class StockButtonChart extends VBox {
    *
    * @return the header box - a VBox*/
   private VBox createHeaderBox(List<BigDecimal> lastTen) {
-    // Row 1: Symbol and Current Price
+
     Label symbol = new Label(stock.getSymbol());
     Label price = new Label("$" + stock.getPrice().setScale(2, RoundingMode.HALF_UP));
     styleHeaderLabels(symbol, price);
+    symbol.getStyleClass().add("text-medium-bold");
+    price.getStyleClass().add("text-medium-bold");
 
     HBox topRow = new HBox(10, symbol, price);
     setupHGrow(symbol, price);
 
-    // Row 2: Company Name and % Change
     Label company = new Label(stock.getCompany());
     Label changeLabel = calculateChangeLabel(lastTen);
     setupHGrow(company, changeLabel);
@@ -68,34 +67,6 @@ public class StockButtonChart extends VBox {
     HBox bottomRow = new HBox(10, company, changeLabel);
 
     return new VBox(5, topRow, bottomRow);
-  }
-
-  private LineChart<Number, Number> createLineChart(List<BigDecimal> lastTen) {
-    double min = lastTen.stream().mapToDouble(BigDecimal::doubleValue).min().orElse(0);
-    double max = lastTen.stream().mapToDouble(BigDecimal::doubleValue).max().orElse(0);
-    double padding = (max - min) * 0.05;
-
-    NumberAxis xAxis = new NumberAxis(0, 9, 1);
-    NumberAxis yAxis = new NumberAxis(min - padding, max + padding, padding);
-
-
-    LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-    lineChart.setCreateSymbols(false);
-    lineChart.setLegendVisible(false);
-    lineChart.setHorizontalGridLinesVisible(false);
-    lineChart.setVerticalGridLinesVisible(false);
-    lineChart.setAlternativeRowFillVisible(false);
-    hideAxis(xAxis);
-    hideAxis(yAxis);
-    lineChart.getStyleClass().add("portfolio-chart-pane-chart");
-
-    XYChart.Series<Number, Number> series = new XYChart.Series<>();
-    for (int i = 0; i < lastTen.size(); i++) {
-      series.getData().add(new XYChart.Data<>(i, lastTen.get(i).doubleValue()));
-    }
-    lineChart.getData().add(series);
-
-    return lineChart;
   }
 
   /**Creates the horizontally aligned footer box
@@ -109,8 +80,8 @@ public class StockButtonChart extends VBox {
     setupHGrow(holdings, totalValue);
     holdings.setAlignment(Pos.BOTTOM_LEFT);
     totalValue.setAlignment(Pos.BOTTOM_RIGHT);
-    holdings.getStyleClass().add("text-medium-bold");
-    totalValue.getStyleClass().add("text-medium-bold");
+    holdings.getStyleClass().add("text-smaller-regular");
+    totalValue.getStyleClass().add("text-smaller-regular");
 
     return new HBox(10, holdings, totalValue);
   }
@@ -145,10 +116,5 @@ public class StockButtonChart extends VBox {
     else if (change < 0) label.setStyle("-fx-text-fill: #ff0000");
     label.setAlignment(Pos.TOP_RIGHT);
     return label;
-  }
-
-  private void hideAxis(NumberAxis axis) {
-    axis.setTickLabelsVisible(false);
-    axis.setOpacity(0);
   }
 }

@@ -32,7 +32,7 @@ public abstract class ViewController <T extends ViewElement<?>> implements Event
   /**
    * The object this controller attaches to
    */
-  private T viewElement;
+  private final T viewElement;
 
   /**
    * Stored session object.
@@ -89,12 +89,12 @@ public abstract class ViewController <T extends ViewElement<?>> implements Event
   }
 
   /**
-   * Abstract method to initialize logic for the view element.
+   * Method to initialize logic for the view element.
    * */
   protected abstract void initInteractions();
 
   @Override
-  public final <T> void invoke(final EventData<T> data, final EventManager eventManager) {
+  public final <T2> void invoke(final EventData<T2> data, final EventManager eventManager) {
     eventManager.invokeEvent(data);
   }
 

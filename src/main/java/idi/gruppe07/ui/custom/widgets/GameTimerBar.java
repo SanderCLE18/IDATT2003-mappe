@@ -11,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameTimerBar extends VBox {
@@ -34,20 +33,27 @@ public class GameTimerBar extends VBox {
     HBox.setHgrow(progressBar, Priority.ALWAYS);
 
     weekLabel = new Label("Week: ");
-    weekLabel.getStyleClass().add("top-bar-time-label");
+    weekLabel.getStyleClass().add("text-medium-bold");
 
+    Button skipButton = new Button("▶▶ Skip");
+    skipButton.setOnAction(_ -> {
+      session.getTimer().skipTimer(session);
+      toggleTimer();
+    });
+
+    skipButton.getStyleClass().addAll("button-generic", "text-medium-regular");
     pauseResumeButton = new Button("▶ Start");
-    pauseResumeButton.getStyleClass().add("top-bar-time-btn");
+    pauseResumeButton.getStyleClass().addAll("button-generic", "text-medium-regular");
 
     speedButtons = List.of(
         new Button("1x"),
         new Button("3x"),
         new Button("5x")
     );
-    speedButtons.forEach(button -> button.getStyleClass().add("top-bar-time-btn"));
+    speedButtons.forEach(button -> button.getStyleClass().addAll("button-generic", "text-medium-regular"));
 
 
-    HBox topBox = new HBox(8, pauseResumeButton, speedButtons.get(0), speedButtons.get(1), speedButtons.get(2));
+    HBox topBox = new HBox(8,skipButton, pauseResumeButton, speedButtons.get(0), speedButtons.get(1), speedButtons.get(2));
     topBox.setAlignment(Pos.CENTER_LEFT);
 
     HBox bottomBox = new HBox(8, progressBar, weekLabel);
@@ -61,6 +67,7 @@ public class GameTimerBar extends VBox {
 
     tickListener = progress -> Platform.runLater(() -> updateUi(progress));
     session.getTimer().addTickListener(tickListener);
+    updateUi(0);
   }
 
   private void updateUi(double progress) {

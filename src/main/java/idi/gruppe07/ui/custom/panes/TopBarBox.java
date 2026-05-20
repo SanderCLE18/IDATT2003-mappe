@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 
 public class TopBarBox extends BorderPane {
@@ -31,7 +30,7 @@ public class TopBarBox extends BorderPane {
     return gameTimerBar.getPauseResumeButton();
   }
 
-  /**@return gameTimerBar obhect*/
+  /**@return gameTimerBar object*/
   public GameTimerBar getGameTimerBar(){
     return gameTimerBar;
   }

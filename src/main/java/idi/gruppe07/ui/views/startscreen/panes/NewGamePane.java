@@ -53,8 +53,7 @@ public class NewGamePane extends VBox {
     gameName.getStyleClass().add("menu-button");
     VBox valueBox = new VBox(10, startValues, gameName);
 
-    //text for player name
-    //save name
+
     startButton = new MenuButton("START", "menu-button-primary");
     startButton.setMaxWidth(Double.MAX_VALUE);
     customGameButton = new MenuButton("CUSTOM__GAME", "menu-button");
@@ -63,7 +62,7 @@ public class NewGamePane extends VBox {
     cancelButton.setMaxWidth(Double.MAX_VALUE);
 
     HBox controls = new HBox(5, cancelButton, customGameButton);
-    HBox.setHgrow(cancelButton, Priority.ALWAYS);     // Allow expansion
+    HBox.setHgrow(cancelButton, Priority.ALWAYS);
     HBox.setHgrow(customGameButton, Priority.ALWAYS);
     controls.setMaxWidth(Double.MAX_VALUE);
 
@@ -90,7 +89,7 @@ public class NewGamePane extends VBox {
     return startingCash.getText();
   }
 
-  /**@return the textfield for the starting cash of the game*/
+  /**@return the text field for the starting cash of the game*/
   public TextField getStartingCashInput(){
     return startingCash;
   }

@@ -12,6 +12,7 @@ import idi.gruppe07.ui.custom.widgets.PortfolioChartPane;
 import idi.gruppe07.ui.custom.widgets.StockButtonChart;
 import idi.gruppe07.ui.session.Session;
 import idi.gruppe07.ui.session.SessionTimer;
+import idi.gruppe07.ui.views.SideBar;
 import idi.gruppe07.ui.views.ViewElement;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 /**
  * The "main" view of the application. User will land here with a brief overview of the game.
  */
-public class DashBoardView extends ViewElement<Pane> {
+public class DashBoardView extends ViewElement<Pane> implements SideBar {
 
   /**
    * Dashboard name
@@ -42,16 +43,10 @@ public class DashBoardView extends ViewElement<Pane> {
   public static final String DASHBOARD_VIEW = "DashboardView";
 
   /**
-   * Dashboard controller
-   */
-  private DashBoardController controller;
-
-  /**
    * Sidebar view
    */
   private SideBarView sideBar;
 
-  private SideBarPane pane;
   private DashBoardPane content;
   private final List<NavItem> views;
 
@@ -94,8 +89,8 @@ public class DashBoardView extends ViewElement<Pane> {
   @Override
   protected void initLayout() {
     this.content = new DashBoardPane();
-    pane = new SideBarPane(this.views);
-    VBox.setVgrow(this.pane, Priority.ALWAYS);
+    SideBarPane pane = new SideBarPane(this.views);
+    VBox.setVgrow(pane, Priority.ALWAYS);
     sideBar = new SideBarView(getSession(), pane, content);
     getRootPane().getChildren().addAll(sideBar);
   }
@@ -121,24 +116,11 @@ public class DashBoardView extends ViewElement<Pane> {
 
   }
 
-  /**
+  /** Returns the view's sidebar
    * @return the SideBar of the view.
    */
   public SideBarView getSideBar() {
     return sideBar;
-  }
-
-  /**
-   * @return the controller of the view.
-   */
-  public DashBoardController getController() {
-    return controller;
-  }
-
-  /**Sets the controller of the view.*/
-  public void setController(DashBoardController controller) {
-    this.controller = controller;
-
   }
 
   /**
@@ -180,7 +162,7 @@ public class DashBoardView extends ViewElement<Pane> {
 
       VBox.setVgrow(portfolioPane, Priority.ALWAYS);
       VBox.setVgrow(holdingsBox, Priority.ALWAYS);
-      holdingsBox.setMinHeight(150);
+      holdingsBox.setMinHeight(250);
       portfolioHbox.setMinHeight(150);
 
       HBox newsAndHistory;
@@ -215,8 +197,12 @@ public class DashBoardView extends ViewElement<Pane> {
         for (Share share : portfolioList) {
           StockButtonChart stockButtonChart = new StockButtonChart(share);
 
+          stockButtonChart.setMinWidth(180);
+          stockButtonChart.setMinHeight(180);
+
           stockButtonChart.prefWidthProperty().bind(this.widthProperty().multiply(0.125));
           stockButtonChart.prefHeightProperty().bind(stockButtonChart.prefWidthProperty());
+
           stockButtonChart.getStyleClass().add("stock-button-chart");
           stockButtonsBox.getChildren().add(stockButtonChart);
         }
@@ -241,6 +227,9 @@ public class DashBoardView extends ViewElement<Pane> {
       Label performance = new Label(" Weekly Performance");
       Label changePl = new Label("Weekly P/L");
       Label realized = new Label("0$");
+      performance.getStyleClass().add("text-medium-bold");
+      changePl.getStyleClass().add("text-medium-bold");
+      realized.getStyleClass().add("text-medium-bold");
 
       changePl.setMaxWidth(Double.MAX_VALUE);
       realized.setMaxWidth(Double.MAX_VALUE);
@@ -302,7 +291,7 @@ public class DashBoardView extends ViewElement<Pane> {
     }
 
     /** Creates the News Feed column */
-    private VBox createNewsSection(Session session) throws IOException {
+    private VBox createNewsSection(Session session) {
       VBox newsBox = new VBox(10);
       newsBox.setFillWidth(true);
 
@@ -320,9 +309,7 @@ public class DashBoardView extends ViewElement<Pane> {
       stocks.stream()
           .limit(5)
           .forEach(
-              stock -> {
-                newsBox.getChildren().add(createNewsArticleCard(stock, newsBox));
-              });
+              stock -> newsBox.getChildren().add(createNewsArticleCard(stock, newsBox)));
 
       return newsBox;
     }
@@ -371,7 +358,7 @@ public class DashBoardView extends ViewElement<Pane> {
 
 
       boolean isPurchase = transaction instanceof Purchase;
-      String iconPath = isPurchase ? "/images/shoppingCart.png" : "/images/dollarSign.png";
+      String iconPath = isPurchase ? "/images/shoppingCartPurchase.png" : "/images/dollarSignSale.png";
       String iconStyle = isPurchase ? "icon-box-green" : "icon-box-red";
 
       ImageView imageView =

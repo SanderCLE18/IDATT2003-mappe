@@ -17,7 +17,19 @@
 .scroll-pane .viewport{
     -fx-background-color: transparent;
 }
+.pagination-control {
+    visibility: hidden;
+    -fx-max-height: 0;
+    -fx-padding: 0;
+}
 /* ── Text ──────────────────────────────────────────────────────────── */
+.text-large-bold {
+    -fx-text-fill: #DEE5FF;
+    -fx-font-family: Space Grotesk;
+    -fx-font-weight: 700;
+    -fx-font-size: 32;
+}
+
 .text-medium-bold {
     -fx-text-fill: #DEE5FF;
     -fx-font-family: Inter;
@@ -30,6 +42,99 @@
     -fx-font-weight: 400;
     -fx-font-size: 14;
 }
+.text-smaller-regular {
+    -fx-text-fill: #DEE5FF;
+    -fx-font-family: Inter;
+    -fx-font-weight: 400;
+    -fx-font-size: 11;
+}
+.text-sub-medium {
+    -fx-font-family: Inter;
+    -fx-text-fill: #565E74;
+    -fx-font-weight: 400;
+    -fx-font-size: 13;
+}
+.text-red{
+
+}
+.text-green{
+
+}
+.text-blue{
+    -fx-text-fill: #84ADFF;
+}
+
+/* ── Generics ────────────────────────────────────────────────────────── */
+
+.button-generic {
+    -fx-background-color: #141F38;
+    -fx-border-color:     transparent;
+    -fx-border-width:      1px;
+    -fx-border-radius:     2px;
+    -fx-background-radius: 2px;
+    -fx-cursor:            hand;
+    -fx-alignment:         CENTER_LEFT;
+    -fx-padding:           4 8 4 8;
+}
+
+.button-generic:hover{
+    -fx-background-color: #23355E;
+}
+
+.button-generic-selected {
+    -fx-background-color: #23355E;
+}
+/* ── Default Scrollbar Settings ──────────────────────────────────────── */
+
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: #0b1828;
+    -fx-width: 12px;
+}
+
+/* The actual bar */
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #1e3a54;
+    -fx-background-radius: 5px;
+}
+
+/* bar hover state */
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #3a8fd4;
+}
+
+/* Hide the arrow buttons */
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+
+.scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: #0b1828;
+    -fx-width: 12px;
+}
+
+/* The actual bar */
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color: #1e3a54;
+    -fx-background-radius: 5px;
+}
+
+/* bar hover state */
+.scroll-pane .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #3a8fd4;
+}
+
+/* Hide the arrow buttons */
+.scroll-pane .scroll-bar:horizontal .increment-button,
+.scroll-pane .scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+
 /* ── Center column ──────────────────────────────────────────────────────────── */
 .center-box {
     -fx-max-width: 340px;
@@ -192,29 +297,6 @@
     -fx-background-color: rgba(22, 43, 77, 0.8);
     -fx-border-color:      #1e3a54;
 }
-/* The scrollbar inside the start screen */
-.scroll-pane .scroll-bar:vertical {
-    -fx-background-color: #0b1828;
-    -fx-width: 12px;
-}
-
-/* The actual bar */
-.scroll-pane .scroll-bar:vertical .thumb {
-    -fx-background-color: #1e3a54;
-    -fx-background-radius: 5px;
-}
-
-/* bar hover state */
-.scroll-pane .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #3a8fd4;
-}
-
-/* Hide the arrow buttons */
-.scroll-pane .scroll-bar:vertical .increment-button,
-.scroll-pane .scroll-bar:vertical .decrement-button {
-    -fx-padding: 0;
-    -fx-shape: "";
-}
 
 /* ── "main" view layout ─────────────────────────────────────────────── */
 
@@ -229,18 +311,14 @@
     -fx-border-width:      1px;
     -fx-border-radius:     2px;
     -fx-background-radius: 2px;
-    -fx-text-fill:         #354258;
-    -fx-font-family:       "Inter";
-    -fx-font-size:         13px;
     -fx-cursor:            hand;
     -fx-pref-height:       42px;
     -fx-alignment:         CENTER_LEFT;
     -fx-padding:           0 0 0 24;
 }
-.side-pane-button:hover{
+.side-bar-button:hover{
     -fx-background-color: #141F38;
     -fx-border-color: transparent;
-    -fx-text-fill:        #779DE9;
 }
 .sidebar-new-trade {
     -fx-background-color: #71A2FF;
@@ -284,11 +362,14 @@
     -fx-font-family: "Inter";
     -fx-font-size: 13px;
 }
+.top-bar-time-btn-selected {
+    -fx-background-color: #23355E;
+}
 
 
 
 /* ── Dashnaoard  ───────────────────────────── ────────────────── */
-.portfolio-chart-pane{
+.portfolio-chart-pane {
     -fx-background-color: #0D162B;
     -fx-border-color:     transparent;
     -fx-border-width:       1;
@@ -303,7 +384,12 @@
 }
 .portfolio-chart-pane-chart {
     -fx-background-color: #0D162B;
+    -fx-padding: 4;
 }
+.portfolio-chart-pane-chart .chart-content {
+    -fx-padding: 0px;
+}
+
 .portfolio-chart-pane-chart .chart-series-line {
     -fx-stroke: #71a2ff;
     -fx-stroke-width: 4px;
@@ -311,6 +397,15 @@
 
 .portfolio-chart-pane-chart .chart-plot-background {
     -fx-background-color: #0D162B;
+}
+.portfolio-chart-pane-chart .axis {
+    -fx-border-width: 0px;
+    -fx-tick-length: 0px;
+    -fx-minor-tick-length: 0px;
+}
+.portfolio-chart-pane-chart .axis-line {
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0px;
 }
 
 /*Label*/
@@ -342,17 +437,12 @@
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
-.dashboard-secondary-pane .label{
-    -fx-text-fill: #DEE5FF;
-    -fx-font-family: "Inter";
-    -fx-font-weight: 700;
-}
+
 .stock-button-chart {
     -fx-padding: 8;
     -fx-background-radius: 6;
     -fx-background-color: #0D162B;
     -fx-border-radius: 6;
-
 }
 
 .icon-box-green {
@@ -368,6 +458,31 @@
     -fx-padding: 6 12 6 12;
     -fx-background-radius: 6;
     -fx-border-color: #ff0000;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
+
+/*Candle Chart */
+
+.rectangle-green {
+    -fx-background-color: #00ff88;
+    -fx-stroke: #00ff88;
+    -fx-border-color: #1a7a3f;
+}
+
+.rectangle-red {
+    -fx-background-color: #ff0000;
+    -fx-stroke: #ff0000;
+    -fx-border-color: #7a1a1a;
+}
+
+/*Info label*/
+
+.info-label {
+    -fx-background-color: #71a2ff;
+    -fx-padding: 6 12 6 12;
+    -fx-background-radius: 6;
+    -fx-border-color: #201b50;
     -fx-border-radius: 6;
     -fx-border-width: 1;
 }
